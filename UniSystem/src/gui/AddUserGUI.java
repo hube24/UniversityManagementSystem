@@ -113,6 +113,7 @@ public class AddUserGUI extends JFrame {
 				
 				Administrator admin = new Administrator();
 				
+				//get all values of fields
 				String username = textField.getText();
 				String password = String.valueOf(passwordField.getPassword());
 				String password2 = String.valueOf(passwordField_1.getPassword());
@@ -139,6 +140,7 @@ public class AddUserGUI extends JFrame {
 					infoBox("passwords don't match.", "Warning");
 					return;
 				}
+				
 				
 				if(admin.addUser(username, password, access))
 				 {

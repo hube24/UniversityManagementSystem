@@ -18,12 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class LoginScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -64,7 +65,7 @@ public class LoginScreen extends JFrame {
 		JLabel lblAlert = new JLabel("Invalid username or password");
 		lblAlert.setForeground(Color.RED);
 		lblAlert.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblAlert.setBounds(278, 253, 224, 14);
+		lblAlert.setBounds(307, 256, 179, 14);
 		lblAlert.setVisible(false);
 		contentPane.add(lblAlert);
 		
@@ -74,7 +75,7 @@ public class LoginScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// login request
 				String username = textField.getText();
-				String password = textField_1.getText();
+				String password = String.valueOf(passwordField.getPassword());
 				
 				username = username.replaceAll(" ", "");
 				password = password.replaceAll(" ", "");
@@ -118,11 +119,6 @@ public class LoginScreen extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(278, 142, 224, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setBounds(278, 59, 65, 14);
 		contentPane.add(lblUsername);
@@ -130,6 +126,10 @@ public class LoginScreen extends JFrame {
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setBounds(278, 117, 65, 14);
 		contentPane.add(lblPassword);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(278, 142, 224, 20);
+		contentPane.add(passwordField);
 		
 		
 	}

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import encryption.BCrypt;
 import javax.swing.JOptionPane;
 
 public class Administrator extends SqlDriver {
@@ -37,6 +37,7 @@ public class Administrator extends SqlDriver {
 			ResultSet rs = pst1.executeQuery();
 			if (rs.next()) {
 				infoBox("Department with given code already exist.", "Warning");
+				con.close();
 				return false;
 			}
 
@@ -46,7 +47,7 @@ public class Administrator extends SqlDriver {
 			pst2.setString(1, code);
 			pst2.setString(2, name);
 			pst2.executeUpdate();
-
+			con.close();
 			return true;
 
 		} catch (Exception exc) {
@@ -61,7 +62,8 @@ public class Administrator extends SqlDriver {
 	public boolean addUser(String username, String password, String access)
 	{
 		
-		// place for password encryption
+		//password encryption using bcrypt
+		String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt()); 
 		
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 
@@ -73,6 +75,7 @@ public class Administrator extends SqlDriver {
 			ResultSet rs = pst1.executeQuery();
 			if (rs.next()) {
 				infoBox("User with given usernamer already exist.", "Warning");
+				con.close();
 				return false;
 			}
 
@@ -80,10 +83,10 @@ public class Administrator extends SqlDriver {
 			String insertDptQ = "INSERT INTO Users (username, password, access)" + "VALUES (?, ?, ?)";
 			PreparedStatement pst2 = con.prepareStatement(insertDptQ);
 			pst2.setString(1, username);
-			pst2.setString(2, password);
+			pst2.setString(2, passwordHash);
 			pst2.setString(3, access);
 			pst2.executeUpdate();
-
+			con.close();
 			return true;
 
 		} catch (Exception exc) {

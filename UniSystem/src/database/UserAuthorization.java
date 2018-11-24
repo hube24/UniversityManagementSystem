@@ -2,6 +2,8 @@ package database;
 
 import java.sql.*;
 
+import encryption.BCrypt;
+
 
 public class UserAuthorization extends SqlDriver {
 
@@ -9,29 +11,36 @@ public class UserAuthorization extends SqlDriver {
 	{
 		try(Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)){
 			System.out.println("connected");
-			String query = "SELECT * FROM Users WHERE username = ? and password = ?";
+			String query = "SELECT * FROM Users WHERE username = ?";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1,username);
-			pst.setString(2,password);
 			ResultSet rs = pst.executeQuery();
-			
+
 			if(rs.next())
 			{
-				String ut = rs.getString("access");
-				System.out.print(ut);
-				//if username and password correct
-				if(ut.equals("admin")) {
-					//if user type is admin
-					return 1;
+				String passwordHash = rs.getString("password");
+				if(BCrypt.checkpw(password, passwordHash)){
+					
+					//if username and password are correct
+					String ut = rs.getString("access");
+					System.out.print(ut);
+					if(ut.equals("admin")) {
+						//if user type is admin
+						con.close();
+						return 1;
+					}
+				
+					if(ut.equals("student")) {
+						//if user type is student
+						con.close();
+						return 2;
+					}
+				}else{
+					//wrong password
 				}
-			
-				if(ut.equals("student")) {
-					//if user type is student
-					return 2;
-				}
-		
 			}else {
-				//no username and password matched
+				//no username matched
+				con.close();
 				return 0;
 			}
 			

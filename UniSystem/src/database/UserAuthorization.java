@@ -9,7 +9,7 @@ public class UserAuthorization extends SqlDriver {
 	{
 		try(Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)){
 			System.out.println("connected");
-			String query = "SELECT * FROM users WHERE username = ? and password = ?";
+			String query = "SELECT * FROM Users WHERE username = ? and password = ?";
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1,username);
 			pst.setString(2,password);
@@ -17,7 +17,7 @@ public class UserAuthorization extends SqlDriver {
 			
 			if(rs.next())
 			{
-				String ut = rs.getString("usertype");
+				String ut = rs.getString("access");
 				System.out.print(ut);
 				//if username and password correct
 				if(ut.equals("admin")) {

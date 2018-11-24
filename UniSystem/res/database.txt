@@ -1,0 +1,74 @@
+CREATE TABLE Users (
+    username varchar(255) NOT NULL,
+	password varchar(255) NOT NULL,
+    access varchar(255) NOT NULL,
+    PRIMARY KEY (username)
+);
+
+
+CREATE TABLE Department (
+    codeOfDepartment varchar(3) NOT NULL,
+	name varchar(255) NOT NULL,
+    PRIMARY KEY (codeOfDepartment)
+);
+
+CREATE TABLE Degree (
+    codeOfDegree varchar(6) NOT NULL,
+	name varchar(255) NOT NULL,
+	numberOfLevels INT NOT NULL,
+    PRIMARY KEY (codeOfDegree)
+);
+
+CREATE TABLE DepartmentDegree (
+    codeOfDepartment varchar(3) NOT NULL,
+	codeOfDegree varchar(6) NOT NULL,
+	isLead bit NOT NULL,
+    FOREIGN KEY (codeOfDegree) REFERENCES Degree(codeOfDegree),
+	FOREIGN KEY (codeOfDepartment) REFERENCES Department(codeOfDepartment)
+);
+
+CREATE TABLE Module (
+    codeOfModule varchar(7) NOT NULL,
+	name varchar(255) NOT NULL,
+	credits int NOT NULL, 
+    PRIMARY KEY (codeOfModule)
+);
+
+CREATE TABLE ModuleDegree (
+    codeOfModule varchar(7) NOT NULL,
+	codeOfDegree varchar(6) NOT NULL,
+	level char NOT NULL,
+	isCore bit NOT NULL,
+    FOREIGN KEY (codeOfDegree) REFERENCES Degree(codeOfDegree),
+	FOREIGN KEY (codeOfModule) REFERENCES Module(codeOfModule)
+);
+
+CREATE TABLE Student (
+    registrationNum int NOT NULL,
+	codeOfDegree varchar(6),
+	username varchar(255) NOT NULL,
+	title varchar(2),
+	surname varchar(255),
+	forname varchar(255),
+	email varchar(255),
+	personalTutor varchar(255),
+	level char,
+    PRIMARY KEY (codeOfModule)
+	FOREIGN KEY (codeOfDegree) REFERENCES Degree(codeOfDegree),
+	FOREIGN KEY (username) REFERENCES Users(username)
+);
+
+CREATE TABLE PeriodOfStudy (
+    label char(7) NOT NULL,
+	name varchar(255) NOT NULL,
+	credits int NOT NULL, 
+    PRIMARY KEY (codeOfModule)
+);
+
+CREATE TABLE StudentStudyPeriod (
+    registrationNum int NOT NULL,
+	label char NOT NULL,
+	finalGrade int NOT NULL,
+    FOREIGN KEY (registrationNum) REFERENCES Student(registrationNum),
+	FOREIGN KEY (label) REFERENCES PeriodOfStudy(label)
+);

@@ -13,12 +13,12 @@ public class DatabaseSelector extends SqlDriver{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public List<String[]> GetDepartmentList()
+	
+	public List<String[]> GetTableList(String query)
 	{
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 
-			//get all departments
-			String query = "SELECT * FROM Department";
+			//get all rows in table 
 			PreparedStatement pst1 = con.prepareStatement(query);
 			ResultSet rs = pst1.executeQuery();
 			
@@ -42,4 +42,16 @@ public class DatabaseSelector extends SqlDriver{
 		
 		return null;
 	}
+	
+	public List<String[]> GetDepartmentList()
+	{
+		return GetTableList("SELECT * FROM Department");
+	}
+	
+	
+	public List<String[]> GetDegreesList()
+	{
+		return GetTableList("SELECT * FROM Degree");
+	}
+	
 }

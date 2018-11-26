@@ -10,7 +10,7 @@ public class Student extends User {
 	private int registrationID;
 
 	private Degree degree;
-
+	
 	private Collection<Module> module;
 
 	public int getRegistrationID() {

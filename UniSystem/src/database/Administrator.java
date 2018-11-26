@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
+
 import encryption.BCrypt;
 import javax.swing.JOptionPane;
 
@@ -146,5 +148,55 @@ public class Administrator extends SqlDriver {
 		}
 	}
 	  
+	
+	public boolean addModule(String code, String name, int numOfCredits, List<Object[]> degrees)
+	{
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+
+			// check if module with given code already exist
+
+			String query = "SELECT * FROM Module WHERE codeOfModule = ?";
+			PreparedStatement pst1 = con.prepareStatement(query);
+			pst1.setString(1, code);
+			ResultSet rs = pst1.executeQuery();
+			if (rs.next()) {
+				infoBox("Module with given serial number already exist.", "Warning");
+				con.close();
+				return false;
+			}
+            
+            
+			// inserting new module
+			String insertModQ = "INSERT INTO Module (codeOfModule, name, credits)" + "VALUES (?, ?, ?)";
+			PreparedStatement pst2 = con.prepareStatement(insertModQ);
+			pst2.setString(1, code);
+			pst2.setString(2, name);
+			pst2.setInt(3, numOfCredits);
+			pst2.executeUpdate();
+			
+			
+			// linking to Departments
+			
+			for(Object[] degreeRow : degrees)
+			{
+				String insertModuleDegree = "INSERT INTO ModuleDegree (codeOfModule, codeOfDegree, level, isCore, term)" + "VALUES (?, ?, ?, ?, ?)";
+				PreparedStatement pst3 = con.prepareStatement(insertModuleDegree);
+				pst3.setString(1, code);
+				pst3.setString(2, (String)degreeRow[0]);
+				pst3.setString(3, (String)degreeRow[1]);
+				pst3.setBoolean(4, (boolean)degreeRow[2]);
+				pst3.setString(5, (String)degreeRow[3]);
+				pst3.executeUpdate();
+			}
+
+			con.close();
+			return true;
+			
+		} catch (Exception exc) {
+			infoBox("Module could not be added.", "Warning");
+			exc.printStackTrace();
+			return false;
+		}
+	}
 
 }

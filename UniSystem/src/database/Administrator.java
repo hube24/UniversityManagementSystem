@@ -96,5 +96,55 @@ public class Administrator extends SqlDriver {
 		}
 	}
 	
+	
+	public boolean addDegree(String code, String name, String leadDepartment, int numOfLevels, String[] departments)
+	{
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+
+			// check number of degrees with same code to obtain unique serial number
+
+			String query = "SELECT COUNT(codeOfDegree) FROM Degree WHERE codeOfDegree LIKE '" + code.substring(0, 3) + "%';";
+			PreparedStatement pst1 = con.prepareStatement(query);
+			ResultSet rs = pst1.executeQuery();
+			rs.next();
+			int numOfRows = rs.getInt(1);
+            System.out.print(numOfRows);
+            
+            numOfRows+=1;
+            if(numOfRows<10) code = code + "0" + String.valueOf(numOfRows);
+            else code = code + String.valueOf(numOfRows);
+            
+            
+			// inserting new degree
+			String insertDptQ = "INSERT INTO Degree (codeOfDegree, name, numberOfLevels)" + "VALUES (?, ?, ?)";
+			PreparedStatement pst2 = con.prepareStatement(insertDptQ);
+			pst2.setString(1, code);
+			pst2.setString(2, name);
+			pst2.setInt(3, numOfLevels);
+			pst2.executeUpdate();
+			
+			
+			// linking to Departments
+			
+			for(String dptCode : departments)
+			{
+				String insertDegreeDpt = "INSERT INTO DepartmentDegree (codeOfDepartment, codeOfDegree, isLead)" + "VALUES (?, ?, ?)";
+				PreparedStatement pst3 = con.prepareStatement(insertDegreeDpt);
+				pst3.setString(1, dptCode);
+				pst3.setString(2, code);
+				pst3.setBoolean(3, (leadDepartment == dptCode) );
+				pst3.executeUpdate();
+			}
+
+			con.close();
+			return true;
+			
+		} catch (Exception exc) {
+			infoBox("Degree could not be added.", "Warning");
+			exc.printStackTrace();
+			return false;
+		}
+	}
+	
 
 }

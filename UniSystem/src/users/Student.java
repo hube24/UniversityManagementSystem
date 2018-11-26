@@ -11,6 +11,8 @@ import java.util.Collection;
 	Teacher personalTutor;
 	Grade grade;
 	String level;
+	int startdate,enddate;
+	
  	public Student (int r, String t, String s, String f, String e, Degree d, Teacher tutor, Grade g, String l) {
 		registrationID = r;
 		title = t;
@@ -57,11 +59,14 @@ import java.util.Collection;
 	 	return level;
 	}
 	
-	public PeriodOfStudy getPeriodOfStudy() {
+	public int registerPeriod(int a, int b) {
+		startdate = a;
+		enddate =b;
+	}
+	
+	public String displayStatus() {
 		return null;
 	}
- 	public void setPeriodOfStudy() {
- 	}
  	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

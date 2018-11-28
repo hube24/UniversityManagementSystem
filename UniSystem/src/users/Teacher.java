@@ -15,22 +15,21 @@ public class Teacher extends User {
 		email = e;
 	}
 	
-	public int updateGrade(Student s, Module m, Grade g) {
-		return null;
-	}
-
-	public int finalGrade(Student s, Module m, Grade g) {
-		return null;
+	public String getTitle() {
+		return title;
 	}
 	
-	public Student registerStudent() {
-		return Student s;
+	public String getSurname() {
+		return surname;
 	}
 	
-	public Degree calculateDegree() {
-		return degree;
+	public String getForename() {
+		return forename;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
 	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

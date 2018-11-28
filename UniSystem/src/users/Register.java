@@ -2,24 +2,34 @@ package users;
 import university.Degree;
 import university.Module;
 
-public class Registrar extends User {
+public class Register extends User {
 
-	public boolean moduleRegister(Module module, Student student) {
-		return false;
+	String title;
+	String surname;
+	String forename;
+	String email;
+	
+	public Register (String t, String s, String f, String e) {
+		title = t;
+		surname = s;
+		forename = f;
+		email = e;
 	}
-
-	public boolean degreeRegister(Degree degree, Student student) {
-		return false;
+	public String getTitle() {
+		return title;
 	}
-
-	public boolean checkRegistration() {
-		return false;
+	
+	public String getSurname() {
+		return surname;
 	}
-
-	public boolean checkCredits() {
-		return false;
+	
+	public String getForename() {
+		return forename;
 	}
-
+	
+	public String getEmail() {
+		return email;
+	}
 	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

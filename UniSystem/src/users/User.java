@@ -6,15 +6,16 @@ public abstract class User {
 	private String password;
 
 	public String getUsername() {
-		return null;
+		return this.username;
 	}
-
-	public void setPassword() {
-
-	}
-
 	public void setUsername() {
-
+		this.username=username;
+	}
+	public String getPassword() {
+		return this.password;
+	}
+	public void setPassword() {
+		this.password=password;
 	}
 
 	public abstract boolean login();

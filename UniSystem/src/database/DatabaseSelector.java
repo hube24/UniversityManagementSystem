@@ -11,8 +11,7 @@ public class DatabaseSelector extends SqlDriver{
 
 	public DatabaseSelector() {
 		// TODO Auto-generated constructor stub
-	}
-	
+	}	
 	
 	public List<String[]> GetTableList(String query)
 	{
@@ -41,6 +40,22 @@ public class DatabaseSelector extends SqlDriver{
 		}
 		
 		return null;
+	}
+	
+	public void delete(String query, String id) {	
+		
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement(query);
+			pst1.setString(1, id);
+			pst1.executeUpdate();
+			con.close();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+	
+	public void deleteUser(String username) {
+		delete("DELETE FROM Users WHERE username = ?", username);
 	}
 	
 	public List<String[]> GetDepartmentList()

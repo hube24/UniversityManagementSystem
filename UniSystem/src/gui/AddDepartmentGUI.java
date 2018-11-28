@@ -93,6 +93,7 @@ public class AddDepartmentGUI extends JFrame {
 				 if(admin.addDepartment(code, name))
 				 {
 					 infoBox("Department added succesfully.","Success");
+					 openDepartments();
 				 }
 				
 			}

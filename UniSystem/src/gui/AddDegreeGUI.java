@@ -225,9 +225,10 @@ public class AddDegreeGUI extends JFrame {
 			    	Administrator admin = new Administrator();
 			    	if(admin.addDegree(code, name, leadDepartmentCode, numOfLevels, checkedDepartmentsArray))
 			    		infoBox("Degree added succesfully.","Success");
+			    		openDegrees();
 			 
 			    }else{
-			    	infoBox("Please fill all the fields","Success");
+			    	infoBox("Please fill all the fields","Warning!");
 			    }
 			}
 		});

@@ -49,15 +49,9 @@ public class UsersGUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-
-		//Change it for list of students from db.
-		String[] students = new String[3];
-		students[0] = "Student1";
-		students[1] = "Student2";
-		students[2] = "Student3";
 		
 		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(176, 195, 85, 25);
+		btnAddUser.setBounds(37, 195, 117, 25);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openAddUser();
@@ -68,7 +62,7 @@ public class UsersGUI extends JFrame {
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
+			new Object[][] {				
 			},
 			new String[] {
 				"Username", "Level of access"
@@ -80,16 +74,19 @@ public class UsersGUI extends JFrame {
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
 		}
 				);
 		table.setBounds(27, 36, 382, 146);
 		contentPane.add(table);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openAdmin();
+			}
+		});
+		btnBack.setBounds(280, 195, 117, 25);
+		contentPane.add(btnBack);
 		
 		//getting list of users.
 		DatabaseSelector dbSelector = new DatabaseSelector();
@@ -106,5 +103,11 @@ public class UsersGUI extends JFrame {
 		AddUserGUI frame = new AddUserGUI();
 		frame.setVisible(true);
 		dispose();		
+	}
+	
+	protected void openAdmin() {
+		AdminGUI frame = new AdminGUI();
+		frame.setVisible(true);
+		dispose();
 	}
 }

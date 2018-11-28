@@ -145,6 +145,7 @@ public class AddUserGUI extends JFrame {
 				if(admin.addUser(username, password, access))
 				 {
 					 infoBox("User added succesfully.","Success");
+					 openUser();	
 				 }
 			}
 		});
@@ -152,7 +153,17 @@ public class AddUserGUI extends JFrame {
 		contentPane.add(submit);
 		
 		JButton Cancel = new JButton("Cancel");
+		Cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openUser();
+			}
+		});
 		Cancel.setBounds(66, 183, 89, 23);
 		contentPane.add(Cancel);
+	}
+	protected void openUser() {		
+		UsersGUI frame = new UsersGUI();
+		frame.setVisible(true);
+		dispose();		
 	}
 }

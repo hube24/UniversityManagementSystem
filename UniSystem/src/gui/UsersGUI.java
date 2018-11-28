@@ -107,8 +107,12 @@ public class UsersGUI extends JFrame {
 				int i = table.getSelectedRow();
 				if(i>=0) {			
 
-					dbSelector.deleteUser(table.getValueAt(i, 0).toString());
-					model.removeRow(i);
+					boolean isNotStudent = dbSelector.deleteUser(table.getValueAt(i, 0).toString());
+					if(isNotStudent) {
+						model.removeRow(i);
+					}else {
+						JOptionPane.showMessageDialog(null, "Unable to Delete User. First Ask Registar to Delete this Student.");
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Unable to Delete. Select User.");
 				}		

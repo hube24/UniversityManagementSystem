@@ -32,7 +32,7 @@ public class DatabaseSelector extends SqlDriver{
 			    }
 			    table.add( row );
 			}
-			con.close();
+			con.close(); 
 			return table; 
 
 		} catch (Exception exc) {
@@ -54,10 +54,35 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
-	public void deleteUser(String username) {
-		delete("DELETE FROM Users WHERE username = ?", username);
+	public boolean isUserNotStudent(String query, String id) {
+		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement(query);
+			pst1.setString(1, id);
+			ResultSet rs = pst1.executeQuery();			
+			if(rs.next()) {
+				con.close();
+				return false;				
+				
+			} else {
+				con.close();
+				return true; 
+			}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} 
+		return false;
+		
 	}
 	
+	public boolean deleteUser(String username) {
+		if(isUserNotStudent("SELECT * FROM Student WHERE username = ?", username)) {
+			delete("DELETE FROM Users WHERE username = ?", username);
+			return true;
+		}else {
+			return false;
+		}
+	}	
+
 	public List<String[]> GetDepartmentList()
 	{
 		return GetTableList("SELECT * FROM Department");

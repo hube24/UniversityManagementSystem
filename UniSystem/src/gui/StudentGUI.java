@@ -6,12 +6,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.Session;
+
 import javax.swing.JLabel;
 
 public class StudentGUI extends JFrame {
 
 	private JPanel contentPane;
-
+	Session currSession;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -19,7 +24,7 @@ public class StudentGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StudentGUI frame = new StudentGUI();
+					StudentGUI frame = new StudentGUI(new Session("", "",""));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +36,9 @@ public class StudentGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StudentGUI() {
+	public StudentGUI(Session s) {
+		currSession = s;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

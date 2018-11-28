@@ -1,12 +1,12 @@
 package users;
 public abstract class User {
 
-	private String username;
+	protected String username;
 
-	private String password;
+	protected String password;
 
 	public String getUsername() {
-		return null;
+		return username;
 	}
 
 	public void setPassword() {
@@ -16,7 +16,5 @@ public abstract class User {
 	public void setUsername() {
 
 	}
-
-	public abstract boolean login();
 
 }

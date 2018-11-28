@@ -31,10 +31,5 @@ public class Teacher extends User {
 		return degree;
 	}
 	
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }

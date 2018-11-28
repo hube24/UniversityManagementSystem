@@ -1,39 +1,33 @@
 package users;
+
 public class Admin extends User {
 
-	public boolean addUser() {
-		
-		return false;
-	}
+	String title;
+	String surname;
+	String forename;
+	String email;
 
-	public boolean removeUser() {
-		return false;
+	public Admin (String t, String s, String f, String e) {
+		title = t;
+		surname = s;
+		forename = f;
+		email = e;
 	}
-
-	public boolean addDepartment() {
-		return false;
+	public String getTitle() {
+		return title;
 	}
-
-	public boolean removeDepartment() {
-		return false;
+	
+	public String getSurname() {
+		return surname;
 	}
-
-	public boolean addCourse() {
-		return false;
+	
+	public String getForename() {
+		return forename;
 	}
-
-	public boolean removeCourse() {
-		return false;
+	
+	public String getEmail() {
+		return email;
 	}
-
-	public boolean addModule() {
-		return false;
-	}
-
-	public boolean removeModule() {
-		return false;
-	}
-
 	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

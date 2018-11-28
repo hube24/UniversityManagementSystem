@@ -8,19 +8,19 @@ import java.util.Collection;
 	String forename;
 	String email;
 	Degree degree;
-	Teacher personalTutor;
+	Teacher tutor;
 	Grade grade;
 	String level;
 	int startdate,enddate;
 	
- 	public Student (int r, String t, String s, String f, String e, Degree d, Teacher tutor, Grade g, String l) {
+ 	public Student (int r, String t, String s, String f, String e, Degree d, Teacher tut, Grade g, String l) {
 		registrationID = r;
 		title = t;
 		surname = s;
 		forename = f;
 		email = e;
 		degree = d;
-		personalTutor = tutor;
+		tutor = tut;
 		grade = g;
 		level = l;
 	}
@@ -59,14 +59,6 @@ import java.util.Collection;
 	 	return level;
 	}
 	
-	public int registerPeriod(int a, int b) {
-		startdate = a;
-		enddate =b;
-	}
-	
-	public String displayStatus() {
-		return null;
-	}
  	@Override
 	public boolean login() {
 		// TODO Auto-generated method stub

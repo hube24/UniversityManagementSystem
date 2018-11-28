@@ -1,5 +1,6 @@
-/database/
 /gui/
+/users/
+
 /Administrator.class
 /encryption/
 /admin
@@ -7,5 +8,5 @@
 /student
 /teachers
 /user
-/users/
+
 /university/

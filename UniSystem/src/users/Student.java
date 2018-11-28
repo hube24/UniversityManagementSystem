@@ -60,7 +60,5 @@ import university.*;
 	 	return level;
 	}
 	
-	public String displayStatus() {
-		return null;
-	}
- }
+}
+ 

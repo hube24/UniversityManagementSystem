@@ -31,6 +31,8 @@ import java.awt.GridLayout;
 
 import database.Administrator;
 import database.DatabaseSelector;
+import database.Session;
+
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 
@@ -46,7 +48,7 @@ public class AddDegreeGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDegreeGUI frame = new AddDegreeGUI();
+					AddDegreeGUI frame = new AddDegreeGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +64,8 @@ public class AddDegreeGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddDegreeGUI() {
+	public AddDegreeGUI(Session s) {
+		Session currSession = s;
 		setTitle("Add New Degree");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 394, 458);
@@ -118,14 +121,14 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(lblNumberOfLevels);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"3", "4"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "3", "4"}));
 		comboBox_1.setBounds(158, 201, 34, 20);
 		contentPane.add(comboBox_1);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				openDegrees(currSession);
 			}
 		});
 		btnCancel.setBounds(62, 386, 89, 23);
@@ -234,6 +237,11 @@ public class AddDegreeGUI extends JFrame {
 		btnNewButton.setBounds(220, 386, 89, 23);
 		contentPane.add(btnNewButton);
 		
+	}
+	protected void openDegrees(Session s) {		
+		DegreesGUI frame = new DegreesGUI(s);
+		frame.setVisible(true);
+		dispose();		
 	}
 	
 	

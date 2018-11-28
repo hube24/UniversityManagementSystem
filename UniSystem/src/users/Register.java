@@ -1,18 +1,20 @@
 package users;
+import university.Degree;
 import university.Module;
 
-public class Teacher extends User {
-	
+public class Register extends User {
+
 	String title;
 	String surname;
 	String forename;
+	String email;
 	
-	public Teacher (String t, String s, String f, String e) {
+	public Register (String t, String s, String f, String e) {
 		title = t;
 		surname = s;
 		forename = f;
+		email = e;
 	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -25,5 +27,9 @@ public class Teacher extends User {
 		return forename;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
 
 }

@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
 import database.Administrator;
+import database.Session;
 
 public class AddDepartmentGUI extends JFrame {
 
@@ -30,7 +31,7 @@ public class AddDepartmentGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDepartmentGUI frame = new AddDepartmentGUI();
+					AddDepartmentGUI frame = new AddDepartmentGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,8 +47,8 @@ public class AddDepartmentGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddDepartmentGUI() {
-		
+	public AddDepartmentGUI(Session s) {
+		Session currSession = s;
 		
 		
 		setBackground(Color.WHITE);
@@ -62,7 +63,7 @@ public class AddDepartmentGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblDepartmentCode = new JLabel("Department Code:");
-		lblDepartmentCode.setBounds(27, 44, 96, 20);
+		lblDepartmentCode.setBounds(27, 44, 134, 20);
 		contentPane.add(lblDepartmentCode);
 		
 		textField = new JTextField();
@@ -71,7 +72,7 @@ public class AddDepartmentGUI extends JFrame {
 		textField.setColumns(10);
 		
 		JLabel lblDepartmentName = new JLabel("Department name:");
-		lblDepartmentName.setBounds(27, 75, 96, 14);
+		lblDepartmentName.setBounds(27, 75, 134, 14);
 		contentPane.add(lblDepartmentName);
 		
 		textField_1 = new JTextField();
@@ -103,10 +104,15 @@ public class AddDepartmentGUI extends JFrame {
 		Button cancel_button = new Button("Cancel");
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
+				openDepartments(currSession);
 			}
 		});
 		cancel_button.setBounds(71, 119, 90, 22);
 		contentPane.add(cancel_button);
+	}
+	protected void openDepartments(Session s) {		
+		DepartmentsGUI frame = new DepartmentsGUI(s);
+		frame.setVisible(true);
+		dispose();		
 	}
 }

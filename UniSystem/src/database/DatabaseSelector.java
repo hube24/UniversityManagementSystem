@@ -46,12 +46,19 @@ public class DatabaseSelector extends SqlDriver{
 	public List<String[]> GetDepartmentList()
 	{
 		return GetTableList("SELECT * FROM Department");
-	}
-	
+	}	
 	
 	public List<String[]> GetDegreesList()
 	{
 		return GetTableList("SELECT * FROM Degree");
+	}
+	public List<String[]> GetUsersList()
+	{
+		return GetTableList("SELECT * FROM Users");
+	}
+	public List<String[]> GetModulesList()
+	{
+		return GetTableList("SELECT * FROM Module");
 	}
 	
 	public List<String[]> getUserWithAccessList(String acs)

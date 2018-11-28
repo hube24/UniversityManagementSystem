@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.Administrator;
+import database.Session;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,7 +35,7 @@ public class AddUserGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddUserGUI frame = new AddUserGUI();
+					AddUserGUI frame = new AddUserGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +61,8 @@ public class AddUserGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddUserGUI() {
+	public AddUserGUI(Session s) {
+		Session currSession = s;
 		setTitle("Add new user");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 418, 271);
@@ -145,6 +147,7 @@ public class AddUserGUI extends JFrame {
 				if(admin.addUser(username, password, access))
 				 {
 					 infoBox("User added succesfully.","Success");
+					 openUser(currSession);	
 				 }
 			}
 		});
@@ -152,7 +155,17 @@ public class AddUserGUI extends JFrame {
 		contentPane.add(submit);
 		
 		JButton Cancel = new JButton("Cancel");
+		Cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openUser(currSession);
+			}
+		});
 		Cancel.setBounds(66, 183, 89, 23);
 		contentPane.add(Cancel);
+	}
+	protected void openUser(Session s) {		
+		UsersGUI frame = new UsersGUI(s);
+		frame.setVisible(true);
+		dispose();		
 	}
 }

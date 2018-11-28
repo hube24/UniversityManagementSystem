@@ -23,6 +23,7 @@ import javax.swing.table.TableCellEditor;
 
 import database.Administrator;
 import database.DatabaseSelector;
+import database.Session;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,7 +50,7 @@ public class AddModuleGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddModuleGUI frame = new AddModuleGUI();
+					AddModuleGUI frame = new AddModuleGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +66,8 @@ public class AddModuleGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddModuleGUI() {
+	public AddModuleGUI(Session s) {
+		Session currSession = s;
 		setTitle("Add Module");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 551, 448);
@@ -228,7 +230,17 @@ public class AddModuleGUI extends JFrame {
 		contentPane.add(btnSubmit);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openModules(currSession);
+			}
+		});
 		btnCancel.setBounds(77, 376, 89, 23);
 		contentPane.add(btnCancel);
+	}
+	protected void openModules(Session s) {		
+		ModulesGUI frame = new ModulesGUI(s);
+		frame.setVisible(true);
+		dispose();		
 	}
 }

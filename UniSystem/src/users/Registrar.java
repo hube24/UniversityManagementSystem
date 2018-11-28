@@ -131,9 +131,7 @@ SqlDriver sqldriver = new SqlDriver();
 	{
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 		  
-			PreparedStatement pst1 = con.prepareStatement("SELECT *" + 
-					"FROM ModuleDegree" + 
-					"WHERE CodeOfDegree = ? AND isCore = 'true' AND level = ? ;");
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM ModuleDegree WHERE CodeOfDegree = ? AND isCore = 'true' AND level = ? ;");
 			pst1.setString(1, degree.getCode());
 			pst1.setString(2, level);
 			ResultSet rs = pst1.executeQuery();

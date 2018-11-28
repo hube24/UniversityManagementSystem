@@ -10,19 +10,19 @@ import university.Module;
 import university.Grade;
 import database.SqlDriver;
 
-public class Student {
+public class Student extends User {
 	
 	private String title;
-	private int registerNumber;
+	private int registrationID;
 	private String forename;
 	private String surname;
 	private String startDate;
 	private String endDate;
 	private String level;
-	private String emailAddress;
-	private String degree;
-	private String personalTutor;
-	private String grade;
+	private String email;
+	private Degree degree;
+	private String tutor;
+	private Grade grade;
 	Statement pst1 = null;
 	
 	public Student displayStatus(Student student) {
@@ -50,25 +50,37 @@ public class Student {
 		}return student(0,null,null,null,null,null,null,null,null);
 	}
 
-
 	private Student student(int i, Object object, Object object2, Object object3, Object object4, Object object5,
 			Object object6, Object object7, Object object8) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+ 	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
+		username = u;
+ 		registrationID = r;
+		title = t;
+		surname = s;
+		forename = f;
+		email = e;
+		degree = d;
+		tutor = tut;
+		grade = g;
+	}
 
 
 	public String getTitle() {return this.title;}
-	public int getRegisterNumber() {return this.registerNumber;}
+	public int getRegistrationID() {return this.registrationID;}
 	public String getForename() {return this.forename;}
 	public String getSurname() {return this.surname;}
 	public String getStartDate() {return this.startDate;}
 	public String getEndDate() {return this.endDate;}
 	public String getLevel() {return this.level;}
-	public String getEmailAddress() {return this.emailAddress;}
-	public String getDegree() {return this.degree;}
-	public String getGrade() {return this.grade;}
-	public String getPersonalTutor() {return this.personalTutor;}
+	public String getEmail() {return this.email;}
+	public Degree getDegree() {return this.degree;}
+	public Grade getGrade() {return this.grade;}
+	public String getPersonalTutor() {return this.tutor;}
 	
 	public void setEmail(String email) {
 		this.email = email;

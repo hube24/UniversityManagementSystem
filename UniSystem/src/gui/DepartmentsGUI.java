@@ -3,24 +3,21 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import database.DatabaseSelector;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
 
-public class UsersGUI extends JFrame {
+import database.DatabaseSelector;
+
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.awt.event.ActionEvent;
+
+public class DepartmentsGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -32,7 +29,7 @@ public class UsersGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UsersGUI frame = new UsersGUI();
+					DepartmentsGUI frame = new DepartmentsGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,34 +41,16 @@ public class UsersGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UsersGUI() {
+	public DepartmentsGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(37, 195, 117, 25);
-		btnAddUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openAddUser();
-			}
-		});
 		contentPane.setLayout(null);
-		contentPane.add(btnAddUser);
-		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openAdmin();
-			}
-		});
-		btnBack.setBounds(280, 195, 117, 25);
-		contentPane.add(btnBack);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 13, 408, 169);
+		scrollPane.setBounds(12, 13, 408, 173);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -80,30 +59,49 @@ public class UsersGUI extends JFrame {
 			new Object[][] {				
 			},
 			new String[] {
-				"Username", "Level of access"
+				"Code", "Name"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class
+					String.class, String.class
+				};
+			boolean[] columnEditables = new boolean[] {
+				false, false
 			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openAdmin();
+			}
+		});
+		btnBack.setBounds(22, 199, 133, 25);
+		contentPane.add(btnBack);
+		
+		JButton btnAddDepartment = new JButton("Add Department");
+		btnAddDepartment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openAddDepartment();
+			}
+		});
+		btnAddDepartment.setBounds(275, 199, 133, 25);
+		contentPane.add(btnAddDepartment);
+		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
-		//getting list of users.
+		//getting list of departments.
 		DatabaseSelector dbSelector = new DatabaseSelector();
-		List <String[]> usersList = dbSelector.GetUsersList();
-		for( String[] row : usersList) {
-			model.addRow(new String[] {row[0], row[2]});
+		List <String[]> departmentsList = dbSelector.GetDepartmentList();
+		for( String[] row : departmentsList) {
+			model.addRow(new String[] {row[0], row[1]});
 		}
 	}
-	
-
-	
-	protected void openAddUser() {		
-		AddUserGUI frame = new AddUserGUI();
+	protected void openAddDepartment() {		
+		AddDepartmentGUI frame = new AddDepartmentGUI();
 		frame.setVisible(true);
 		dispose();		
 	}

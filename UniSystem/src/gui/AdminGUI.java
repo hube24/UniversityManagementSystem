@@ -53,11 +53,16 @@ public class AdminGUI extends JFrame {
 			}
 		});
 		
-		JButton btnDegree = new JButton("Degree");
+		JButton btnDegree = new JButton("Degrees");
 		
-		JButton btnDepartment = new JButton("Department");
+		JButton btnDepartment = new JButton("Departments");
+		btnDepartment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDepartments();
+			}
+		});
 		
-		JButton btnNewModlue = new JButton("Module");
+		JButton btnNewModlue = new JButton("Modules");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -89,6 +94,11 @@ public class AdminGUI extends JFrame {
 	}
 	protected void openUser() {		
 		UsersGUI frame = new UsersGUI();
+		frame.setVisible(true);
+		dispose();		
+	}
+	protected void openDepartments() {		
+		DepartmentsGUI frame = new DepartmentsGUI();
 		frame.setVisible(true);
 		dispose();		
 	}

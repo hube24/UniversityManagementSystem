@@ -62,7 +62,7 @@ public class AddDepartmentGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblDepartmentCode = new JLabel("Department Code:");
-		lblDepartmentCode.setBounds(27, 44, 96, 20);
+		lblDepartmentCode.setBounds(27, 44, 134, 20);
 		contentPane.add(lblDepartmentCode);
 		
 		textField = new JTextField();
@@ -71,7 +71,7 @@ public class AddDepartmentGUI extends JFrame {
 		textField.setColumns(10);
 		
 		JLabel lblDepartmentName = new JLabel("Department name:");
-		lblDepartmentName.setBounds(27, 75, 96, 14);
+		lblDepartmentName.setBounds(27, 75, 134, 14);
 		contentPane.add(lblDepartmentName);
 		
 		textField_1 = new JTextField();

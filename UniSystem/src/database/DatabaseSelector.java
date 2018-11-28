@@ -54,7 +54,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
-	public boolean isUserNotStudent(String query, String id) {
+	public boolean existInDatabase(String query, String id) {
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
 			PreparedStatement pst1 = con.prepareStatement(query);
 			pst1.setString(1, id);
@@ -74,15 +74,25 @@ public class DatabaseSelector extends SqlDriver{
 		
 	}
 	
+	
 	public boolean deleteUser(String username) {
-		if(isUserNotStudent("SELECT * FROM Student WHERE username = ?", username)) {
+		if(existInDatabase("SELECT * FROM Student WHERE username = ?", username)) {
 			delete("DELETE FROM Users WHERE username = ?", username);
 			return true;
 		}else {
 			return false;
 		}
 	}	
-
+	
+	public boolean deleteDepartment(String code) {
+		if(existInDatabase("SELECT * FROM DepartmentDegree WHERE codeOfDepartment = ?", code)) {
+			delete("DELETE FROM Users WHERE username = ?", code);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public List<String[]> GetDepartmentList()
 	{
 		return GetTableList("SELECT * FROM Department");

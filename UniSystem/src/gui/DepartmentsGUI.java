@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
@@ -51,6 +52,8 @@ public class DepartmentsGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 13, 408, 173);
 		contentPane.add(scrollPane);
@@ -81,7 +84,7 @@ public class DepartmentsGUI extends JFrame {
 				openAdmin(currSession);
 			}
 		});
-		btnBack.setBounds(22, 199, 133, 25);
+		btnBack.setBounds(22, 199, 89, 25);
 		contentPane.add(btnBack);
 		
 		JButton btnAddDepartment = new JButton("Add Department");
@@ -90,13 +93,34 @@ public class DepartmentsGUI extends JFrame {
 				openAddDepartment(currSession);
 			}
 		});
-		btnAddDepartment.setBounds(275, 199, 133, 25);
+		btnAddDepartment.setBounds(285, 199, 123, 25);
 		contentPane.add(btnAddDepartment);
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
-		//getting list of departments.
-		DatabaseSelector dbSelector = new DatabaseSelector();
+		JButton btnDeleteDepartment = new JButton("Delete Department");
+		btnDeleteDepartment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = table.getSelectedRow();
+				if(i>=0) {			
+
+					boolean isNotEmpty = dbSelector.deleteDepartment(table.getValueAt(i, 0).toString());
+					if(isNotEmpty) {
+						model.removeRow(i);
+					}else {
+						JOptionPane.showMessageDialog(null, "Unable to Delete User. First Ask Registar to Delete this Student.");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Unable to Delete. Select User.");
+				}		
+			}
+		});
+		btnDeleteDepartment.setBounds(141, 200, 123, 23);
+		contentPane.add(btnDeleteDepartment);
+		
+		
+		
+		//getting list of departments.		
 		List <String[]> departmentsList = dbSelector.GetDepartmentList();
 		for( String[] row : departmentsList) {
 			model.addRow(new String[] {row[0], row[1]});

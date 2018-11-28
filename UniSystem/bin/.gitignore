@@ -1,13 +1,9 @@
-/gui/
-/users/
-
-/Administrator.class
-/encryption/
-/admin
-/register
-/student
-/teachers
-/user
-
-/university/
 /database/
+/encryption/
+/gui/
+/university/
+<<<<<<< HEAD
+/database/
+=======
+/users/
+>>>>>>> refs/remotes/origin/master

@@ -5,6 +5,8 @@ import java.sql.*;
 import encryption.BCrypt;
 
 
+
+
 public class UserAuthorization extends SqlDriver {
 
 	public String getAuthorization(String username, String password)

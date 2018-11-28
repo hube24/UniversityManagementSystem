@@ -224,6 +224,7 @@ public class AddModuleGUI extends JFrame {
 				Administrator admin = new Administrator();
 		    	if(admin.addModule(code, name, numberOfCredits, degrees))
 		    		infoBox("Module added succesfully.","Success");
+		    		openModules(currSession);
 			}
 		});
 		btnSubmit.setBounds(311, 376, 89, 23);

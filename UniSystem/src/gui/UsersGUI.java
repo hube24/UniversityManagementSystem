@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -47,15 +49,18 @@ public class UsersGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UsersGUI(Session s) {
-		Session currSession = s;
+		Session currSession =s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		
+		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(291, 195, 117, 25);
+		btnAddUser.setBounds(303, 195, 117, 25);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openAddUser(currSession);
@@ -70,7 +75,7 @@ public class UsersGUI extends JFrame {
 				openAdmin(currSession);
 			}
 		});
-		btnBack.setBounds(22, 195, 117, 25);
+		btnBack.setBounds(12, 195, 117, 25);
 		contentPane.add(btnBack);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -78,6 +83,7 @@ public class UsersGUI extends JFrame {
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {				
@@ -93,17 +99,35 @@ public class UsersGUI extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		JButton btnDeleteUser = new JButton("Delete User");
+		btnDeleteUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = table.getSelectedRow();
+				if(i>=0) {			
+
+					dbSelector.deleteUser(table.getValueAt(i, 0).toString());
+					model.removeRow(i);
+				}else {
+					JOptionPane.showMessageDialog(null, "Unable to Delete. Select User.");
+				}		
+				
+			}
+		});
+		btnDeleteUser.setBounds(156, 195, 117, 25);
+		contentPane.add(btnDeleteUser);
+		
 		
 		//getting list of users.
-		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		List <String[]> usersList = dbSelector.GetUsersList();
-		for( String[] row : usersList) {
+		for( String[] row : usersList) {			
 			model.addRow(new String[] {row[0], row[2]});
 		}
+		
+		
 	}
-	
-
 	
 	protected void openAddUser(Session s) {		
 		AddUserGUI frame = new AddUserGUI(s);

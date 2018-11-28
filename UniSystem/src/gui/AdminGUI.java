@@ -68,6 +68,11 @@ public class AdminGUI extends JFrame {
 		});
 		
 		JButton btnNewModlue = new JButton("Modules");
+		btnNewModlue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openModules();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -109,6 +114,11 @@ public class AdminGUI extends JFrame {
 	}
 	protected void openDegrees() {		
 		DegreesGUI frame = new DegreesGUI();
+		frame.setVisible(true);
+		dispose();		
+	}
+	protected void openModules() {		
+		ModulesGUI frame = new ModulesGUI();
 		frame.setVisible(true);
 		dispose();		
 	}

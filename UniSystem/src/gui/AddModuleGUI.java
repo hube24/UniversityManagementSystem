@@ -228,7 +228,17 @@ public class AddModuleGUI extends JFrame {
 		contentPane.add(btnSubmit);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openModules();
+			}
+		});
 		btnCancel.setBounds(77, 376, 89, 23);
 		contentPane.add(btnCancel);
+	}
+	protected void openModules() {		
+		ModulesGUI frame = new ModulesGUI();
+		frame.setVisible(true);
+		dispose();		
 	}
 }

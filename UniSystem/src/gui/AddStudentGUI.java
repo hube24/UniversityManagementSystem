@@ -155,6 +155,14 @@ public class AddStudentGUI extends JFrame {
 		comboBox_3.setBounds(182, 260, 238, 20);
 		contentPane.add(comboBox_3);
 		
+		//getting list of periods of study 
+		List <String[]> periodsList = dbSelector.GetPeriodsOfStudyList();
+
+		for( String[] row : periodsList ){
+			comboBox_3.addItem(row[0] + "  " + row[1]  + " to " + row[2]);
+		}
+				
+		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,7 +173,7 @@ public class AddStudentGUI extends JFrame {
 				String degreeCode = ((String)comboBox_1.getSelectedItem()).substring(0, 6);
 				String personalTutor = textField_2.getText();
 				String username = (String)comboBox_2.getSelectedItem();
-				String initialPeriod = (String)comboBox_3.getSelectedItem();
+				String initialPeriod = ((String)comboBox_3.getSelectedItem()).substring(0, 1);
 				
 				forname = forname.replace(" ", "");
 				surname = surname.replace(" ", "");
@@ -182,7 +190,7 @@ public class AddStudentGUI extends JFrame {
 				degree.completeFromDB();
 				
 				Student student = new Student(username, 0, title, surname, forname , "", degree, personalTutor, null );
-				if(registrar.addStudent(student))
+				if(registrar.addStudent(student, initialPeriod))
 				{
 					infoBox("Student added successfully", "Done.");
 				}

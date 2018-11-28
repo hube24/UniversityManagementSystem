@@ -21,7 +21,7 @@ public static void infoBox(String infoMessage, String titleBar) {
 	
 SqlDriver sqldriver = new SqlDriver();
 
-	public boolean addStudent( Student student)
+	public boolean addStudent( Student student, String periodOfStudy)
 	{
 		String username = student.getUsername();
 		String title = student.getTitle();
@@ -30,6 +30,7 @@ SqlDriver sqldriver = new SqlDriver();
 		String personalTutor = student.getPersonalTutor();
 		String email = student.getEmail();
 		Degree degree = student.getDegree();
+
 		int registrationNum = student.getRegistrationID();
 
 
@@ -73,6 +74,26 @@ SqlDriver sqldriver = new SqlDriver();
 			pst2.setString(6, email);
 			pst2.setString(7, personalTutor);
 			pst2.executeUpdate();
+			
+			//get the registration number assigned to student
+			String stuq = "SELECT registrationNum FROM Student WHERE username = ?";
+			PreparedStatement pst4 = con.prepareStatement(query);
+			pst4.setString(1, username);
+			ResultSet rs2 = pst4.executeQuery();
+			if (rs2.next())
+				registrationNum = rs2.getInt(1);
+
+			
+			
+			//register for initial period
+			String insertStuPerQ = "INSERT INTO StudentStudyPeriod (registrationNum, label, level)" + "VALUES (?, ?, ?)";
+			PreparedStatement pst5 = con.prepareStatement(insertStuPerQ);
+			pst5.setInt(1, registrationNum);
+			pst5.setString(2, periodOfStudy);
+			pst5.setString(2, periodOfStudy);
+			pst5.setString(3, "1"); // to change (if masters then lvl 4)
+			pst5.executeUpdate();
+			
 			
 			
 			

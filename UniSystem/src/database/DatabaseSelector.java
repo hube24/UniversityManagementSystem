@@ -65,5 +65,10 @@ public class DatabaseSelector extends SqlDriver{
 	{
 		return GetTableList("SELECT username FROM Users WHERE access = '"+ acs +"'");
 	}
+
+
+	public List<String[]> GetPeriodsOfStudyList() {
+		return GetTableList("SELECT * FROM PeriodOfStudy");
+	}
 	
 }

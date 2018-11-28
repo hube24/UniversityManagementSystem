@@ -76,4 +76,9 @@ public class DatabaseSelector extends SqlDriver{
 		return GetTableList("SELECT * FROM Module");
 	}
 	
+	public List<String[]> getUserWithAccessList(String acs)
+	{
+		return GetTableList("SELECT username FROM Users WHERE access = '"+ acs +"'");
+	}
+	
 }

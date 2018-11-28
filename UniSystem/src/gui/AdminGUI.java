@@ -1,36 +1,36 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
+
+import database.Session;
+
 import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class AdminGUI extends JFrame {
 
+	
+	Session currSession;
 	private JPanel contentPane;
 	private JButton btnUsers;
 
+
+	/**
+	 * Create the frame.
+	 */
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminGUI frame = new AdminGUI();
+					AdminGUI frame = new AdminGUI(null);
 					frame.setVisible(true);					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,9 @@ public class AdminGUI extends JFrame {
 		});
 		
 	}
-	public AdminGUI() {
+	
+	public AdminGUI(Session s) {
+		currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -49,28 +51,28 @@ public class AdminGUI extends JFrame {
 		btnUsers = new JButton("Users");
 		btnUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openUser();		
+				openUser(currSession);		
 			}
 		});
 		
 		JButton btnDegree = new JButton("Degrees");
 		btnDegree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openDegrees();
+				openDegrees(currSession);
 			}
 		});
 		
 		JButton btnDepartment = new JButton("Departments");
 		btnDepartment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openDepartments();
+				openDepartments(currSession);
 			}
 		});
 		
 		JButton btnNewModlue = new JButton("Modules");
 		btnNewModlue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openModules();
+				openModules(currSession);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -102,23 +104,23 @@ public class AdminGUI extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-	protected void openUser() {		
-		UsersGUI frame = new UsersGUI();
+	protected void openUser(Session s) {		
+		UsersGUI frame = new UsersGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
-	protected void openDepartments() {		
-		DepartmentsGUI frame = new DepartmentsGUI();
+	protected void openDepartments(Session s) {		
+		DepartmentsGUI frame = new DepartmentsGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
-	protected void openDegrees() {		
-		DegreesGUI frame = new DegreesGUI();
+	protected void openDegrees(Session s) {		
+		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
-	protected void openModules() {		
-		ModulesGUI frame = new ModulesGUI();
+	protected void openModules(Session s) {		
+		ModulesGUI frame = new ModulesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}

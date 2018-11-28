@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import database.DatabaseSelector;
+import database.Session;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -28,7 +29,7 @@ public class DegreesGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DegreesGUI frame = new DegreesGUI();
+					DegreesGUI frame = new DegreesGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +41,8 @@ public class DegreesGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DegreesGUI() {
+	public DegreesGUI(Session s) {
+		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -51,7 +53,7 @@ public class DegreesGUI extends JFrame {
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openAdmin();
+				openAdmin(currSession);
 			}
 		});
 		btnBack.setBounds(22, 200, 110, 25);
@@ -60,7 +62,7 @@ public class DegreesGUI extends JFrame {
 		JButton btnAddDegree = new JButton("Add Degree");
 		btnAddDegree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openAddDegree();
+				openAddDegree(currSession);
 			}
 		});
 		btnAddDegree.setBounds(298, 200, 110, 25);
@@ -101,14 +103,14 @@ public class DegreesGUI extends JFrame {
 		}
 
 	}
-	protected void openAddDegree() {		
-		AddDegreeGUI frame = new AddDegreeGUI();
+	protected void openAddDegree(Session s) {		
+		AddDegreeGUI frame = new AddDegreeGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
-	protected void openAdmin() {
-		AdminGUI frame = new AdminGUI();
+	protected void openAdmin(Session s) {
+		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}

@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import database.DatabaseSelector;
+import database.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JScrollPane;
@@ -34,7 +36,7 @@ public class UsersGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UsersGUI frame = new UsersGUI();
+					UsersGUI frame = new UsersGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +48,8 @@ public class UsersGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UsersGUI() {
+	public UsersGUI(Session s) {
+		Session currSession =s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -60,7 +63,7 @@ public class UsersGUI extends JFrame {
 		btnAddUser.setBounds(303, 195, 117, 25);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openAddUser();
+				openAddUser(currSession);
 			}
 		});
 		contentPane.setLayout(null);
@@ -69,7 +72,7 @@ public class UsersGUI extends JFrame {
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openAdmin();
+				openAdmin(currSession);
 			}
 		});
 		btnBack.setBounds(12, 195, 117, 25);
@@ -126,14 +129,14 @@ public class UsersGUI extends JFrame {
 		
 	}
 	
-	protected void openAddUser() {		
-		AddUserGUI frame = new AddUserGUI();
+	protected void openAddUser(Session s) {		
+		AddUserGUI frame = new AddUserGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
-	protected void openAdmin() {
-		AdminGUI frame = new AdminGUI();
+	protected void openAdmin(Session s) {
+		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}

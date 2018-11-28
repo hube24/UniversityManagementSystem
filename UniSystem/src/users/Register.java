@@ -30,10 +30,6 @@ public class Register extends User {
 	public String getEmail() {
 		return email;
 	}
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

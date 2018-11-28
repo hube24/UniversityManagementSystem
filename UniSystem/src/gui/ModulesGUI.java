@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseSelector;
+import database.Session;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class ModulesGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ModulesGUI frame = new ModulesGUI();
+					ModulesGUI frame = new ModulesGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +42,8 @@ public class ModulesGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ModulesGUI() {
+	public ModulesGUI(Session s) {
+		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -76,7 +78,7 @@ public class ModulesGUI extends JFrame {
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openAdmin();
+				openAdmin(currSession);
 			}
 		});
 		btnBack.setBounds(22, 188, 114, 25);
@@ -85,7 +87,7 @@ public class ModulesGUI extends JFrame {
 		JButton btnAddModule = new JButton("Add Module");
 		btnAddModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openAddModule();
+				openAddModule(currSession);
 			}
 		});
 		btnAddModule.setBounds(295, 188, 114, 25);
@@ -101,14 +103,14 @@ public class ModulesGUI extends JFrame {
 		}
 	}
 	
-	protected void openAddModule() {		
-		AddModuleGUI frame = new AddModuleGUI();
+	protected void openAddModule(Session s) {		
+		AddModuleGUI frame = new AddModuleGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
-	protected void openAdmin() {
-		AdminGUI frame = new AdminGUI();
+	protected void openAdmin(Session s) {
+		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}

@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import database.Session;
+
 import database.UserAuthorization;
 
 import java.awt.Color;
@@ -82,17 +84,26 @@ public class LoginScreen extends JFrame {
 				
 				if(!username.isEmpty() && !password.isEmpty())
 				{
-				  int logged = usrLogin.getAuthorization(username, password);
-				  System.out.print(logged);
-				  if(logged!=0)
+				 String access = usrLogin.getAuthorization(username, password);
+				  System.out.print(access);
+				  
+				  
+				  
+				  if(!access.equals(null))
 				  {
+					  
+					  Session currSession = new Session(username, password, access);
+					  
 					  //logged in
-					  if(logged == 1)
-						  openAdminScreen();
-					  
-					  if(logged == 2)
-						  openStudentScreen();
-					  
+					  switch(access){
+						  case "admin":
+							  openAdminScreen(currSession);
+						  break;
+						  
+						  case "student":
+							  openStudentScreen(currSession);
+						  break;
+					  }
 					  System.out.println("login succesfull");
 				  }else {
 					  //not logged in
@@ -135,16 +146,16 @@ public class LoginScreen extends JFrame {
 	}
 
 	
-	protected void openStudentScreen() {
+	protected void openStudentScreen( Session currSession ) {
 		// TODO Auto-generated method stub
-		StudentGUI frame = new StudentGUI();
+		StudentGUI frame = new StudentGUI(currSession);
 		frame.setVisible(true);
 		dispose();
 	}
 
-	protected void openAdminScreen() {
+	protected void openAdminScreen(  Session currSession ) {
 		// TODO Auto-generated method stub
-		AdminGUI frame = new AdminGUI();
+		AdminGUI frame = new AdminGUI(currSession);
 		frame.setVisible(true);
 		dispose();
 	}

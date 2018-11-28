@@ -1,23 +1,21 @@
 package users;
 public abstract class User {
 
-	private String username;
+	protected String username;
 
-	private String password;
+	protected String password;
 
 	public String getUsername() {
-		return this.username;
+		return username;
 	}
-	public void setUsername() {
-		this.username=username;
+	public void setUsername(String u) {
+		username=u;
 	}
 	public String getPassword() {
-		return this.password;
+		return password;
 	}
-	public void setPassword() {
-		this.password=password;
+	public void setPassword(String p) {
+		password=p;
 	}
-
-	public abstract boolean login();
 
 }

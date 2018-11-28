@@ -28,10 +28,6 @@ public class Admin extends User {
 	public String getEmail() {
 		return email;
 	}
-	@Override
-	public boolean login() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

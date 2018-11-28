@@ -31,6 +31,8 @@ import java.awt.GridLayout;
 
 import database.Administrator;
 import database.DatabaseSelector;
+import database.Session;
+
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 
@@ -46,7 +48,7 @@ public class AddDegreeGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDegreeGUI frame = new AddDegreeGUI();
+					AddDegreeGUI frame = new AddDegreeGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +64,8 @@ public class AddDegreeGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddDegreeGUI() {
+	public AddDegreeGUI(Session s) {
+		Session currSession = s;
 		setTitle("Add New Degree");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 394, 458);
@@ -125,7 +128,7 @@ public class AddDegreeGUI extends JFrame {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openDegrees();
+				openDegrees(currSession);
 			}
 		});
 		btnCancel.setBounds(62, 386, 89, 23);
@@ -225,7 +228,7 @@ public class AddDegreeGUI extends JFrame {
 			    	Administrator admin = new Administrator();
 			    	if(admin.addDegree(code, name, leadDepartmentCode, numOfLevels, checkedDepartmentsArray))
 			    		infoBox("Degree added succesfully.","Success");
-			    		openDegrees();
+			    		openDegrees(currSession);
 			 
 			    }else{
 			    	infoBox("Please fill all the fields","Warning!");
@@ -236,8 +239,8 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(btnNewButton);
 		
 	}
-	protected void openDegrees() {		
-		DegreesGUI frame = new DegreesGUI();
+	protected void openDegrees(Session s) {		
+		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}

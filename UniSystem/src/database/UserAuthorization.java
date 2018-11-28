@@ -5,9 +5,11 @@ import java.sql.*;
 import encryption.BCrypt;
 
 
+
+
 public class UserAuthorization extends SqlDriver {
 
-	public int getAuthorization(String username, String password)
+	public String getAuthorization(String username, String password)
 	{
 		try(Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)){
 			System.out.println("connected");
@@ -24,30 +26,21 @@ public class UserAuthorization extends SqlDriver {
 					//if username and password are correct
 					String ut = rs.getString("access");
 					System.out.print(ut);
-					if(ut.equals("admin")) {
-						//if user type is admin
-						con.close();
-						return 1;
-					}
-				
-					if(ut.equals("student")) {
-						//if user type is student
-						con.close();
-						return 2;
-					}
+					return ut;
+					
 				}else{
 					//wrong password
+					return null;
 				}
 			}else {
 				//no username matched
 				con.close();
-				return 0;
+				return null;
 			}
 			
 		}catch(Exception exc){
 			exc.printStackTrace();
-			return  0;
+			return  null;
 		}
-		return 0;
 	}
 }

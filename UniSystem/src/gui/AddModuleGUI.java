@@ -23,6 +23,7 @@ import javax.swing.table.TableCellEditor;
 
 import database.Administrator;
 import database.DatabaseSelector;
+import database.Session;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,7 +50,7 @@ public class AddModuleGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddModuleGUI frame = new AddModuleGUI();
+					AddModuleGUI frame = new AddModuleGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,7 +66,8 @@ public class AddModuleGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddModuleGUI() {
+	public AddModuleGUI(Session s) {
+		Session currSession = s;
 		setTitle("Add Module");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 551, 448);
@@ -222,7 +224,7 @@ public class AddModuleGUI extends JFrame {
 				Administrator admin = new Administrator();
 		    	if(admin.addModule(code, name, numberOfCredits, degrees))
 		    		infoBox("Module added succesfully.","Success");
-		    		openModules();
+		    		openModules(currSession);
 			}
 		});
 		btnSubmit.setBounds(311, 376, 89, 23);
@@ -231,14 +233,14 @@ public class AddModuleGUI extends JFrame {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openModules();
+				openModules(currSession);
 			}
 		});
 		btnCancel.setBounds(77, 376, 89, 23);
 		contentPane.add(btnCancel);
 	}
-	protected void openModules() {		
-		ModulesGUI frame = new ModulesGUI();
+	protected void openModules(Session s) {		
+		ModulesGUI frame = new ModulesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}

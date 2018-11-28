@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
 import database.Administrator;
+import database.Session;
 
 public class AddDepartmentGUI extends JFrame {
 
@@ -30,7 +31,7 @@ public class AddDepartmentGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddDepartmentGUI frame = new AddDepartmentGUI();
+					AddDepartmentGUI frame = new AddDepartmentGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,8 +47,8 @@ public class AddDepartmentGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AddDepartmentGUI() {
-		
+	public AddDepartmentGUI(Session s) {
+		Session currSession = s;
 		
 		
 		setBackground(Color.WHITE);
@@ -93,7 +94,7 @@ public class AddDepartmentGUI extends JFrame {
 				 if(admin.addDepartment(code, name))
 				 {
 					 infoBox("Department added succesfully.","Success");
-					 openDepartments();
+					 openDepartments(currSession);
 				 }
 				
 			}
@@ -104,14 +105,14 @@ public class AddDepartmentGUI extends JFrame {
 		Button cancel_button = new Button("Cancel");
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				openDepartments();
+				openDepartments(currSession);
 			}
 		});
 		cancel_button.setBounds(71, 119, 90, 22);
 		contentPane.add(cancel_button);
 	}
-	protected void openDepartments() {		
-		DepartmentsGUI frame = new DepartmentsGUI();
+	protected void openDepartments(Session s) {		
+		DepartmentsGUI frame = new DepartmentsGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}

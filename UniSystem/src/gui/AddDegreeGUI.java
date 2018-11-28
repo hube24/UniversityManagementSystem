@@ -118,14 +118,14 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(lblNumberOfLevels);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"3", "4"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "3", "4"}));
 		comboBox_1.setBounds(158, 201, 34, 20);
 		contentPane.add(comboBox_1);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				openDegrees();
 			}
 		});
 		btnCancel.setBounds(62, 386, 89, 23);
@@ -234,6 +234,11 @@ public class AddDegreeGUI extends JFrame {
 		btnNewButton.setBounds(220, 386, 89, 23);
 		contentPane.add(btnNewButton);
 		
+	}
+	protected void openDegrees() {		
+		DegreesGUI frame = new DegreesGUI();
+		frame.setVisible(true);
+		dispose();		
 	}
 	
 	

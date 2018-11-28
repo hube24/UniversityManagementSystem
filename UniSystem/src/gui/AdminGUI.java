@@ -54,6 +54,11 @@ public class AdminGUI extends JFrame {
 		});
 		
 		JButton btnDegree = new JButton("Degrees");
+		btnDegree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDegrees();
+			}
+		});
 		
 		JButton btnDepartment = new JButton("Departments");
 		btnDepartment.addActionListener(new ActionListener() {
@@ -99,6 +104,11 @@ public class AdminGUI extends JFrame {
 	}
 	protected void openDepartments() {		
 		DepartmentsGUI frame = new DepartmentsGUI();
+		frame.setVisible(true);
+		dispose();		
+	}
+	protected void openDegrees() {		
+		DegreesGUI frame = new DegreesGUI();
 		frame.setVisible(true);
 		dispose();		
 	}

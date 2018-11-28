@@ -2,25 +2,21 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import database.DatabaseSelector;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
 
-public class UsersGUI extends JFrame {
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class DegreesGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -32,7 +28,7 @@ public class UsersGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UsersGUI frame = new UsersGUI();
+					DegreesGUI frame = new DegreesGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,22 +40,13 @@ public class UsersGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UsersGUI() {
+	public DegreesGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(291, 195, 117, 25);
-		btnAddUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openAddUser();
-			}
-		});
 		contentPane.setLayout(null);
-		contentPane.add(btnAddUser);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
@@ -67,43 +54,55 @@ public class UsersGUI extends JFrame {
 				openAdmin();
 			}
 		});
-		btnBack.setBounds(22, 195, 117, 25);
+		btnBack.setBounds(22, 200, 110, 25);
 		contentPane.add(btnBack);
 		
+		JButton btnAddDegree = new JButton("Add Degree");
+		btnAddDegree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openAddDegree();
+			}
+		});
+		btnAddDegree.setBounds(298, 200, 110, 25);
+		contentPane.add(btnAddDegree);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 13, 408, 169);
+		scrollPane.setBounds(12, 13, 408, 174);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
-		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {				
 			},
 			new String[] {
-				"Username", "Level of access"
+				"Code", "Name", "Number of Levels"
 			}
 		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class
+			Class[] columnTypes = new Class [] {
+				String.class, String.class, String.class
 			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
+		table.getColumnModel().getColumn(2).setPreferredWidth(113);
+		scrollPane.setViewportView(table);
+		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
-		//getting list of users.
+		//getting list of degrees.
 		DatabaseSelector dbSelector = new DatabaseSelector();
-		List <String[]> usersList = dbSelector.GetUsersList();
-		for( String[] row : usersList) {
-			model.addRow(new String[] {row[0], row[2]});
+		List <String[]> degreesList = dbSelector.GetDegreesList();
+		for( String[] row : degreesList) {
+			model.addRow(new String[] {row[0], row[1], row[2]});
 		}
-	}
-	
 
-	
-	protected void openAddUser() {		
-		AddUserGUI frame = new AddUserGUI();
+	}
+	protected void openAddDegree() {		
+		AddDegreeGUI frame = new AddDegreeGUI();
 		frame.setVisible(true);
 		dispose();		
 	}

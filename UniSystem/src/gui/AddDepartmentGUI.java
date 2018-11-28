@@ -103,10 +103,15 @@ public class AddDepartmentGUI extends JFrame {
 		Button cancel_button = new Button("Cancel");
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
+				openDepartments();
 			}
 		});
 		cancel_button.setBounds(71, 119, 90, 22);
 		contentPane.add(cancel_button);
+	}
+	protected void openDepartments() {		
+		DepartmentsGUI frame = new DepartmentsGUI();
+		frame.setVisible(true);
+		dispose();		
 	}
 }

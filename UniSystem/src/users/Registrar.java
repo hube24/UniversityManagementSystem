@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -32,8 +34,12 @@ SqlDriver sqldriver = new SqlDriver();
 		Degree degree = student.getDegree();
 
 		int registrationNum = student.getRegistrationID();
-
-
+		
+		
+		//obtain starting level for a particular degree
+		String beginningLvl = "1";
+		//if postgraduate entry, then starting level would be 4th level
+		if(degree.getCode().substring(4,5) == "P") beginningLvl = "4";
 
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
@@ -50,6 +56,7 @@ SqlDriver sqldriver = new SqlDriver();
 		            numOfRows += 1;
 		            
 		            email = forname.substring(0, 1) + surname + String.valueOf(numOfRows) +  universityDomain;
+		            student.setEmail(email);
 			}
 			
 			//check if username is already assigned to student
@@ -83,7 +90,7 @@ SqlDriver sqldriver = new SqlDriver();
 			if (rs2.next())
 				registrationNum = rs2.getInt(1);
 
-			
+			student.setRegistrationID(registrationNum);
 			
 			//register for initial period
 			String insertStuPerQ = "INSERT INTO StudentStudyPeriod (registrationNum, label, level)" + "VALUES (?, ?, ?)";
@@ -91,13 +98,23 @@ SqlDriver sqldriver = new SqlDriver();
 			pst5.setInt(1, registrationNum);
 			pst5.setString(2, periodOfStudy);
 			pst5.setString(2, periodOfStudy);
-			pst5.setString(3, "1"); // to change (if masters then lvl 4)
+			pst5.setString(3, beginningLvl); // to change (if masters then lvl 4)
 			pst5.executeUpdate();
 			
-			
-			
-			
 			con.close();
+			
+			//add core modules
+			Module[] coreModules = getCoreModules(degree,beginningLvl);
+			
+			for(Module m : coreModules)
+			{
+				if(!moduleRegister(m, student))
+				{
+					infoBox("Couldn't register student to core modules.", "Warning");
+					return false;
+				}
+			}
+			
 			return true;
 			
 		} catch (Exception exc) {
@@ -109,14 +126,60 @@ SqlDriver sqldriver = new SqlDriver();
 
 	}
 	
+	
+	Module[] getCoreModules(Degree degree, String level)
+	{
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+		  
+			PreparedStatement pst1 = con.prepareStatement("SELECT *" + 
+					"FROM ModuleDegree" + 
+					"WHERE CodeOfDegree = ? AND isCore = 'true' AND level = ? ;");
+			pst1.setString(1, degree.getCode());
+			pst1.setString(2, level);
+			ResultSet rs = pst1.executeQuery();
+			
+			int nCol = rs.getMetaData().getColumnCount();
+			List<Module> modules = new ArrayList<>();
+			
+			while( rs.next()) {
+			    Module m = new Module(rs.getString(1), "", 0);
+			    m.completeFromDB();
+			    modules.add( m );
+			}
+			
+			Module[] arr = modules.toArray(new Module[modules.size()]);
+		
+			
+		con.close();
+		return arr;
+		} catch (Exception exc) {
+			exc.printStackTrace();
+			return null;
+		}
+	}
+	
 	public boolean moduleRegister(Module module, Student student) {
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+			
+			//register for initial period
+			String insertStuPerQ = "INSERT INTO ModuleRegistration (registrationNum, codeOfModule)" + "VALUES (?, ?)";
+			PreparedStatement pst = con.prepareStatement(insertStuPerQ);
+			pst.setInt(1, student.getRegistrationID());
+			pst.setString(2, module.getCodeOfModule());
+			pst.executeUpdate();
+			
+			con.close();
+		} catch (Exception exc) {
+			
+			infoBox("Module could not be registered.", "Warning");
+			exc.printStackTrace();
+			return false;
+		}
 		return false;
 	}
-
-	public boolean degreeRegister(Degree degree, Student student) {
-		return false;
-	}
-
+	
+	
 	public boolean checkRegistration() {
 		return false;
 	}

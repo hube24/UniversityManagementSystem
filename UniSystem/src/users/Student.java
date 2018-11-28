@@ -60,5 +60,12 @@ import university.*;
 	 	return level;
 	}
 	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public void setRegistrationID(int registrationID) {
+		this.registrationID = registrationID;
+	}
 }
  

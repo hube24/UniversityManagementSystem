@@ -23,6 +23,7 @@ import database.Session;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class UsersGUI extends JFrame {
 
@@ -51,7 +52,7 @@ public class UsersGUI extends JFrame {
 	public UsersGUI(Session s) {
 		Session currSession =s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 818, 559);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,7 +61,7 @@ public class UsersGUI extends JFrame {
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		
 		JButton btnAddUser = new JButton("Add User");
-		btnAddUser.setBounds(303, 195, 117, 25);
+		btnAddUser.setBounds(605, 422, 168, 54);
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openAddUser(currSession);
@@ -75,14 +76,15 @@ public class UsersGUI extends JFrame {
 				openAdmin(currSession);
 			}
 		});
-		btnBack.setBounds(12, 195, 117, 25);
+		btnBack.setBounds(31, 422, 181, 54);
 		contentPane.add(btnBack);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 13, 408, 169);
+		scrollPane.setBounds(12, 13, 788, 368);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
@@ -120,7 +122,7 @@ public class UsersGUI extends JFrame {
 				
 			}
 		});
-		btnDeleteUser.setBounds(156, 195, 117, 25);
+		btnDeleteUser.setBounds(324, 422, 181, 54);
 		contentPane.add(btnDeleteUser);
 		
 		

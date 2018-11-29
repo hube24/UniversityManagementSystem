@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,12 +19,13 @@ import database.Session;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class DegreesGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private String index;
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +48,7 @@ public class DegreesGUI extends JFrame {
 	public DegreesGUI(Session s) {
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 877, 612);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,7 +62,7 @@ public class DegreesGUI extends JFrame {
 				openAdmin(currSession);
 			}
 		});
-		btnBack.setBounds(22, 200, 110, 25);
+		btnBack.setBounds(40, 472, 195, 61);
 		contentPane.add(btnBack);
 		
 		JButton btnAddDegree = new JButton("Add Degree");
@@ -68,14 +71,15 @@ public class DegreesGUI extends JFrame {
 				openAddDegree(currSession);
 			}
 		});
-		btnAddDegree.setBounds(299, 200, 110, 25);
+		btnAddDegree.setBounds(629, 472, 195, 61);
 		contentPane.add(btnAddDegree);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 13, 408, 174);
+		scrollPane.setBounds(12, 13, 835, 418);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {				
 			},
@@ -116,7 +120,7 @@ public class DegreesGUI extends JFrame {
 				}	
 			}
 		});
-		btnDeleteDegree.setBounds(159, 200, 113, 25);
+		btnDeleteDegree.setBounds(326, 472, 195, 61);
 		contentPane.add(btnDeleteDegree);		
 		
 		//getting list of degrees.
@@ -125,6 +129,14 @@ public class DegreesGUI extends JFrame {
 		for( String[] row : degreesList) {
 			model.addRow(new String[] {row[0], row[1], row[2]});
 		}
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	        public void valueChanged(ListSelectionEvent e) {
+	        	
+	        	index = table.getValueAt(table.getSelectedRow(), 0).toString();	        	
+	        	openModuleDegree(currSession, index);
+	        }			
+	    });
 
 	}
 	protected void openAddDegree(Session s) {		
@@ -137,5 +149,12 @@ public class DegreesGUI extends JFrame {
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
+	}
+	
+	protected void openModuleDegree(Session s, String i) {		
+		ModuleDegreeGUI frame = new ModuleDegreeGUI(s, i);
+		frame.setVisible(true);
+		index = i;
+		dispose();		
 	}
 }

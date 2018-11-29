@@ -112,9 +112,21 @@ public class DatabaseSelector extends SqlDriver{
 			return false;
 		}
 	}
-	
+	public List<String[]> getDegreesFromDepartment(String code){
+		
+		return GetTableList("SELECT * FROM Degree INNER JOIN DepartmentDegree ON Degree.codeOfDegree = DepartmentDegree.codeOfDegree "
+				+ "WHERE DepartmentDegree.codeOfDepartment = '"+ code + "';");
+				
+	}
+	public List<String[]> getModulesFromDegrees(String code){
+		
+		return GetTableList("SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule "
+				+ "WHERE ModuleDegree.codeOfDegree = '"+ code + "';");
+				
+	}
+
 	public List<String[]> GetDepartmentList()
-	{
+	{ 
 		return GetTableList("SELECT * FROM Department");
 	}	
 	

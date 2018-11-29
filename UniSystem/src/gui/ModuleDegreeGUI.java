@@ -2,13 +2,12 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -18,11 +17,9 @@ import database.Session;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.Font;
 
-public class ModulesGUI extends JFrame {
+public class ModuleDegreeGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -34,7 +31,7 @@ public class ModulesGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ModulesGUI frame = new ModulesGUI(null);
+					ModuleDegreeGUI frame = new ModuleDegreeGUI(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,61 +43,30 @@ public class ModulesGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ModulesGUI(Session s) {
+	public ModuleDegreeGUI(Session s, String index) {
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 848, 564);
+		setBounds(100, 100, 827, 512);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 13, 792, 379);
+		scrollPane.setBounds(12, 13, 785, 364);
 		contentPane.add(scrollPane);
 		
-		DatabaseSelector dbSelector = new DatabaseSelector();
-		
 		table = new JTable();
-		table.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Code", "Name", "Credits"
+				"Code of Module", "Name", "Credits", "Code of Degree", "Level", "Core Module"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-					String.class, String.class, String.class
-				};
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		scrollPane.setViewportView(table);
-		
-		JButton btnBack = new JButton("Back");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				openAdmin(currSession);
-			}
-		});
-		btnBack.setBounds(40, 430, 181, 49);
-		contentPane.add(btnBack);
-		
-		JButton btnAddModule = new JButton("Add Module");
-		btnAddModule.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				openAddModule(currSession);
-			}
-		});
-		btnAddModule.setBounds(604, 430, 187, 49);
-		contentPane.add(btnAddModule);
-		
+		));
+		DatabaseSelector dbSelector = new DatabaseSelector();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		scrollPane.setViewportView(table);
 		
 		JButton btnDeleteModule = new JButton("Delete Module");
 		btnDeleteModule.addActionListener(new ActionListener() {
@@ -120,25 +86,26 @@ public class ModulesGUI extends JFrame {
 				}
 			}
 		});
-		btnDeleteModule.setBounds(325, 430, 181, 49);
-		contentPane.add(btnDeleteModule);;
+		btnDeleteModule.setBounds(557, 400, 155, 40);
+		contentPane.add(btnDeleteModule);
 		
-		//getting list of modules.		
-		List <String[]> modulesList = dbSelector.GetModulesList();
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openDegrees(currSession);
+			}
+		});
+		btnCancel.setBounds(84, 400, 155, 40);
+		contentPane.add(btnCancel);
+		
+		List <String[]> modulesList = dbSelector.getModulesFromDegrees(index);
 		for( String[] row : modulesList) {
-			model.addRow(new String[] {row[0], row[1], row[2]});
-		}			
+			model.addRow(new String[] {row[0], row[1], row[2], row[4], row[5], row[6]});
+		}
 	}
-	
-	protected void openAddModule(Session s) {		
-		AddModuleGUI frame = new AddModuleGUI(s);
-		frame.setVisible(true);
-		dispose();		
-	}
-	
-	protected void openAdmin(Session s) {
-		AdminGUI frame = new AdminGUI(s);
+	protected void openDegrees(Session s) {
+		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);
 		dispose();
-	}	
+	}
 }

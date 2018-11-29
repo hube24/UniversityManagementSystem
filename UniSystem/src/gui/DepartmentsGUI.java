@@ -104,14 +104,15 @@ public class DepartmentsGUI extends JFrame {
 				int i = table.getSelectedRow();
 				if(i>=0) {			
 
-					boolean isNotEmpty = dbSelector.deleteDepartment(table.getValueAt(i, 0).toString());
-					if(isNotEmpty) {
+					boolean isEmpty = dbSelector.deleteDepartment(table.getValueAt(i, 0).toString());
+					if(isEmpty) {
 						model.removeRow(i);
+						JOptionPane.showMessageDialog(null, "Department has been successfuly deleted.");
 					}else {
-						JOptionPane.showMessageDialog(null, "Unable to Delete User. First Ask Registar to Delete this Student.");
+						JOptionPane.showMessageDialog(null, "Unable to delete department. First delete all degrees from it.");
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Unable to Delete. Select User.");
+					JOptionPane.showMessageDialog(null, "Unable to department. Select department.");
 				}		
 			}
 		});

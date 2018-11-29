@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
@@ -55,6 +56,8 @@ public class ModulesGUI extends JFrame {
 		scrollPane.setBounds(12, 13, 408, 162);
 		contentPane.add(scrollPane);
 		
+		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -95,8 +98,28 @@ public class ModulesGUI extends JFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
-		//getting list of modules.
-		DatabaseSelector dbSelector = new DatabaseSelector();
+		JButton btnDeleteModule = new JButton("Delete Module");
+		btnDeleteModule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = table.getSelectedRow();
+				if(i>=0) {			
+
+					boolean isEmpty = dbSelector.deleteModule(table.getValueAt(i, 0).toString());
+					if(isEmpty) {
+						model.removeRow(i);
+						JOptionPane.showMessageDialog(null, "Module has been successfuly deleted.");
+					}else {
+						JOptionPane.showMessageDialog(null, "Unable to delete module. First remove all students from it.");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Unable to delete. Select module.");
+				}
+			}
+		});
+		btnDeleteModule.setBounds(158, 188, 114, 25);
+		contentPane.add(btnDeleteModule);;
+		
+		//getting list of modules.		
 		List <String[]> modulesList = dbSelector.GetModulesList();
 		for( String[] row : modulesList) {
 			model.addRow(new String[] {row[0], row[1], row[2]});

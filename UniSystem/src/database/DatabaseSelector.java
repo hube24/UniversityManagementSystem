@@ -54,7 +54,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
-	public boolean existInDatabase(String query, String id) {
+	public boolean notInDatabase(String query, String id) {
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
 			PreparedStatement pst1 = con.prepareStatement(query);
 			pst1.setString(1, id);
@@ -76,7 +76,7 @@ public class DatabaseSelector extends SqlDriver{
 	
 	
 	public boolean deleteUser(String username) {
-		if(existInDatabase("SELECT * FROM Student WHERE username = ?", username)) {
+		if(notInDatabase("SELECT * FROM Student WHERE username = ?", username)) {
 			delete("DELETE FROM Users WHERE username = ?", username);
 			return true;
 		}else {
@@ -85,8 +85,28 @@ public class DatabaseSelector extends SqlDriver{
 	}	
 	
 	public boolean deleteDepartment(String code) {
-		if(existInDatabase("SELECT * FROM DepartmentDegree WHERE codeOfDepartment = ?", code)) {
-			delete("DELETE FROM Users WHERE username = ?", code);
+		if(notInDatabase("SELECT * FROM DepartmentDegree WHERE codeOfDepartment = ?", code)) {
+			delete("DELETE FROM Department WHERE codeOfDepartment = ?", code);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean deleteDegree(String code) {
+		if(notInDatabase("SELECT * FROM ModuleDegree WHERE codeOfDegree = ?", code)) {
+			delete("DELETE FROM DepartmentDegree WHERE codeOfDegree = ?", code);
+			delete("DELETE FROM Degree WHERE codeOfDegree = ?", code);			
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean deleteModule(String code) {
+		if(notInDatabase("SELECT * FROM ModuleRegistration WHERE codeOfModule = ?", code)) {
+			delete("DELETE FROM ModuleDegree WHERE codeOfModule = ?", code);
+			delete("DELETE FROM Module WHERE codeOfModule = ?", code);			
 			return true;
 		}else {
 			return false;

@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
@@ -50,6 +51,8 @@ public class DegreesGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -65,7 +68,7 @@ public class DegreesGUI extends JFrame {
 				openAddDegree(currSession);
 			}
 		});
-		btnAddDegree.setBounds(298, 200, 110, 25);
+		btnAddDegree.setBounds(299, 200, 110, 25);
 		contentPane.add(btnAddDegree);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -95,8 +98,29 @@ public class DegreesGUI extends JFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
+		JButton btnDeleteDegree = new JButton("Delete Degree");
+		btnDeleteDegree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i = table.getSelectedRow();
+				if(i>=0) {			
+
+					boolean isEmpty = dbSelector.deleteDegree(table.getValueAt(i, 0).toString());
+					if(isEmpty) {
+						model.removeRow(i);
+						JOptionPane.showMessageDialog(null, "Degree has been successfuly deleted.");
+					}else {
+						JOptionPane.showMessageDialog(null, "Unable to delete degree. First delete all modules from it.");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Unable to delete. Select degree.");
+				}	
+			}
+		});
+		btnDeleteDegree.setBounds(159, 200, 113, 25);
+		contentPane.add(btnDeleteDegree);		
+		
 		//getting list of degrees.
-		DatabaseSelector dbSelector = new DatabaseSelector();
+		
 		List <String[]> degreesList = dbSelector.GetDegreesList();
 		for( String[] row : degreesList) {
 			model.addRow(new String[] {row[0], row[1], row[2]});

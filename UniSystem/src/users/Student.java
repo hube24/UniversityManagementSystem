@@ -16,9 +16,6 @@ public class Student extends User {
 	private int registrationID;
 	private String forename;
 	private String surname;
-	private String startDate;
-	private String endDate;
-	private String level;
 	private String email;
 	private Degree degree;
 	private String tutor;
@@ -74,9 +71,6 @@ public class Student extends User {
 	public int getRegistrationID() {return this.registrationID;}
 	public String getForename() {return this.forename;}
 	public String getSurname() {return this.surname;}
-	public String getStartDate() {return this.startDate;}
-	public String getEndDate() {return this.endDate;}
-	public String getLevel() {return this.level;}
 	public String getEmail() {return this.email;}
 	public Degree getDegree() {return this.degree;}
 	public Grade getGrade() {return this.grade;}
@@ -88,5 +82,33 @@ public class Student extends User {
 	
 	public void setRegistrationID(int registrationID) {
 		this.registrationID = registrationID;
+	}
+	
+	public String getCurrentLevel() {
+		SqlDriver sqldriver = new SqlDriver();
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+			PreparedStatement pst1 = con.prepareStatement("SELECT level FROM StudentStudyPeriod " + 
+												 "WHERE registrationNum = ? AND label = (SELECT MAX(label) " +
+												 "FROM StudentStudyPeriod " +
+												 "WHERE registrationNum = ?) ");
+			pst1.setInt(1, this.registrationID);
+			pst1.setInt(2, this.registrationID);
+			
+			ResultSet rs = pst1.executeQuery();	
+			if(rs.next())
+			{
+				String lvl = (String)rs.getString(1);
+				con.close();
+				return lvl;
+			}
+			
+		con.close();	
+		return null;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

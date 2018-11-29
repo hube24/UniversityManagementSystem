@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import university.Degree;
+import users.Student;
+
 public class DatabaseSelector extends SqlDriver{
 
 	public DatabaseSelector() {
@@ -139,6 +142,22 @@ public class DatabaseSelector extends SqlDriver{
 
 	public List<String[]> GetPeriodsOfStudyList() {
 		return GetTableList("SELECT * FROM PeriodOfStudy");
+	}
+	
+	public List<String[]> getOptionalModules(Degree degree, String level)
+	{
+		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
+							" WHERE ModuleDegree.codeOfDegree = '" + degree.getCode() + "' AND ModuleDegree.isCore = '0' AND ModuleDegree.level = '" + level + "';");
+	}
+
+	public List<String[]> getRegisteredModules(Student student) {
+		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
+				            " WHERE ModuleRegistration.registrationNum = '" + student.getRegistrationID() + "';");
+	}
+	
+	public List<String[]> getCoreModulesList(Degree degree, String level) {
+		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
+				" WHERE ModuleDegree.codeOfDegree = '" + degree.getCode() + "' AND ModuleDegree.isCore = '1' AND ModuleDegree.level = '" + level + "';");
 	}
 	
 }

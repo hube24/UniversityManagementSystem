@@ -131,7 +131,7 @@ SqlDriver sqldriver = new SqlDriver();
 	{
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 		  
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM ModuleDegree WHERE codeOfDegree = ? AND isCore = 'true' AND level = ? ;");
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM ModuleDegree WHERE codeOfDegree = ? AND isCore = '1' AND level = ? ;");
 			pst1.setString(1, degree.getCode());
 			pst1.setString(2, level);
 			ResultSet rs = pst1.executeQuery();
@@ -167,16 +167,57 @@ SqlDriver sqldriver = new SqlDriver();
 			pst.setString(2, module.getCodeOfModule());
 			pst.executeUpdate();
 			
+			
 			con.close();
+			return true;
 		} catch (Exception exc) {
 			
 			infoBox("Module could not be registered.", "Warning");
 			exc.printStackTrace();
 			return false;
 		}
-		return false;
 	}
 	
+	public boolean addDropOptionalModules(List<Module> addModules, List<Module> dropModules, Student student)
+	{
+			try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+				
+				//add modules
+				for(Module module : addModules){
+					String insertMod= "INSERT INTO ModuleRegistration (codeOfModule, registrationNum) " +
+										   "SELECT ?, ? "+
+										   "FROM dual "+
+										   "WHERE NOT EXISTS (SELECT * "+
+										                      "FROM ModuleRegistration "+
+										                      "WHERE codeOfModule = ? "+
+										                      "AND registrationNum = ?); ";
+					PreparedStatement pst = con.prepareStatement(insertMod);
+					pst.setString(1, module.getCodeOfModule());
+					pst.setInt(2, student.getRegistrationID());
+					pst.setString(3, module.getCodeOfModule());
+					pst.setInt(4, student.getRegistrationID());
+					pst.executeUpdate();
+				}
+				
+				//drop modules
+				for(Module module : dropModules){
+					String insertMod= "DELETE FROM ModuleRegistration WHERE codeOfModule = ? AND registrationNum = ?";
+					PreparedStatement pst = con.prepareStatement(insertMod);
+					pst.setString(1, module.getCodeOfModule());
+					pst.setInt(2, student.getRegistrationID());
+					pst.executeUpdate();
+				}
+				
+				con.close();
+				return true;
+			} catch (Exception exc) {
+				
+				infoBox("Optional modules could not be modified", "Warning");
+				exc.printStackTrace();
+				return false;
+			}
+
+	}
 	
 	public boolean checkRegistration() {
 		return false;

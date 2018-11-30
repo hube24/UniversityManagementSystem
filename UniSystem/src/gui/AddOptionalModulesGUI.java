@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
@@ -38,6 +40,19 @@ public class AddOptionalModulesGUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+		    //recommended way to set Nimbus LaF because old versions of Java 6
+		    //don't have it included
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       if ("Nimbus".equals(info.getName())) {
+		           UIManager.setLookAndFeel(info.getClassName());
+		           break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -104,8 +119,8 @@ public class AddOptionalModulesGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblAddOptionalModules = new JLabel("Add/Drop optional modules : ");
-		lblAddOptionalModules.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
-		lblAddOptionalModules.setBounds(36, 41, 198, 26);
+		lblAddOptionalModules.setFont(new Font("Nirmala UI", Font.BOLD, 14));
+		lblAddOptionalModules.setBounds(36, 41, 216, 26);
 		contentPane.add(lblAddOptionalModules);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -132,7 +147,14 @@ public class AddOptionalModulesGUI extends JFrame {
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(207);
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		List <String[]> moduleList = dbSelector.getOptionalModules(student.getDegree(), level);
@@ -162,6 +184,7 @@ public class AddOptionalModulesGUI extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(267);
 		
 
 		List <String[]> registeredModuleList = dbSelector.getRegisteredModules(student);
@@ -203,7 +226,7 @@ public class AddOptionalModulesGUI extends JFrame {
 				
 			}
 		});
-		btnAddModules.setBounds(340, 373, 146, 23);
+		btnAddModules.setBounds(340, 373, 146, 34);
 		contentPane.add(btnAddModules);
 		
 		JButton btnNewButton = new JButton("<- Remove modules");
@@ -237,7 +260,7 @@ public class AddOptionalModulesGUI extends JFrame {
 				if(showalert) infoBox("Core modules cannot be removed.", "warning");
 			}
 		});
-		btnNewButton.setBounds(340, 83, 146, 23);
+		btnNewButton.setBounds(340, 72, 146, 34);
 		contentPane.add(btnNewButton);
 		
 		JButton btnSubmit = new JButton("Submit");
@@ -283,7 +306,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		contentPane.add(btnSubmit);
 		
 		JLabel lblSumOfCredits = new JLabel("Sum of credits: ");
-		lblSumOfCredits.setFont(new Font("Nirmala UI", Font.PLAIN, 12));
+		lblSumOfCredits.setFont(new Font("Nirmala UI", Font.BOLD, 12));
 		lblSumOfCredits.setBounds(634, 394, 130, 14);
 		contentPane.add(lblSumOfCredits);		
 

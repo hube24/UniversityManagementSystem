@@ -17,6 +17,8 @@ import java.awt.SystemColor;
 import java.awt.Button;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,7 +34,22 @@ public class LoginScreen extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+	
+		try {
+		    //recommended way to set Nimbus LaF because old versions of Java 6
+		    //don't have it included
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       if ("Nimbus".equals(info.getName())) {
+		           UIManager.setLookAndFeel(info.getClassName());
+		           break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
+		
 			public void run() {
 				try {
 					LoginScreen frame = new LoginScreen();

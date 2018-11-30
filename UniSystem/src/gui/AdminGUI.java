@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 
 import database.Session;
@@ -27,6 +29,20 @@ public class AdminGUI extends JFrame {
 	 */
 
 	public static void main(String[] args) {
+		
+		try {
+		    //recommended way to set Nimbus LaF because old versions of Java 6
+		    //don't have it included
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       if ("Nimbus".equals(info.getName())) {
+		           UIManager.setLookAndFeel(info.getClassName());
+		           break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

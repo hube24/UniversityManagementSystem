@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to add or drop optional modules for students
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;

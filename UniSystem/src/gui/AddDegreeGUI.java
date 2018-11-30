@@ -1,6 +1,7 @@
 package gui;
 
-
+/* A page to add a new degree with degree name, level, lead department and departments
+ */
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

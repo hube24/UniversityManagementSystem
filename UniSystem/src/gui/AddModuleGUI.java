@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to add a Module with name, 4 digit serial number, credits and main teaching department
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

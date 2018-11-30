@@ -1,5 +1,8 @@
 package gui;
 
+/* A page view degrees with code, degree name and level
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.List;

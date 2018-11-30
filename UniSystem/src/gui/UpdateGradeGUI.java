@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to change the grade including Initial Grade, Resit Grade, Repeat Grade, Final Grade of each module
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

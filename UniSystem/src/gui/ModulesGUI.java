@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to view modules including code, name credits
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

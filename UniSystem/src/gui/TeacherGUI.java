@@ -1,5 +1,7 @@
 package gui;
 
+/* The main page of Teachers, after entering student registernumber, to the page which can modify student's information
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to add a new student with surname, forename, title, degree, tutor, period of study and link with their username
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

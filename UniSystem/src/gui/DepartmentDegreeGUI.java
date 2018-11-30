@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to view department degree with code of degree, name of degree, code of department, lead department
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.List;

@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to view the list of grades including Initial Grade, Resit Grade, Repeat Grade, Final Grade of each module
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;

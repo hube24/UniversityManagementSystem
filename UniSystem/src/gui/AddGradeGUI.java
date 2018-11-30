@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to add initial grade of courses
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

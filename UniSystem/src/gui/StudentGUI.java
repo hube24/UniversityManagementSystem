@@ -1,5 +1,8 @@
 package gui;
 
+/* The main page of student, shows that the information about the student
+ */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

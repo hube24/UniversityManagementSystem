@@ -1,5 +1,7 @@
 package gui;
 
+/* The main page of Administrator with 4 sections(User,Department,Module,Degree)
+ */
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

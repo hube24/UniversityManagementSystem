@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to view module degree including code, name, credits, code of degree, level, core module
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.List;

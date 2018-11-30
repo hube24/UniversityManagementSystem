@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to view all the users with username and access level
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

@@ -1,5 +1,8 @@
 package gui;
 
+/* The login page of the system, after login, different users access to different pages
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

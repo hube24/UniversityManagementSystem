@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to view departments with code and name
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

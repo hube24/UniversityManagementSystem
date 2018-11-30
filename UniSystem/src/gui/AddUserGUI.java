@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to add a user with username, password, level of access(Administrator, Registrar, Teacher, Student)
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

@@ -46,123 +46,95 @@ public class StudentGUI extends JFrame {
 		Session currSession = s;
 		Student student = new Student(s.getUsername());
 		student.completeFromDB();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 577, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblTitle = new JLabel(student.getTitle());
-		lblTitle.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
-		
-		JLabel lblSurnameForename = new JLabel(student.getForename() +" "+ student.getSurname());
-		lblSurnameForename.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
-		
 		JLabel lblReg = new JLabel("Registration Number:");
+		lblReg.setBounds(30, 84, 184, 21);
 		lblReg.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblEm = new JLabel("Email:");
+		lblEm.setBounds(30, 111, 52, 21);
 		lblEm.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblDeg = new JLabel("Degree:");
+		lblDeg.setBounds(30, 165, 67, 21);
 		lblDeg.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblLvl = new JLabel("Current Level:");
+		lblLvl.setBounds(30, 192, 120, 21);
 		lblLvl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblPerT = new JLabel("Personal Tutor:");
+		lblPerT.setBounds(30, 219, 131, 21);
 		lblPerT.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
 		JLabel lblDep = new JLabel("Department:");
+		lblDep.setBounds(30, 138, 108, 21);
 		lblDep.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
-		JLabel lblRegistrationNumber = new JLabel(Integer.toString(student.getRegistrationID()));  
+		// labels to set : 
+		
+		JLabel lblSurnameForename = new JLabel("Mr Name Surname");
+		lblSurnameForename.setBounds(30, 28, 484, 41);
+		lblSurnameForename.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
+		
+		JLabel lblRegistrationNumber = new JLabel("100000");  
+		lblRegistrationNumber.setBounds(240, 84, 274, 21);
 		lblRegistrationNumber.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JLabel lblEmail = new JLabel(student.getEmail());
+				
+		JLabel lblEmail = new JLabel("email");
+		lblEmail.setBounds(240, 106, 274, 31);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JLabel lblDepartment = new JLabel("student.getDegree().getLeadDepartment()");
+				
+		JLabel lblDepartment = new JLabel("department");
+		lblDepartment.setBounds(240, 133, 274, 31);
 		lblDepartment.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JLabel lblDegree = new JLabel("student.getDegree().getCode()+ - +student.getDegree().getName()");
+				
+		JLabel lblDegree = new JLabel("degree");
+		lblDegree.setBounds(240, 160, 274, 31);
 		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JLabel lblCurrentLevel = new JLabel(student.getCurrentLevel());
+				
+		JLabel lblCurrentLevel = new JLabel("level");
+		lblCurrentLevel.setBounds(240, 186, 274, 33);
 		lblCurrentLevel.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		JLabel lblPersonalTutor = new JLabel(student.getPersonalTutor());
+			
+		JLabel lblPersonalTutor = new JLabel("tutor");
+		lblPersonalTutor.setBounds(240, 213, 274, 33);
 		lblPersonalTutor.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			
+		contentPane.setLayout(null);
 		
-		
+				
 		JSeparator separator = new JSeparator();
+		separator.setBounds(30, 64, 484, 9);
 		separator.setForeground(Color.DARK_GRAY);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(25)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(separator, Alignment.LEADING)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblReg)
-								.addComponent(lblEm)
-								.addComponent(lblDep)
-								.addComponent(lblDeg)
-								.addComponent(lblLvl)
-								.addComponent(lblPerT))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPersonalTutor)
-								.addComponent(lblCurrentLevel)
-								.addComponent(lblDegree)
-								.addComponent(lblDepartment)
-								.addComponent(lblEmail)
-								.addComponent(lblRegistrationNumber)))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblTitle)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblSurnameForename)))
-					.addContainerGap(169, Short.MAX_VALUE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(29)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblSurnameForename))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
-					.addGap(30)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblReg)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblEm)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDep)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDeg)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblLvl)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblPerT))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblRegistrationNumber)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblEmail)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDepartment)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDegree)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblCurrentLevel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblPersonalTutor)))
-					.addGap(224))
-		);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.add(separator);
+		contentPane.add(lblReg);
+		contentPane.add(lblEm);
+		contentPane.add(lblDep);
+		contentPane.add(lblDeg);
+		contentPane.add(lblLvl);
+		contentPane.add(lblPerT);
+		contentPane.add(lblDepartment);
+		contentPane.add(lblEmail);
+		contentPane.add(lblRegistrationNumber);
+		contentPane.add(lblPersonalTutor);
+		contentPane.add(lblCurrentLevel);
+		contentPane.add(lblDegree);
+		contentPane.add(lblSurnameForename);
+		
+		
+		lblSurnameForename.setText(student.getTitle() + " " + student.getForename() + " " + student.getSurname());
+		lblRegistrationNumber.setText(Integer.toString(student.getRegistrationID()));
+		lblDepartment.setText(student.getDegree().getLeadDepartment().getCode() + " " + student.getDegree().getLeadDepartment().getName());
+		lblDegree.setText(student.getDegree().getCode() + " - " + student.getDegree().getName());
+		lblCurrentLevel.setText(student.getCurrentLevel());
+		lblPersonalTutor.setText(student.getPersonalTutor());
+		
 	}
 }

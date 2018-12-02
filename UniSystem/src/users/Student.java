@@ -65,7 +65,6 @@ public class Student extends User {
 			
 			if(rs.next()) {
 			 registrationNum= rs.getInt(1);
-			 //codeOfDegree= rs.getString(2);
 			 username= rs.getString(3);
 			 title= rs.getString(4);
 			 surname= rs.getString(5);
@@ -75,6 +74,10 @@ public class Student extends User {
 			} else {
 				System.out.print("no student with given degree.");
 			}
+			
+			degree = new Degree(rs.getString(2));
+			degree.completeFromDB();
+			
 			con.close();
 		} catch (Exception e) {			
 			e.printStackTrace();

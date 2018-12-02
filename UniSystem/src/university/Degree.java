@@ -14,7 +14,7 @@ public class Degree {
 	String name;
 	String code;
 	int numberOfLevels;
-	String leadDepartment;
+	Department leadDepartment;
 	Department[] listOfDepartments;
 	Module[] listOfModules;
 	
@@ -50,6 +50,9 @@ public class Degree {
 			if( rs.next()) {
 	            name = rs.getString( 2 );
 	            numberOfLevels = rs.getInt( 3 );
+	            leadDepartment = new Department(code.substring(0,3));
+	            leadDepartment.completeFromDB();
+	            
 			}else{
 				System.out.print("no degree with given code");
 			}
@@ -71,7 +74,7 @@ public class Degree {
 		return code;
 	}
 	
-	public String getLeadDepartment() {
+	public Department getLeadDepartment() {
 		return leadDepartment;
 	}
 	
@@ -83,7 +86,7 @@ public class Degree {
 		return listOfDepartments;
 	}
 	
-	public void setLeadDepartment(String leadDepartment) {
+	public void setLeadDepartment(Department leadDepartment) {
 		this.leadDepartment = leadDepartment;
 	}
 	

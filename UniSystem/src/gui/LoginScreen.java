@@ -79,9 +79,22 @@ public class LoginScreen extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.GRAY);
+		panel.setBackground(new Color(0, 102, 204));
 		panel.setBounds(0, 0, 214, 303);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("LIBRUS 2.0");
+		lblNewLabel.setFont(new Font("Nirmala UI", Font.BOLD, 22));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(10, 66, 134, 52);
+		panel.add(lblNewLabel);
+		
+		JLabel lblLogIn = new JLabel("LOG IN TO");
+		lblLogIn.setForeground(Color.WHITE);
+		lblLogIn.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		lblLogIn.setBounds(10, 44, 134, 52);
+		panel.add(lblLogIn);
 		
 		JLabel lblAlert = new JLabel("Invalid username or password");
 		lblAlert.setForeground(Color.RED);
@@ -98,8 +111,6 @@ public class LoginScreen extends JFrame {
 				String username = textField.getText();
 				String password = String.valueOf(passwordField.getPassword());
 				
-				username = username.replaceAll(" ", "");
-				password = password.replaceAll(" ", "");
 				
 				if(!username.isEmpty() && !password.isEmpty())
 				{
@@ -145,7 +156,7 @@ public class LoginScreen extends JFrame {
 		contentPane.add(button);
 		
 		textField = new JTextField();
-		textField.setBounds(278, 84, 224, 20);
+		textField.setBounds(278, 84, 224, 31);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -154,27 +165,27 @@ public class LoginScreen extends JFrame {
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(278, 117, 65, 14);
+		lblPassword.setBounds(278, 126, 65, 14);
 		contentPane.add(lblPassword);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(278, 142, 224, 20);
+		passwordField.setBounds(278, 151, 224, 31);
 		contentPane.add(passwordField);
 		
 		
 	}
 
 	
-	protected void openStudentScreen( Session currSession ) {
+	protected void openStudentScreen( Session s ) {
 		// TODO Auto-generated method stub
-		StudentGUI frame = new StudentGUI(currSession);
+		StudentGUI frame = new StudentGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}
 
-	protected void openAdminScreen(  Session currSession ) {
+	protected void openAdminScreen(  Session s ) {
 		// TODO Auto-generated method stub
-		AdminGUI frame = new AdminGUI(currSession);
+		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}

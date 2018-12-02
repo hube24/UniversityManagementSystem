@@ -172,4 +172,33 @@ public class DatabaseSelector extends SqlDriver{
 				" WHERE ModuleDegree.codeOfDegree = '" + degree.getCode() + "' AND ModuleDegree.isCore = '1' AND ModuleDegree.level = '" + level + "';");
 	}
 	
+	public List<String[]> GetStudentsList() {
+		return GetTableList("SELECT * FROM Student");
+	}
+	
+	public int getCount(String query)
+	{
+		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement(query);
+			ResultSet rs = pst1.executeQuery();			
+			if(rs.next()) {
+				int count = rs.getInt(1);
+				con.close();
+				return count;
+			}
+			
+			con.close();
+			return 0; 
+			
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} 
+		return 0;
+	}
+
+	
+	public int getStudentCount(){
+		return getCount("SELECT COUNT(*) FROM Student");
+	}
+	
 }

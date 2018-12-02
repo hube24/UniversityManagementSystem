@@ -13,7 +13,7 @@ import database.SqlDriver;
 public class Student extends User {
 	
 	private String title;
-	private int registrationID;
+	private int registrationNum = -1;
 	private String forename;
 	private String surname;
 	private String email;
@@ -22,47 +22,13 @@ public class Student extends User {
 	private Grade grade;
 	Statement pst1 = null;
 	
-	public Student displayStatus(Student student) {
-		
-		SqlDriver sqldriver = new SqlDriver();
-		
-		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			Statement pst1 = con.createStatement();
-			ResultSet r1 = pst1.executeQuery("SELECT * FROM Student");
-			int x1= r1.getInt(1);
-			String x2= r1.getString(2);
-			String x3= r1.getString(3);
-			String x4= r1.getString(4);
-			String x5= r1.getString(5);
-			String x6= r1.getString(6);
-			String x7= r1.getString(7);
-			String x8= r1.getString(8);
-			String x9= r1.getString(9);
-			
-			return student(x1,x2,x3,x4,x5,x6,x7,x8,x9);
-					
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			e.printStackTrace();
-		}return student(0,null,null,null,null,null,null,null,null);
-	}
-
-	
-	public Student(int reg)
-	{
-		registrationID = reg;
-	}
-	
-	private Student student(int i, Object object, Object object2, Object object3, Object object4, Object object5,
-			Object object6, Object object7, Object object8) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
- 	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
+	public Student(String u) {
 		username = u;
- 		registrationID = r;
+	}
+	
+	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
+		username = u;
+ 		registrationNum = r;
 		title = t;
 		surname = s;
 		forename = f;
@@ -71,10 +37,45 @@ public class Student extends User {
 		tutor = tut;
 		grade = g;
 	}
+	
+	//this function completes Student's info from database, by registration number.
+	public void completeFromDB() {
+		
 
-
+		SqlDriver sqldriver = new SqlDriver();
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+			
+			Statement pst1 = con.createStatement();
+			ResultSet rs;
+			if(username.equals(null) && registrationNum == -1){
+				System.out.print("no registrationNumber is given.");
+				return;
+			} if (username.equals(null)) {
+				rs = pst1.executeQuery("SELECT * FROM Student WHERE registrationNum = '" + registrationNum + "'");
+			}else {			
+				rs = pst1.executeQuery("SELECT * FROM Student WHERE username = '" + username + "'");
+			}			
+			
+			if(rs.next()) {
+			int registrationNum= rs.getInt(1);
+			String codeOfDegree= rs.getString(2);
+			String username= rs.getString(3);
+			String title= rs.getString(4);
+			String surname= rs.getString(5);
+			String forename= rs.getString(6);
+			String email= rs.getString(7);
+			String personalTutor= rs.getString(8);				
+			} else {
+				System.out.print("no student with given degree.");
+			}
+			con.close();
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+	}
 	public String getTitle() {return this.title;}
-	public int getRegistrationID() {return this.registrationID;}
+	public int getRegistrationID() {return this.registrationNum;}
 	public String getForename() {return this.forename;}
 	public String getSurname() {return this.surname;}
 	public String getEmail() {return this.email;}
@@ -87,7 +88,7 @@ public class Student extends User {
 	}
 	
 	public void setRegistrationID(int registrationID) {
-		this.registrationID = registrationID;
+		this.registrationNum = registrationID;
 	}
 	
 	public String getCurrentLevel() {
@@ -98,8 +99,8 @@ public class Student extends User {
 												 "WHERE registrationNum = ? AND label = (SELECT MAX(label) " +
 												 "FROM StudentStudyPeriod " +
 												 "WHERE registrationNum = ?) ");
-			pst1.setInt(1, this.registrationID);
-			pst1.setInt(2, this.registrationID);
+			pst1.setInt(1, this.registrationNum);
+			pst1.setInt(2, this.registrationNum);
 			
 			ResultSet rs = pst1.executeQuery();	
 			if(rs.next())
@@ -117,64 +118,4 @@ public class Student extends User {
 			return null;
 		}
 	}
-	
-	public String getCurrentPeriodOfStudy()
-	{
-		SqlDriver sqldriver = new SqlDriver();
-		
-		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-		PreparedStatement pst1 = con.prepareStatement("SELECT * FROM PeriodOfStudy WHERE label = "+
-														 "( SELECT MAX(label) " +
-														 "FROM StudentStudyPeriod " +
-														 "WHERE registrationNum = ?)");
-			pst1.setInt(1, this.registrationID);
-			ResultSet rs = pst1.executeQuery();	
-			
-			String label;
-			String startDate;
-			String endDate;
-			if(rs.next())
-			{
-				label =  (String)rs.getString(1);
-				startDate = (String)rs.getString(2);
-				endDate =  (String)rs.getString(3);
-				System.out.println(label);
-				return label; //+ " " + startDate + "-" + endDate;
-			}else{
-				con.close();	
-				return "";
-			}
-			
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			e.printStackTrace();
-			return "";
-		}
-	}
-	
-	public int getRegisteredCredits( String periodLabel) {
-		SqlDriver sqldriver = new SqlDriver();
-		
-		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
-		            " WHERE ModuleRegistration.registrationNum = ? ;");
-			pst1.setInt(1, this.registrationID);
-			ResultSet rs = pst1.executeQuery();	
-			
-			int credSum = 0;
-			
-			while(rs.next())
-			{
-				credSum += (int)rs.getInt(3);
-			}
-			
-		con.close();	
-		return credSum;
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			e.printStackTrace();
-			return 0;
-		}
-	}
-	
 }

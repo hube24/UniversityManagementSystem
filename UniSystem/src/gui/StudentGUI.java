@@ -1,148 +1,167 @@
 package gui;
 
-/* The main page of student, shows that the information about the student
- */
-
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import database.Session;
+import users.Student;
+
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JSeparator;
+import java.awt.Color;
 
-public class StudentGUI {
+public class StudentGUI extends JFrame {
 
- private JFrame frame;
- private JTextField textField;
- private JTextField textField_1;
- private JTextField textField_2;
- private JTextField textField_3;
- private JTextField textField_4;
- private JTextField textField_5;
- private JTextField textField_6;
- private JTextField textField_7;
- private JTextField textField_8;
+	private JPanel contentPane;
 
- /**
-  * Launch the application.
-  */
- public static void main(String[] args) {
-  EventQueue.invokeLater(new Runnable() {
-   public void run() {
-    try {
-     StudentGUI window = new StudentGUI();
-     window.frame.setVisible(true);
-    } catch (Exception e) {
-     e.printStackTrace();
-    }
-   }
-  });
- }
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StudentGUI frame = new StudentGUI(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
- /**
-  * Create the application.
-  */
- public StudentGUI() {
-  initialize();
- }
-
- /**
-  * Initialize the contents of the frame.
-  */
- private void initialize() {
-  frame = new JFrame();
-  frame.setBounds(100, 100, 450, 300);
-  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  frame.getContentPane().setLayout(null);
-  
-  JLabel lblHelloStudent = new JLabel("Hello Student");
-  lblHelloStudent.setBounds(178, 6, 85, 16);
-  frame.getContentPane().add(lblHelloStudent);
-  
-  JLabel lblRegisterNumber = new JLabel("Register Number");
-  lblRegisterNumber.setBounds(6, 65, 105, 16);
-  frame.getContentPane().add(lblRegisterNumber);
-  
-  JLabel lblNewLabel = new JLabel("Title");
-  lblNewLabel.setBounds(33, 98, 61, 16);
-  frame.getContentPane().add(lblNewLabel);
-  
-  JLabel lblSurname = new JLabel("Surname");
-  lblSurname.setBounds(20, 126, 61, 16);
-  frame.getContentPane().add(lblSurname);
-  
-  JLabel lblForename = new JLabel("Forename");
-  lblForename.setBounds(20, 165, 61, 16);
-  frame.getContentPane().add(lblForename);
-  
-  JLabel lblEmail = new JLabel("Email");
-  lblEmail.setBounds(33, 203, 61, 16);
-  frame.getContentPane().add(lblEmail);
-  
-  JLabel lblLevel = new JLabel("Username");
-  lblLevel.setBounds(242, 65, 70, 16);
-  frame.getContentPane().add(lblLevel);
-  
-  textField = new JTextField();
-  textField.setBounds(113, 60, 105, 26);
-  frame.getContentPane().add(textField);
-  textField.setColumns(10);
-  
-  textField_1 = new JTextField();
-  textField_1.setColumns(10);
-  textField_1.setBounds(113, 126, 105, 26);
-  frame.getContentPane().add(textField_1);
-  
-  textField_2 = new JTextField();
-  textField_2.setColumns(10);
-  textField_2.setBounds(113, 160, 105, 26);
-  frame.getContentPane().add(textField_2);
-  
-  textField_3 = new JTextField();
-  textField_3.setColumns(10);
-  textField_3.setBounds(113, 198, 105, 21);
-  frame.getContentPane().add(textField_3);
-  
-  textField_4 = new JTextField();
-  textField_4.setColumns(10);
-  textField_4.setBounds(314, 65, 105, 26);
-  frame.getContentPane().add(textField_4);
-  
-  textField_5 = new JTextField();
-  textField_5.setColumns(10);
-  textField_5.setBounds(314, 103, 105, 26);
-  frame.getContentPane().add(textField_5);
-  
-  textField_6 = new JTextField();
-  textField_6.setColumns(10);
-  textField_6.setBounds(314, 141, 105, 26);
-  frame.getContentPane().add(textField_6);
-  
-  textField_7 = new JTextField();
-  textField_7.setColumns(10);
-  textField_7.setBounds(314, 179, 105, 26);
-  frame.getContentPane().add(textField_7);
-  
-  textField_8 = new JTextField();
-  textField_8.setColumns(10);
-  textField_8.setBounds(113, 93, 105, 26);
-  frame.getContentPane().add(textField_8);
-  
-  JLabel lblDegree = new JLabel("Degree");
-  lblDegree.setBounds(250, 106, 52, 21);
-  frame.getContentPane().add(lblDegree);
-  
-  JLabel lblTutor = new JLabel("Tutor");
-  lblTutor.setBounds(260, 146, 36, 16);
-  frame.getContentPane().add(lblTutor);
-  
-  JLabel label_2 = new JLabel("level");
-  label_2.setBounds(260, 184, 36, 16);
-  frame.getContentPane().add(label_2);
-  
-  JButton btnStatus = new JButton("Status");
-  btnStatus.setBounds(165, 243, 117, 29);
-  frame.getContentPane().add(btnStatus);
- }
-
+	/**
+	 * Create the frame.
+	 */
+	public StudentGUI(Session s) {
+		Session currSession = s;
+		Student student = new Student(s.getUsername());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 577, 548);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		
+		JLabel lblTitle = new JLabel(student.getTitle());
+		lblTitle.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
+		
+		JLabel lblSurnameForename = new JLabel(student.getForename() +" "+ student.getSurname());
+		lblSurnameForename.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
+		
+		JLabel lblReg = new JLabel("Registration Number:");
+		lblReg.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblEm = new JLabel("Email:");
+		lblEm.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblDeg = new JLabel("Degree:");
+		lblDeg.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblLvl = new JLabel("Current Level:");
+		lblLvl.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblPerT = new JLabel("Personal Tutor:");
+		lblPerT.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblDep = new JLabel("Department:");
+		lblDep.setFont(new Font("Tahoma", Font.BOLD, 17));
+		
+		JLabel lblRegistrationNumber = new JLabel(Integer.toString(student.getRegistrationID()));  
+		lblRegistrationNumber.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblEmail = new JLabel(student.getEmail());
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblDepartment = new JLabel("student.getDegree().getLeadDepartment()");
+		lblDepartment.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblDegree = new JLabel("student.getDegree().getCode()+ - "+student.getDegree().getName());
+		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblCurrentLevel = new JLabel(student.getCurrentLevel());
+		lblCurrentLevel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblPersonalTutor = new JLabel(student.getPersonalTutor());
+		lblPersonalTutor.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		
+		JSeparator separator = new JSeparator();
+		separator.setForeground(Color.DARK_GRAY);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(25)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(separator, Alignment.LEADING)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblReg)
+								.addComponent(lblEm)
+								.addComponent(lblDep)
+								.addComponent(lblDeg)
+								.addComponent(lblLvl)
+								.addComponent(lblPerT))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblPersonalTutor)
+								.addComponent(lblCurrentLevel)
+								.addComponent(lblDegree)
+								.addComponent(lblDepartment)
+								.addComponent(lblEmail)
+								.addComponent(lblRegistrationNumber)))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addComponent(lblTitle)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblSurnameForename)))
+					.addContainerGap(169, Short.MAX_VALUE))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(29)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblSurnameForename))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblReg)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblEm)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDep)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDeg)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblLvl)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblPerT))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblRegistrationNumber)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblEmail)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDepartment)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDegree)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblCurrentLevel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblPersonalTutor)))
+					.addGap(224))
+		);
+		contentPane.setLayout(gl_contentPane);
+	}
 }

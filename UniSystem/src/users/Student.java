@@ -26,6 +26,12 @@ public class Student extends User {
 		username = u;
 	}
 	
+	
+	public Student(int reg)
+	{
+		registrationNum = reg;
+	}
+	
 	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
 		username = u;
  		registrationNum = r;
@@ -118,4 +124,63 @@ public class Student extends User {
 			return null;
 		}
 	}
+	
+	public String getCurrentPeriodOfStudy()
+	{
+		SqlDriver sqldriver = new SqlDriver();
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+		PreparedStatement pst1 = con.prepareStatement("SELECT * FROM PeriodOfStudy WHERE label = "+
+														 "( SELECT MAX(label) " +
+														 "FROM StudentStudyPeriod " +
+														 "WHERE registrationNum = ?)");
+			pst1.setInt(1, this.registrationNum);
+			ResultSet rs = pst1.executeQuery();	
+			
+			String label;
+			String startDate;
+			String endDate;
+			if(rs.next())
+			{
+				label =  (String)rs.getString(1);
+				startDate = (String)rs.getString(2);
+				endDate =  (String)rs.getString(3);
+				return label; //+ " " + startDate + "-" + endDate;
+			}else{
+				con.close();	
+				return "";
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
+	public int getRegisteredCredits( String periodLabel) {
+		SqlDriver sqldriver = new SqlDriver();
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
+		            " WHERE ModuleRegistration.registrationNum = ? ;");
+			pst1.setInt(1, this.registrationNum);
+			ResultSet rs = pst1.executeQuery();	
+			
+			int credSum = 0;
+			
+			while(rs.next())
+			{
+				credSum += (int)rs.getInt(3);
+			}
+			
+		con.close();	
+		return credSum;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 }

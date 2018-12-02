@@ -167,8 +167,8 @@ public class LoginScreen extends JFrame {
 	
 	protected void openStudentScreen( Session currSession ) {
 		// TODO Auto-generated method stub
-		//StudentGUI frame = new StudentGUI(currSession);
-		//frame.setVisible(true);
+		StudentGUI frame = new StudentGUI(currSession);
+		frame.setVisible(true);
 		dispose();
 	}
 

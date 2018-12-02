@@ -64,14 +64,14 @@ public class Student extends User {
 			}			
 			
 			if(rs.next()) {
-			int registrationNum= rs.getInt(1);
-			String codeOfDegree= rs.getString(2);
-			String username= rs.getString(3);
-			String title= rs.getString(4);
-			String surname= rs.getString(5);
-			String forename= rs.getString(6);
-			String email= rs.getString(7);
-			String personalTutor= rs.getString(8);				
+			 registrationNum= rs.getInt(1);
+			 //codeOfDegree= rs.getString(2);
+			 username= rs.getString(3);
+			 title= rs.getString(4);
+			 surname= rs.getString(5);
+			 forename= rs.getString(6);
+			 email= rs.getString(7);
+			 tutor= rs.getString(8);				
 			} else {
 				System.out.print("no student with given degree.");
 			}

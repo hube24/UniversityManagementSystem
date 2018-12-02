@@ -45,6 +45,7 @@ public class StudentGUI extends JFrame {
 	public StudentGUI(Session s) {
 		Session currSession = s;
 		Student student = new Student(s.getUsername());
+		student.completeFromDB();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 577, 548);
 		contentPane = new JPanel();
@@ -84,7 +85,7 @@ public class StudentGUI extends JFrame {
 		JLabel lblDepartment = new JLabel("student.getDegree().getLeadDepartment()");
 		lblDepartment.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		JLabel lblDegree = new JLabel("student.getDegree().getCode()+ - "+student.getDegree().getName());
+		JLabel lblDegree = new JLabel("student.getDegree().getCode()+ - +student.getDegree().getName()");
 		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
 		JLabel lblCurrentLevel = new JLabel(student.getCurrentLevel());

@@ -74,7 +74,7 @@ public class RegistrarGUI extends JFrame {
 		loadStudentTask.execute();
 	}
 	
-	
+	/*
 	public static void run(){
 		
 	try {
@@ -99,7 +99,7 @@ public class RegistrarGUI extends JFrame {
 		Progress loadStudentTask = new Progress(table, progressBar, panel, MY_MAXIMUM);
 		loadStudentTask.execute();
 	}
-
+*/
 	
 	/**
 	 * Create the frame.
@@ -108,7 +108,7 @@ public class RegistrarGUI extends JFrame {
 		Session currSession = s;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 701, 440);
+		setBounds(100, 100, 1000, 440);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -116,7 +116,7 @@ public class RegistrarGUI extends JFrame {
 		
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(14, 12, 645, 370);
+		panel.setBounds(14, 12, 960, 370);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -125,12 +125,12 @@ public class RegistrarGUI extends JFrame {
 		
 		JLabel lblLoadingListOf = new JLabel("Loading list of students...");
 		lblLoadingListOf.setFont(new Font("Nirmala UI", Font.PLAIN, 18));
-		lblLoadingListOf.setBounds(150, 150, 279, 28);
+		lblLoadingListOf.setBounds(320, 129, 279, 28);
 		panel.add(lblLoadingListOf);
 		
 		JLabel lblObtainingNumbersOf = new JLabel("Obtaining numbers of credits...");
 		lblObtainingNumbersOf.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
-		lblObtainingNumbersOf.setBounds(242, 180, 296, 21);
+		lblObtainingNumbersOf.setBounds(420, 168, 296, 21);
 		panel.add(lblObtainingNumbersOf);
 		
 		JLabel lblWelcomeRegistrar = new JLabel("Welcome Registrar");
@@ -143,7 +143,7 @@ public class RegistrarGUI extends JFrame {
 		contentPane.add(separator);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 69, 596, 254);
+		scrollPane.setBounds(27, 69, 933, 254);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -168,11 +168,15 @@ public class RegistrarGUI extends JFrame {
 		
 		table.getColumnModel().getColumn(4).setCellRenderer(new ColourTableCellRenderer());
 		
+		table.setRowHeight(35);
+		
 		JLabel creditsNum = new JLabel();
 		creditsNum.setText("0");
 		table.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
 		
 		scrollPane.setViewportView(table);
+		
+		RegistrarGUI myself = this;
 		
 		Action open = new AbstractAction()
 		{
@@ -187,7 +191,7 @@ public class RegistrarGUI extends JFrame {
 		        
 		        Student student = new Student(regNum);
 		        student.completeFromDB();
-		        AddOptionalModulesGUI frame = new AddOptionalModulesGUI(currSession, student);
+		        AddOptionalModulesGUI frame = new AddOptionalModulesGUI(currSession, student, myself, modelRow);
 		        frame.setVisible(true);
 		    }
 
@@ -200,10 +204,15 @@ public class RegistrarGUI extends JFrame {
 		MY_MAXIMUM = dbSelector.getStudentCount();
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		progressBar.setBounds(130, 212, 418, 28);
+		progressBar.setBounds(272, 215, 418, 28);
 		progressBar.setMaximum(MY_MAXIMUM);
 		panel.add(progressBar);
 
+	}
+
+	public void updateTableRecord(int registrationID, int sumOfCredits, int row) {
+		// TODO Auto-generated method stub
+		table.getModel().setValueAt(sumOfCredits, row, 4);
 	}
 	
 

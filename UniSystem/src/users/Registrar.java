@@ -182,6 +182,8 @@ SqlDriver sqldriver = new SqlDriver();
 	{
 			try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 				
+				System.out.println("number of add modules: " + addModules.size());
+				
 				//add modules
 				for(Module module : addModules){
 					String insertMod= "INSERT INTO ModuleRegistration (codeOfModule, registrationNum) " +
@@ -197,8 +199,12 @@ SqlDriver sqldriver = new SqlDriver();
 					pst.setString(3, module.getCodeOfModule());
 					pst.setInt(4, student.getRegistrationID());
 					pst.executeUpdate();
+					
+					System.out.println("added module: " + module.getCodeOfModule());
 				}
 				
+				
+				System.out.println("number of drop modules: " + dropModules.size());
 				//drop modules
 				for(Module module : dropModules){
 					String insertMod= "DELETE FROM ModuleRegistration WHERE codeOfModule = ? AND registrationNum = ?";
@@ -206,13 +212,15 @@ SqlDriver sqldriver = new SqlDriver();
 					pst.setString(1, module.getCodeOfModule());
 					pst.setInt(2, student.getRegistrationID());
 					pst.executeUpdate();
+					
+					System.out.println("droped module: " + module.getCodeOfModule());
 				}
 				
 				con.close();
 				return true;
 			} catch (Exception exc) {
 				
-				infoBox("Optional modules could not be modified", "Warning");
+				infoBox("Optional modules could not been modified", "Warning");
 				exc.printStackTrace();
 				return false;
 			}

@@ -38,7 +38,8 @@ public class AddOptionalModulesGUI extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTable table_1;
-
+	private RegistrarGUI parentFrame;
+	private int modelRow;
 	/**
 	 * Launch the application.
 	 */
@@ -61,10 +62,10 @@ public class AddOptionalModulesGUI extends JFrame {
 				try {
 					
 					
-					Student stu = new Student("",100009, "","","","",new Degree("", "COMU03", 3), "", null);
+					Student stu = new Student("",100008, "","","","",new Degree("", "COMU03", 3), "", null);
 					
 					
-					AddOptionalModulesGUI frame = new AddOptionalModulesGUI(null,stu);
+					AddOptionalModulesGUI frame = new AddOptionalModulesGUI(null,stu, null,0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -100,8 +101,11 @@ public class AddOptionalModulesGUI extends JFrame {
 	}	
 	/**
 	 * Create the frame.
+	 * @param modelRow 
 	 */
-	public AddOptionalModulesGUI(Session s, Student student) {
+	public AddOptionalModulesGUI(Session s, Student student, RegistrarGUI pf, int r ) {
+		parentFrame = pf;
+		modelRow = r;
 		Session currSession = s;
 		
 		//String level = student.getCurrentLevel();
@@ -302,6 +306,9 @@ public class AddOptionalModulesGUI extends JFrame {
 				if(registrar.addDropOptionalModules(addModules, dropModules, student)){
 					infoBox("Modules updated successfully!", "Done.");
 				}	
+				
+				parentFrame.updateTableRecord(student.getRegistrationID(), sumOfCredits, modelRow);
+				dispose();
 			}
 		});
 		btnSubmit.setFont(new Font("Nirmala UI", Font.PLAIN, 11));

@@ -8,6 +8,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.Session;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -29,7 +32,7 @@ public class TeacherGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TeacherGUI frame = new TeacherGUI();
+					TeacherGUI frame = new TeacherGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +44,8 @@ public class TeacherGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TeacherGUI() {
+	public TeacherGUI(Session s) {
+		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -72,7 +76,7 @@ public class TeacherGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				setVisible(false);
-				ChangeGradeGUI newFrame = new ChangeGradeGUI();
+				ChangeGradeGUI newFrame = new ChangeGradeGUI(currSession);
 				newFrame.setVisible(true);
 			}
 		});

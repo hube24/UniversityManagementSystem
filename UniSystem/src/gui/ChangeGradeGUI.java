@@ -35,7 +35,7 @@ public class ChangeGradeGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChangeGradeGUI frame = new ChangeGradeGUI();
+					ChangeGradeGUI frame = new ChangeGradeGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,9 @@ public class ChangeGradeGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ChangeGradeGUI() {
+	public ChangeGradeGUI(Session s) {
+		Session currSession = s;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 643, 451);
 		contentPane = new JPanel();
@@ -100,7 +102,7 @@ public class ChangeGradeGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				UpdateGradeGUI newFrame = new UpdateGradeGUI();
+				UpdateGradeGUI newFrame = new UpdateGradeGUI(currSession);
 				newFrame.setVisible(true);
 			}
 		});
@@ -112,7 +114,7 @@ public class ChangeGradeGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				TeacherGUI newFrame = new TeacherGUI();
+				TeacherGUI newFrame = new TeacherGUI(currSession);
 				newFrame.setVisible(true);
 			}
 		});

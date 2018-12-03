@@ -3,6 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -16,10 +18,13 @@ import users.Student;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JScrollPane;
@@ -34,21 +39,19 @@ import javax.swing.JProgressBar;
 
 public class RegistrarGUI extends JFrame {
 
+	static JProgressBar progressBar;
 	private JPanel contentPane;
 	static private JPanel panel;
 	static private JTable table;
-
-	static JProgressBar progressBar;
-	
 	static int MY_MAXIMUM;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		
+	
+	public static void main(String[] args)
+	{
 		try {
-
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		       if ("Nimbus".equals(info.getName())) {
 		           UIManager.setLookAndFeel(info.getClassName());
@@ -66,54 +69,37 @@ public class RegistrarGUI extends JFrame {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		
+		Progress loadStudentTask = new Progress(table, progressBar, panel, MY_MAXIMUM);
+		loadStudentTask.execute();
+	}
+	
+	
+	public static void run(){
+		
+	try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		       if ("Nimbus".equals(info.getName())) {
+		           UIManager.setLookAndFeel(info.getClassName());
+		           break;
+		        }
+		    }
+		} catch (Exception e) {
+
+		}
+		
+		try {
+			RegistrarGUI frame = new RegistrarGUI(null);
+			frame.setVisible(true);
 			
-		loadStudents();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		
-		
+		Progress loadStudentTask = new Progress(table, progressBar, panel, MY_MAXIMUM);
+		loadStudentTask.execute();
 	}
 
-	
-	static void loadStudents()
-	{
-		//filling table of students
-		
-		table.setVisible(false);
-		
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		DatabaseSelector dbSelector = new DatabaseSelector();
-		int count = 0;
-		
-		List <String[]> studentssList = dbSelector.GetStudentsList();
-		for( String[] row : studentssList) {			
-			Integer regNum = Integer.valueOf(row[0]);
-			String degree = row[1];
-			String name = row[3] + " " + row[4] + " " + row[5];			
-			Student student = new Student(regNum);
-			String level = student.getCurrentLevel();
-			
-			
-			String periodOfStudy = student.getCurrentPeriodOfStudy();
-			System.out.print(periodOfStudy);
-			
-			int sumCredits = 0;
-			
-			if(!periodOfStudy.isEmpty()){
-			 String periodLabel = periodOfStudy.substring(0,1);
-			 sumCredits = student.getRegisteredCredits(periodLabel);
-			}
-			
-			
-			model.addRow(new Object[] {regNum, degree, name, level, sumCredits});
-			count+=1;
-			progressBar.setValue(count);
-			if(progressBar.getValue()>= MY_MAXIMUM)
-			{
-				panel.setVisible(false);
-				table.setVisible(true);
-			}
-		}
-	}
-	
 	
 	/**
 	 * Create the frame.
@@ -129,7 +115,7 @@ public class RegistrarGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBackground(new Color(240, 240, 240));
+		panel.setBackground(Color.WHITE);
 		panel.setBounds(14, 12, 645, 370);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -143,7 +129,7 @@ public class RegistrarGUI extends JFrame {
 		panel.add(lblLoadingListOf);
 		
 		JLabel lblObtainingNumbersOf = new JLabel("Obtaining numbers of credits...");
-		lblObtainingNumbersOf.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		lblObtainingNumbersOf.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
 		lblObtainingNumbersOf.setBounds(242, 180, 296, 21);
 		panel.add(lblObtainingNumbersOf);
 		
@@ -165,11 +151,11 @@ public class RegistrarGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Registration num.", "Degree", "Name", "Level", "Registered credits "
+				"Registration num.", "Degree", "Name", "Level", "Registered credits ", "Add/Drop Modules"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, String.class, Integer.class
+				Integer.class, String.class, String.class, String.class, Integer.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -186,8 +172,29 @@ public class RegistrarGUI extends JFrame {
 		creditsNum.setText("0");
 		table.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
 		
-		
 		scrollPane.setViewportView(table);
+		
+		Action open = new AbstractAction()
+		{
+			@Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        JTable table = (JTable)e.getSource();
+		        int modelRow = Integer.valueOf( e.getActionCommand() );
+		        int regNum = (int)table.getModel().getValueAt(modelRow, 0);
+		        
+		        System.out.println(regNum);
+		        
+		        Student student = new Student(regNum);
+		        student.completeFromDB();
+		        AddOptionalModulesGUI frame = new AddOptionalModulesGUI(currSession, student);
+		        frame.setVisible(true);
+		    }
+
+		};
+		 
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 5);
+		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		MY_MAXIMUM = dbSelector.getStudentCount();
@@ -198,7 +205,73 @@ public class RegistrarGUI extends JFrame {
 		panel.add(progressBar);
 
 	}
+	
+
+	
 }
+
+
+class Progress extends SwingWorker<Void, Void>
+{
+	
+	JTable table;
+	JProgressBar progressBar;
+	JPanel panel;
+	int MY_MAXIMUM;
+	
+	public Progress(JTable t, JProgressBar b, JPanel p, int max) {
+		table = t;
+		progressBar = b;
+		panel = p;
+		MY_MAXIMUM = max;
+	}
+	
+	@Override
+	protected Void doInBackground() throws Exception {
+		// TODO Auto-generated method stub
+		//filling table of students
+		
+				table.setVisible(false);
+				
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				DatabaseSelector dbSelector = new DatabaseSelector();
+				int count = 0;
+				
+				List <String[]> studentssList = dbSelector.GetStudentsList();
+				for( String[] row : studentssList) {			
+					Integer regNum = Integer.valueOf(row[0]);
+					String degree = row[1];
+					String name = row[3] + " " + row[4] + " " + row[5];			
+					Student student = new Student(regNum);
+					String level = student.getCurrentLevel();
+					
+					
+					String periodOfStudy = student.getCurrentPeriodOfStudy();
+					System.out.print(periodOfStudy);
+					
+					int sumCredits = 0;
+					
+					if(!periodOfStudy.isEmpty()){
+					 String periodLabel = periodOfStudy.substring(0,1);
+					 sumCredits = student.getRegisteredCredits(periodLabel);
+					}
+					
+					
+					model.addRow(new Object[] {regNum, degree, name, level, sumCredits, "Add/Drop Modules"});
+					count+=1;
+					progressBar.setValue(count);
+					if(progressBar.getValue()>= MY_MAXIMUM)
+					{
+						panel.setVisible(false);
+						table.setVisible(true);
+					}
+				}
+		return null;
+	}
+	
+}
+
+
 
 
 class ColourTableCellRenderer extends DefaultTableCellRenderer {

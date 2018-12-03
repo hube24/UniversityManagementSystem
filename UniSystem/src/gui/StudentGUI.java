@@ -135,6 +135,6 @@ public class StudentGUI extends JFrame {
 		lblDegree.setText(student.getDegree().getCode() + " - " + student.getDegree().getName());
 		lblCurrentLevel.setText(student.getCurrentLevel());
 		lblPersonalTutor.setText(student.getPersonalTutor());
-		
+		lblEmail.setText(student.getEmail());
 	}
 }

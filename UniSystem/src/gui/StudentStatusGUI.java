@@ -14,6 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import database.DatabaseSelector;
 import database.Session;
 import users.Student;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class StudentStatusGUI extends JFrame {
 
@@ -61,18 +64,34 @@ public class StudentStatusGUI extends JFrame {
 			new Object[][] {			
 			},
 			new String[] {
-				"Unit", "Credits", "Period", "Title", "1st Sitting", "2nd Sitting"
+				"Unit", "Credits", "Title", "1st Sitting", "2nd Sitting"
 			}
 		));
 		scrollPane.setViewportView(table);
 		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 openStudentScreen(currSession);
+			}
+		});
+		btnBack.setBounds(247, 368, 167, 35);
+		contentPane.add(btnBack);
+		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		//System.out.print(student.getRegistrationID());
+		
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
 		for( String[] row : moduleList) {
-			model.addRow(new String[] {row[0], row[2], row[5], row[1], row[3], row[5]});
+			model.addRow(new String[] {row[0], row[2], row[1], row[5], row[6]});
 			
 		}
+	}
+	
+	protected void openStudentScreen( Session s ) {
+		// TODO Auto-generated method stub
+		StudentGUI frame = new StudentGUI(s);
+		frame.setVisible(true);
+		dispose();
 	}
 }

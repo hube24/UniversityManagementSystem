@@ -54,10 +54,11 @@ public class Student extends User {
 			
 			Statement pst1 = con.createStatement();
 			ResultSet rs;
-			if(username.equals(null) && registrationNum == -1){
+			if(username==null && registrationNum == -1){
 				System.out.print("no registrationNumber is given.");
 				return;
-			} if (username.equals(null)) {
+			} 
+			if (registrationNum != -1) {
 				rs = pst1.executeQuery("SELECT * FROM Student WHERE registrationNum = '" + registrationNum + "'");
 			}else {			
 				rs = pst1.executeQuery("SELECT * FROM Student WHERE username = '" + username + "'");

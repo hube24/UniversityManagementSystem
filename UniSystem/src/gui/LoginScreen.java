@@ -119,9 +119,8 @@ public class LoginScreen extends JFrame {
 				  
 				  
 				  
-				  if(!access.equals(null))
-				  {
-					  
+				  if(access != null)
+				  {  
 					  Session currSession = new Session(username, password, access);
 					  
 					  //logged in
@@ -132,6 +131,14 @@ public class LoginScreen extends JFrame {
 						  
 						  case "student":
 							  openStudentScreen(currSession);
+						  break;
+						  
+						  case "registrar":
+							  openRegistrarScreen(currSession);
+						  break;
+						  
+						  case "teacher": 
+							  openTeacherScreen(currSession);
 						  break;
 					  }
 					  System.out.println("login succesfull");
@@ -148,6 +155,8 @@ public class LoginScreen extends JFrame {
 					lblAlert.setVisible(true);
 				}
 			}
+
+
 		});
 		
 		button.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -187,6 +196,20 @@ public class LoginScreen extends JFrame {
 		// TODO Auto-generated method stub
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
+		dispose();
+	}
+	
+	protected void openTeacherScreen(Session s) {
+		// TODO Auto-generated method stub
+		TeacherGUI frame = new TeacherGUI(s);
+		frame.setVisible(true);
+		dispose();
+	}
+
+	protected void openRegistrarScreen(Session s) {
+		// TODO Auto-generated method stub
+		RegistrarGUI frame = new RegistrarGUI(s);
+		frame.run();
 		dispose();
 	}
 }

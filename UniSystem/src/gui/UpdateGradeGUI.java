@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.DatabaseSelector;
+import database.Session;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -36,7 +37,7 @@ public class UpdateGradeGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UpdateGradeGUI frame = new UpdateGradeGUI();
+					UpdateGradeGUI frame = new UpdateGradeGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +49,9 @@ public class UpdateGradeGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UpdateGradeGUI() {
+	public UpdateGradeGUI(Session s) {
+		Session currSession = s;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -101,7 +104,7 @@ public class UpdateGradeGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				setVisible(false);
-				ChangeGradeGUI newFrame = new ChangeGradeGUI();
+				ChangeGradeGUI newFrame = new ChangeGradeGUI(currSession);
 				newFrame.setVisible(true);
 			}
 		});

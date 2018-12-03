@@ -74,7 +74,6 @@ public class RegistrarGUI extends JFrame {
 		loadStudentTask.execute();
 	}
 	
-	/*
 	public static void run(){
 		
 	try {
@@ -99,7 +98,6 @@ public class RegistrarGUI extends JFrame {
 		Progress loadStudentTask = new Progress(table, progressBar, panel, MY_MAXIMUM);
 		loadStudentTask.execute();
 	}
-*/
 	
 	/**
 	 * Create the frame.

@@ -11,6 +11,8 @@ import database.Session;
 import users.Student;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
@@ -21,6 +23,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Button;
 
 public class StudentGUI extends JFrame {
 
@@ -83,7 +86,7 @@ public class StudentGUI extends JFrame {
 		// labels to set : 
 		
 		JLabel lblSurnameForename = new JLabel("Mr Name Surname");
-		lblSurnameForename.setBounds(30, 28, 484, 41);
+		lblSurnameForename.setBounds(30, 28, 442, 41);
 		lblSurnameForename.setFont(new Font("Nirmala UI", Font.PLAIN, 30));
 		
 		JLabel lblRegistrationNumber = new JLabel("100000");  
@@ -148,6 +151,29 @@ public class StudentGUI extends JFrame {
 		});
 		btnStatus.setBounds(187, 440, 168, 48);
 		contentPane.add(btnStatus);
+		
+		Button button = new Button("Log out");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					
+					try {
+						currSession.endSession();
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					LoginScreen frame = new LoginScreen();
+					frame.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		button.setBounds(472, 10, 79, 22);
+		contentPane.add(button);
 	}
 	
 	protected void openStudentStatus( Session s ) {

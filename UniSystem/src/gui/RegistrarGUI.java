@@ -17,6 +17,8 @@ import database.Session;
 import users.Student;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -38,6 +40,7 @@ import java.awt.Component;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.Button;
 
 public class RegistrarGUI extends JFrame {
 
@@ -229,6 +232,29 @@ public class RegistrarGUI extends JFrame {
 		btnRemoveStudent.setFont(new Font("Nirmala UI", Font.PLAIN, 12));
 		btnRemoveStudent.setBounds(185, 361, 139, 30);
 		contentPane.add(btnRemoveStudent);
+		
+		Button button = new Button("Log out");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					
+					try {
+						currSession.endSession();
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					LoginScreen frame = new LoginScreen();
+					frame.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		button.setBounds(866, 10, 94, 23);
+		contentPane.add(button);
 
 	}
 

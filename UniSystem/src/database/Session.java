@@ -26,5 +26,9 @@ public class Session {
 		return password;
 	}
 
+	public void endSession() throws Throwable
+	{
+		this.finalize();
+	}
 	
 }

@@ -38,7 +38,7 @@ public class LoginScreen extends JFrame {
 	 */
 	public static void main(String[] args) {
 	
-		/*try {
+		try {
 
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 		       if ("Nimbus".equals(info.getName())) {
@@ -48,7 +48,7 @@ public class LoginScreen extends JFrame {
 		    }
 		} catch (Exception e) {
 
-		}*/
+		}
 		
 		EventQueue.invokeLater(new Runnable() {
 		

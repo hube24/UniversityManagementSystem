@@ -12,6 +12,8 @@ import javax.swing.border.EmptyBorder;
 import database.Session;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Button;
 
 public class TeacherGUI extends JFrame {
 
@@ -55,7 +58,7 @@ public class TeacherGUI extends JFrame {
 		
 		JLabel lblWelcomeTeacher = new JLabel("Welcome, Teacher");
 		lblWelcomeTeacher.setFont(new Font("Yu Gothic", Font.BOLD, 18));
-		lblWelcomeTeacher.setBounds(134, 11, 171, 56);
+		lblWelcomeTeacher.setBounds(134, 38, 171, 56);
 		contentPane.add(lblWelcomeTeacher);
 		
 		JLabel lblEnterStudentidFor = new JLabel("Enter StudentID below for his/her info");
@@ -82,6 +85,29 @@ public class TeacherGUI extends JFrame {
 		});
 		btnContinue.setBounds(164, 197, 89, 23);
 		contentPane.add(btnContinue);
+		
+		Button button = new Button("Log out");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					
+					try {
+						currSession.endSession();
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					LoginScreen frame = new LoginScreen();
+					frame.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		button.setBounds(346, 10, 78, 20);
+		contentPane.add(button);
 	}
 
 }

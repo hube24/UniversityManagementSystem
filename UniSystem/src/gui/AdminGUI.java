@@ -17,6 +17,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import java.awt.Button;
 
 public class AdminGUI extends JFrame {
 
@@ -61,12 +68,17 @@ public class AdminGUI extends JFrame {
 	public AdminGUI(Session s) {
 		currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 533, 272);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		btnUsers = new JButton("Users");
+		btnUsers.setBorder(null);
+		btnUsers.setBorderPainted(false);
+		btnUsers.setBackground(Color.WHITE);
+		btnUsers.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		btnUsers.setBounds(175, 116, 148, 31);
 		btnUsers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openUser(currSession);		
@@ -74,6 +86,11 @@ public class AdminGUI extends JFrame {
 		});
 		
 		JButton btnDegree = new JButton("Degrees");
+		btnDegree.setBorder(null);
+		btnDegree.setBorderPainted(false);
+		btnDegree.setBackground(Color.WHITE);
+		btnDegree.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		btnDegree.setBounds(346, 158, 148, 31);
 		btnDegree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openDegrees(currSession);
@@ -81,6 +98,11 @@ public class AdminGUI extends JFrame {
 		});
 		
 		JButton btnDepartment = new JButton("Departments");
+		btnDepartment.setBorder(null);
+		btnDepartment.setBorderPainted(false);
+		btnDepartment.setBackground(Color.WHITE);
+		btnDepartment.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		btnDepartment.setBounds(346, 116, 148, 31);
 		btnDepartment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openDepartments(currSession);
@@ -88,39 +110,60 @@ public class AdminGUI extends JFrame {
 		});
 		
 		JButton btnNewModlue = new JButton("Modules");
+		btnNewModlue.setBorder(null);
+		btnNewModlue.setBorderPainted(false);
+		btnNewModlue.setBackground(Color.WHITE);
+		btnNewModlue.setFont(new Font("Nirmala UI", Font.PLAIN, 15));
+		btnNewModlue.setBounds(175, 158, 148, 31);
 		btnNewModlue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openModules(currSession);
 			}
 		});
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(7)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnDepartment, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-							.addGap(48)
-							.addComponent(btnNewModlue, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnUsers, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-							.addGap(48)
-							.addComponent(btnDegree, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(8)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnDepartment, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewModlue, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-					.addGap(32)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnUsers, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnDegree, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)))
-		);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(btnDepartment);
+		contentPane.add(btnNewModlue);
+		contentPane.add(btnUsers);
+		contentPane.add(btnDegree);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.inactiveCaption);
+		panel.setBounds(0, 0, 148, 262);
+		contentPane.add(panel);
+		
+		JLabel lblWelcomeAdministrator = new JLabel("Welcome Administrator");
+		lblWelcomeAdministrator.setFont(new Font("Nirmala UI", Font.PLAIN, 18));
+		lblWelcomeAdministrator.setBounds(175, 62, 188, 31);
+		contentPane.add(lblWelcomeAdministrator);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(158, 91, 336, 2);
+		contentPane.add(separator);
+		
+		Button button = new Button("Logout");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					
+					try {
+						currSession.endSession();
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					LoginScreen frame = new LoginScreen();
+					frame.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		button.setFont(new Font("Nirmala UI", Font.PLAIN, 10));
+		button.setBackground(UIManager.getColor("scrollbar"));
+		button.setBounds(421, 10, 86, 21);
+		contentPane.add(button);
 	}
 	protected void openUser(Session s) {		
 		UsersGUI frame = new UsersGUI(s);

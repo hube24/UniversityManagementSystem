@@ -36,6 +36,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JProgressBar;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
 
 public class RegistrarGUI extends JFrame {
 
@@ -113,8 +115,7 @@ public class RegistrarGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(14, 12, 960, 370);
+		panel.setBounds(198, 132, 570, 144);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -123,12 +124,12 @@ public class RegistrarGUI extends JFrame {
 		
 		JLabel lblLoadingListOf = new JLabel("Loading list of students...");
 		lblLoadingListOf.setFont(new Font("Nirmala UI", Font.PLAIN, 18));
-		lblLoadingListOf.setBounds(320, 129, 279, 28);
+		lblLoadingListOf.setBounds(98, 29, 279, 28);
 		panel.add(lblLoadingListOf);
 		
 		JLabel lblObtainingNumbersOf = new JLabel("Obtaining numbers of credits...");
 		lblObtainingNumbersOf.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
-		lblObtainingNumbersOf.setBounds(420, 168, 296, 21);
+		lblObtainingNumbersOf.setBounds(212, 60, 296, 21);
 		panel.add(lblObtainingNumbersOf);
 		
 		JLabel lblWelcomeRegistrar = new JLabel("Welcome Registrar");
@@ -149,23 +150,25 @@ public class RegistrarGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Registration num.", "Degree", "Name", "Level", "Registered credits ", "Add/Drop Modules"
+				"Registration num.", "Degree", "Name", "Level","Period of Study", "Registered credits ", "Add/Drop Modules"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, String.class, Integer.class, Object.class
+				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Object.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
-		table.getColumnModel().getColumn(2).setPreferredWidth(111);
-		table.getColumnModel().getColumn(3).setPreferredWidth(170);
-		table.getColumnModel().getColumn(4).setPreferredWidth(104);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(140);
+		table.getColumnModel().getColumn(3).setPreferredWidth(80);
+		table.getColumnModel().getColumn(4).setPreferredWidth(80);
 		
-		table.getColumnModel().getColumn(4).setCellRenderer(new ColourTableCellRenderer());
-		
+		table.getColumnModel().getColumn(5).setCellRenderer(new ColourTableCellRenderer());
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setPreferredWidth(100);
 		table.setRowHeight(35);
 		
 		JLabel creditsNum = new JLabel();
@@ -195,25 +198,62 @@ public class RegistrarGUI extends JFrame {
 
 		};
 		 
-		ButtonColumn buttonColumn = new ButtonColumn(table, open, 5);
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 6);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		MY_MAXIMUM = dbSelector.getStudentCount();
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		progressBar.setBounds(272, 215, 418, 28);
+		progressBar.setBounds(70, 86, 418, 28);
 		progressBar.setMaximum(MY_MAXIMUM);
 		panel.add(progressBar);
+		
+		JButton btnNewButton = new JButton("Add Student");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				AddStudentGUI frame = new AddStudentGUI(currSession, myself);
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton.setFont(new Font("Nirmala UI", Font.PLAIN, 12));
+		btnNewButton.setBounds(27, 361, 139, 30);
+		contentPane.add(btnNewButton);
+		
+		JButton btnRemoveStudent = new JButton("Remove Student");
+		btnRemoveStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnRemoveStudent.setFont(new Font("Nirmala UI", Font.PLAIN, 12));
+		btnRemoveStudent.setBounds(185, 361, 139, 30);
+		contentPane.add(btnRemoveStudent);
 
 	}
 
 	public void updateTableRecord(int registrationID, int sumOfCredits, int row) {
 		// TODO Auto-generated method stub
-		table.getModel().setValueAt(sumOfCredits, row, 4);
+		table.getModel().setValueAt(sumOfCredits, row, 5);
 	}
 	
-
+	public void addTableRecord(Student student) {
+		Integer regNum = student.getRegistrationID();
+		String degree = student.getDegree().getName();
+		String name = student.getTitle() + " " + student.getSurname() + " " + student.getForename();
+		String level = student.getCurrentLevel();
+		String periodOfStudy = student.getCurrentPeriodOfStudy();
+		
+		int sumCredits = 0;
+		
+		if(!periodOfStudy.isEmpty()){
+		 String periodLabel = periodOfStudy.substring(0,1);
+		 sumCredits = student.getRegisteredCredits(periodLabel);
+		}
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.addRow(new Object[] {regNum, degree, name, level, periodOfStudy, sumCredits, "Add/Drop Modules"});
+	}
 	
 }
 
@@ -254,7 +294,6 @@ class Progress extends SwingWorker<Void, Void>
 					
 					
 					String periodOfStudy = student.getCurrentPeriodOfStudy();
-					System.out.print(periodOfStudy);
 					
 					int sumCredits = 0;
 					
@@ -264,7 +303,7 @@ class Progress extends SwingWorker<Void, Void>
 					}
 					
 					
-					model.addRow(new Object[] {regNum, degree, name, level, sumCredits, "Add/Drop Modules"});
+					model.addRow(new Object[] {regNum, degree, name, level, periodOfStudy, sumCredits, "Add/Drop Modules"});
 					count+=1;
 					progressBar.setValue(count);
 					if(progressBar.getValue()>= MY_MAXIMUM)
@@ -305,3 +344,4 @@ class ColourTableCellRenderer extends DefaultTableCellRenderer {
 
 	}
 }
+

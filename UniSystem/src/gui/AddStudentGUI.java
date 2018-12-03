@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import database.DatabaseSelector;
+import database.Session;
 import university.Degree;
 import users.Registrar;
 import users.Student;
@@ -32,7 +33,7 @@ public class AddStudentGUI extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-
+	private RegistrarGUI parentFrame;
 	/**
 	 * Launch the application.
 	 */
@@ -40,7 +41,7 @@ public class AddStudentGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AddStudentGUI frame = new AddStudentGUI();
+					AddStudentGUI frame = new AddStudentGUI(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,8 +56,11 @@ public class AddStudentGUI extends JFrame {
 	}
 	/**
 	 * Create the frame.
+	 * @param myself 
+	 * @param currSession 
 	 */
-	public AddStudentGUI() {
+	public AddStudentGUI(Session currSession, RegistrarGUI f) {
+		parentFrame = f;
 		Registrar registrar = new Registrar();
 		
 		
@@ -195,7 +199,9 @@ public class AddStudentGUI extends JFrame {
 				Student student = new Student(username, 0, title, surname, forname , "", degree, personalTutor, null );
 				if(registrar.addStudent(student, initialPeriod))
 				{
+					parentFrame.addTableRecord(student);
 					infoBox("Student added successfully", "Done.");
+					dispose();
 				}
 				
 			}
@@ -204,6 +210,11 @@ public class AddStudentGUI extends JFrame {
 		contentPane.add(btnSubmit);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnCancel.setBounds(65, 315, 89, 23);
 		contentPane.add(btnCancel);
 		

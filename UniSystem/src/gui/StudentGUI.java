@@ -18,6 +18,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSeparator;
 import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class StudentGUI extends JFrame {
 
@@ -136,5 +139,21 @@ public class StudentGUI extends JFrame {
 		lblCurrentLevel.setText(student.getCurrentLevel());
 		lblPersonalTutor.setText(student.getPersonalTutor());
 		lblEmail.setText(student.getEmail());
+		
+		JButton btnStatus = new JButton("Show Status");
+		btnStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openStudentStatus(currSession);
+			}
+		});
+		btnStatus.setBounds(187, 440, 168, 48);
+		contentPane.add(btnStatus);
+	}
+	
+	protected void openStudentStatus( Session s ) {
+		// TODO Auto-generated method stub
+		StudentStatusGUI frame = new StudentStatusGUI(s);
+		frame.setVisible(true);
+		dispose();
 	}
 }

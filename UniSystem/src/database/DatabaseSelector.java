@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +74,7 @@ public class DatabaseSelector extends SqlDriver{
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		} 
-		return false;
-		
+		return false;		
 	}
 	
 	
@@ -175,7 +175,7 @@ public class DatabaseSelector extends SqlDriver{
 	public List<String[]> GetStudentsList() {
 		return GetTableList("SELECT * FROM Student");
 	}
-	
+
 	public int getCount(String query)
 	{
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {

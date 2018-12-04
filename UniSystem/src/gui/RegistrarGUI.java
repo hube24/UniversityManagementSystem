@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -173,6 +174,7 @@ public class RegistrarGUI extends JFrame {
 		table.getColumnModel().getColumn(5).setPreferredWidth(100);
 		table.getColumnModel().getColumn(6).setPreferredWidth(100);
 		table.setRowHeight(35);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JLabel creditsNum = new JLabel();
 		creditsNum.setText("0");
@@ -227,6 +229,18 @@ public class RegistrarGUI extends JFrame {
 		JButton btnRemoveStudent = new JButton("Remove Student");
 		btnRemoveStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Removing this student will cause deleting all registrations and grades related to this student, are you sure to continue?  ","Warning",dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION){
+					
+					int i = table.getSelectedRow();
+					dbSelector.deleteStudent((int)table.getValueAt(i, 0));
+
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.removeRow(i);
+					
+					JOptionPane.showMessageDialog(null, "Student has been successfuly deleted.");
+				}
 			}
 		});
 		btnRemoveStudent.setFont(new Font("Nirmala UI", Font.PLAIN, 12));

@@ -58,6 +58,18 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
+	public void delete(String query, int id) {	
+		
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement(query);
+			pst1.setInt(1, id);
+			pst1.executeUpdate();
+			con.close();
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+	}
+	
 	public boolean notInDatabase(String query, String id) {
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
 			PreparedStatement pst1 = con.prepareStatement(query);
@@ -115,6 +127,13 @@ public class DatabaseSelector extends SqlDriver{
 			return false;
 		}
 	}
+	
+	public void deleteStudent(int regNum) {
+			delete("DELETE FROM ModuleRegistration WHERE registrationNum = ?", regNum);
+			delete("DELETE FROM StudentStudyPeriod WHERE registrationNum = ?", regNum);
+			delete("DELETE FROM Student WHERE registrationNum = ?", regNum);	
+	}
+	
 	public List<String[]> getDegreesFromDepartment(String code){
 		
 		return GetTableList("SELECT * FROM Degree INNER JOIN DepartmentDegree ON Degree.codeOfDegree = DepartmentDegree.codeOfDegree "

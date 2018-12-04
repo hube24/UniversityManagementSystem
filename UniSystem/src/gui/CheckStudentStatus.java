@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to check the student's status(credits,final grade) each year and get the mean grade
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

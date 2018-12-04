@@ -1,5 +1,7 @@
 package gui;
 
+/* A page to check the student information
+ */
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

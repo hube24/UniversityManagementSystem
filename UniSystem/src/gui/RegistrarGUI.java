@@ -1,5 +1,8 @@
 package gui;
 
+/* A page to view all the student register information including registerNumber, name, degree, credits, modules
+ */
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 

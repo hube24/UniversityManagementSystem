@@ -17,6 +17,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 import database.DatabaseSelector;
 import database.Session;
@@ -42,6 +44,16 @@ public class DegreesGUI extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+				    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				       if ("Nimbus".equals(info.getName())) {
+				           UIManager.setLookAndFeel(info.getClassName());
+				           break;
+				        }
+				    }
+				} catch (Exception e) {
+
+				}
 				try {
 					DegreesGUI frame = new DegreesGUI(null);
 					frame.setVisible(true);
@@ -101,7 +113,7 @@ public class DegreesGUI extends JFrame {
 				String.class, String.class, String.class, Object.class
 			};
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -109,30 +121,29 @@ public class DegreesGUI extends JFrame {
 		});
 		table.getColumnModel().getColumn(2).setPreferredWidth(113);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowHeight(35);
 		scrollPane.setViewportView(table);
 		
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		
 		
 		Action open = new AbstractAction()
 		{
 			@Override
 		    public void actionPerformed(ActionEvent e)
 		    {	
-				System.out.println("jestem");
+				
 		        JTable table = (JTable)e.getSource();
 		        int modelRow = Integer.valueOf( e.getActionCommand() );
-		        int regNum = (int)table.getModel().getValueAt(modelRow, 0);
+		        String code = (String)table.getModel().getValueAt(modelRow, 0);
 		        
-		        System.out.println(regNum);
-		        
-		        
-		       /* ModuleDegreeGUI frame = new ModuleDegreeGUI(currSession, );
-		        frame.setVisible(true);*/
+		        openModuleDegree(currSession, code);
 		    }
 
 		};
 		ButtonColumn buttonColumn = new ButtonColumn(table, open, 3);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
 		JButton btnDeleteDegree = new JButton("Delete Degree");
 		btnDeleteDegree.addActionListener(new ActionListener() {
@@ -161,6 +172,7 @@ public class DegreesGUI extends JFrame {
 		for( String[] row : degreesList) {
 			model.addRow(new String[] {row[0], row[1], row[2], "See Modules"});
 		}
+
 	}
 	protected void openAddDegree(Session s) {		
 		AddDegreeGUI frame = new AddDegreeGUI(s);

@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseSelector;
@@ -33,6 +35,16 @@ public class ModuleDegreeGUI extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+				    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				       if ("Nimbus".equals(info.getName())) {
+				           UIManager.setLookAndFeel(info.getClassName());
+				           break;
+				        }
+				    }
+				} catch (Exception e) {
+
+				}
 				try {
 					ModuleDegreeGUI frame = new ModuleDegreeGUI(null, null);
 					frame.setVisible(true);
@@ -67,6 +79,7 @@ public class ModuleDegreeGUI extends JFrame {
 				"Code of Module", "Name", "Credits", "Code of Degree", "Level", "Core Module"
 			}
 		));
+		table.setRowHeight(35);
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		scrollPane.setViewportView(table);

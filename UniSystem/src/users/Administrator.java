@@ -1,4 +1,4 @@
-package database;
+package users;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,8 +9,12 @@ import java.util.List;
 import encryption.BCrypt;
 import javax.swing.JOptionPane;
 
-public class Administrator extends SqlDriver {
+import database.SqlDriver;
 
+public class Administrator {
+
+	SqlDriver sqldriver = new SqlDriver();
+	
 	public Administrator() {
 		// TODO Auto-generated constructor stub
 	}
@@ -28,8 +32,8 @@ public class Administrator extends SqlDriver {
 		}
 
 		code = code.toUpperCase();
-
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 
 			// check if department already exist
 			System.out.println("connected");
@@ -67,7 +71,8 @@ public class Administrator extends SqlDriver {
 		//password encryption using bcrypt
 		String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt()); 
 		
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 
 			// check if the user already exist
 			System.out.println("connected");
@@ -101,7 +106,8 @@ public class Administrator extends SqlDriver {
 	
 	public boolean addDegree(String code, String name, String leadDepartment, int numOfLevels, String[] departments)
 	{
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 
 			// check number of degrees with same code to obtain unique serial number
 
@@ -151,7 +157,9 @@ public class Administrator extends SqlDriver {
 	
 	public boolean addModule(String code, String name, int numOfCredits, List<Object[]> degrees)
 	{
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+
+		
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 
 			// check if module with given code already exist
 

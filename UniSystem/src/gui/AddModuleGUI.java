@@ -24,9 +24,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
-import database.Administrator;
 import database.DatabaseSelector;
 import database.Session;
+import users.Administrator;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

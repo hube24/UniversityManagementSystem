@@ -17,8 +17,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
-import database.Administrator;
+
 import database.Session;
+import users.Administrator;
 
 public class AddDepartmentGUI extends JFrame {
 

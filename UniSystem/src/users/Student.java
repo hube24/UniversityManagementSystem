@@ -52,16 +52,22 @@ public class Student extends User {
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 			
-			Statement pst1 = con.createStatement();
+			PreparedStatement pst1;
 			ResultSet rs;
 			if(username==null && registrationNum == -1){
 				System.out.print("no registrationNumber is given.");
 				return;
 			} 
+			
 			if (registrationNum != -1) {
-				rs = pst1.executeQuery("SELECT * FROM Student WHERE registrationNum = '" + registrationNum + "'");
+				pst1 = con.prepareStatement("SELECT * FROM Student WHERE registrationNum = ?");
+				pst1.setInt(1, registrationNum);
+				rs=pst1.executeQuery();
+				
 			}else {			
-				rs = pst1.executeQuery("SELECT * FROM Student WHERE username = '" + username + "'");
+				pst1 = con.prepareStatement("SELECT * FROM Student WHERE username = ?");
+				pst1.setString(1, username);
+				rs=pst1.executeQuery();
 			}			
 			
 			if(rs.next()) {

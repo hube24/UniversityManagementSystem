@@ -148,7 +148,29 @@ public class DatabaseSelector extends SqlDriver{
 	
 	public List<String[]> getUserWithAccessList(String acs)
 	{
-		return GetTableList("SELECT username FROM Users WHERE access = '"+ acs +"'");
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			//get all rows in table 
+			PreparedStatement pst1 = con.prepareStatement("SELECT username FROM Users WHERE access = ?");
+			pst1.setString(1, acs);
+			ResultSet rs = pst1.executeQuery();
+			
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+			while( rs.next()) {
+			    String[] row = new String[nCol];
+			    for( int iCol = 1; iCol <= nCol; iCol++ ){
+			            Object obj = rs.getObject( iCol );
+			            row[iCol-1] = (obj == null) ? null:obj.toString();
+			    }
+			    table.add( row );
+			}
+			con.close(); 
+			return table; 
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return null;
 	}
 
 
@@ -158,18 +180,86 @@ public class DatabaseSelector extends SqlDriver{
 	
 	public List<String[]> getOptionalModules(Degree degree, String level)
 	{
-		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
-							" WHERE ModuleDegree.codeOfDegree = '" + degree.getCode() + "' AND ModuleDegree.isCore = '0' AND ModuleDegree.level = '" + level + "';");
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			//get all rows in table 
+			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
+							" WHERE ModuleDegree.codeOfDegree = ? AND ModuleDegree.isCore = '0' AND ModuleDegree.level = ?");
+			pst1.setString(1, degree.getCode());
+			pst1.setString(2, level);
+			ResultSet rs = pst1.executeQuery();
+			
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+			while( rs.next()) {
+			    String[] row = new String[nCol];
+			    for( int iCol = 1; iCol <= nCol; iCol++ ){
+			            Object obj = rs.getObject( iCol );
+			            row[iCol-1] = (obj == null) ? null:obj.toString();
+			    }
+			    table.add( row );
+			}
+			con.close(); 
+			return table; 
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return null;
 	}
 
 	public List<String[]> getRegisteredModules(Student student) {
-		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
-				            " WHERE ModuleRegistration.registrationNum = '" + student.getRegistrationID() + "';");
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			//get all rows in table 
+			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
+		            " WHERE ModuleRegistration.registrationNum = ?");
+			pst1.setInt(1, student.getRegistrationID());
+			ResultSet rs = pst1.executeQuery();
+			
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+			while( rs.next()) {
+			    String[] row = new String[nCol];
+			    for( int iCol = 1; iCol <= nCol; iCol++ ){
+			            Object obj = rs.getObject( iCol );
+			            row[iCol-1] = (obj == null) ? null:obj.toString();
+			    }
+			    table.add( row );
+			}
+			con.close(); 
+			return table; 
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return null;
 	}
 	
 	public List<String[]> getCoreModulesList(Degree degree, String level) {
-		return GetTableList(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
-				" WHERE ModuleDegree.codeOfDegree = '" + degree.getCode() + "' AND ModuleDegree.isCore = '1' AND ModuleDegree.level = '" + level + "';");
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			//get all rows in table 
+			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule" + 
+					" WHERE ModuleDegree.codeOfDegree = ? AND ModuleDegree.isCore = '1' AND ModuleDegree.level = ?");
+			pst1.setString(1, degree.getCode());
+			pst1.setString(2, level);
+			ResultSet rs = pst1.executeQuery();
+			
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+			while( rs.next()) {
+			    String[] row = new String[nCol];
+			    for( int iCol = 1; iCol <= nCol; iCol++ ){
+			            Object obj = rs.getObject( iCol );
+			            row[iCol-1] = (obj == null) ? null:obj.toString();
+			    }
+			    table.add( row );
+			}
+			con.close(); 
+			return table; 
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return null;
 	}
 	
 	public List<String[]> GetStudentsList() {

@@ -31,7 +31,8 @@ public class Department {
 		SqlDriver sqldriver = new SqlDriver();
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			PreparedStatement pst1 = con.prepareStatement("SELECT name FROM Department WHERE codeOfDepartment = '" + code + "'");
+			PreparedStatement pst1 = con.prepareStatement("SELECT name FROM Department WHERE codeOfDepartment = ?");
+			pst1.setString(1, code);
 			ResultSet rs = pst1.executeQuery();
 			
 			if( rs.next()) {

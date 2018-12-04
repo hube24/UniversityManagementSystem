@@ -44,7 +44,8 @@ public class Degree {
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 
 			//get all rows in table 
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Degree WHERE codeOfDegree = '" + code + "'");
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Degree WHERE codeOfDegree = ?");
+			pst1.setString(1, code);
 			ResultSet rs = pst1.executeQuery();
 			
 			if( rs.next()) {

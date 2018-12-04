@@ -47,8 +47,10 @@ SqlDriver sqldriver = new SqlDriver();
 			{
 					// check number of people with same surname and first letter of forname
 	
-					String query = "SELECT COUNT(*) FROM Student WHERE forname LIKE '" + forname.substring(0, 1) + "%' AND surname = '" + surname + "';";
+					String query = "SELECT COUNT(*) FROM Student WHERE forname LIKE ? AND surname = ?";
 					PreparedStatement pst1 = con.prepareStatement(query);
+					pst1.setString(1,  forname.substring(0, 1)+"%");
+					pst1.setString(2, surname);
 					ResultSet rs = pst1.executeQuery();
 					rs.next();
 					int numOfRows = rs.getInt(1);

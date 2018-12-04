@@ -30,9 +30,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.GridLayout;
 
-import database.Administrator;
 import database.DatabaseSelector;
 import database.Session;
+import users.Administrator;
 
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;

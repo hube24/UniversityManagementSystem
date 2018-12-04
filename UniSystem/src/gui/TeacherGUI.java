@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import database.GradeTable;
 import database.Session;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,6 +32,7 @@ public class TeacherGUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		GradeTable gradeTable = new GradeTable();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -48,8 +49,7 @@ public class TeacherGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TeacherGUI(Session s) {
-		Session currSession = s;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Session currSession = s;		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,7 +79,7 @@ public class TeacherGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				setVisible(false);
-				ChangeGradeGUI newFrame = new ChangeGradeGUI(currSession);
+				CheckStudent newFrame = new CheckStudent();
 				newFrame.setVisible(true);
 			}
 		});

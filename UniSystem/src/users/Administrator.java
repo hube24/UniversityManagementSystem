@@ -1,5 +1,8 @@
 package users;
 
+/*  the class for administrator to perform the tasks (add accounts to database, add department, add module
+*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

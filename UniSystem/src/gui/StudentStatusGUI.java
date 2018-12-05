@@ -57,11 +57,12 @@ public class StudentStatusGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
-		
+		//create a ScrollPane and modify its properites
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 13, 650, 325);
 		contentPane.add(scrollPane);
 		
+		//creat a Table has Strings defined
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {			
@@ -72,6 +73,7 @@ public class StudentStatusGUI extends JFrame {
 		));
 		scrollPane.setViewportView(table);
 		
+		//create a Back Button and arrange its properties
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -82,15 +84,17 @@ public class StudentStatusGUI extends JFrame {
 		contentPane.add(btnBack);
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		
+		//get modulesList
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
 		for( String[] row : moduleList) {
+			//Assign module to each row
 			model.addRow(new String[] {row[0], row[2], row[1], row[5], row[6]});
 			
 		}
 	}
 	
+	//return the StudentGUI page
 	protected void openStudentScreen( Session s ) {
 		// TODO Auto-generated method stub
 		StudentGUI frame = new StudentGUI(s);

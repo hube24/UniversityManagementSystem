@@ -52,7 +52,6 @@ public class DegreesGUI extends JFrame {
 				        }
 				    }
 				} catch (Exception e) {
-
 				}
 				try {
 					DegreesGUI frame = new DegreesGUI(null);

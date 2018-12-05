@@ -12,14 +12,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseSelector;
 import database.Session;
 
 import javax.swing.JScrollPane;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -35,6 +40,15 @@ public class DepartmentsGUI extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+				    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				       if ("Nimbus".equals(info.getName())) {
+				           UIManager.setLookAndFeel(info.getClassName());
+				           break;
+				        }
+				    }
+				} catch (Exception e) {
+				}
 				try {
 					DepartmentsGUI frame = new DepartmentsGUI(null);
 					frame.setVisible(true);
@@ -66,23 +80,41 @@ public class DepartmentsGUI extends JFrame {
 		table = new JTable();
 		table.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		scrollPane.setViewportView(table);
+		table.setRowHeight(35);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {				
 			},
 			new String[] {
-				"Code", "Name"
+				"Code", "Name", "See Degrees of this Department."
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-					String.class, String.class
+					String.class, String.class, Object.class
 				};
 			boolean[] columnEditables = new boolean[] {
-				false, false
+				false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		
+		Action open = new AbstractAction()
+		{
+			@Override
+		    public void actionPerformed(ActionEvent e)
+		    {	
+				
+		        JTable table = (JTable)e.getSource();
+		        int modelRow = Integer.valueOf( e.getActionCommand() );
+		        String code = (String)table.getModel().getValueAt(modelRow, 0);
+		        System.out.println(code);
+		        openDepartmentDegree(currSession, code);
+		    }
+
+		};
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 2);
+		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
@@ -130,7 +162,7 @@ public class DepartmentsGUI extends JFrame {
 		//getting list of departments.		
 		List <String[]> departmentsList = dbSelector.GetDepartmentList();
 		for( String[] row : departmentsList) {
-			model.addRow(new String[] {row[0], row[1]});
+			model.addRow(new String[] {row[0], row[1], "See Degrees"});
 		}
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

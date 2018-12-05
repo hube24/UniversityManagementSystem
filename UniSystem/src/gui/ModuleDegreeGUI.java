@@ -28,6 +28,9 @@ public class ModuleDegreeGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	/**
 	 * Launch the application.
@@ -59,6 +62,7 @@ public class ModuleDegreeGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ModuleDegreeGUI(Session s, String index) {
+		setTitle("Module Degree");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 827, 512);

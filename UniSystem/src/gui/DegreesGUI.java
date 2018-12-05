@@ -70,7 +70,7 @@ public class DegreesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DegreesGUI(Session s) {
-		setTitle("AddDegree");
+		setTitle("Degree Page");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 877, 612);

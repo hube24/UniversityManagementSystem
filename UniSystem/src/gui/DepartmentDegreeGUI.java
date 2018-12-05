@@ -71,6 +71,12 @@ public class DepartmentDegreeGUI extends JFrame {
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class, String.class
 				};
+			boolean[] columnEditables = new boolean[] {
+					false, false, false,false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 		});
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();

@@ -22,7 +22,9 @@ public class StudentStatusGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -43,6 +45,7 @@ public class StudentStatusGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public StudentStatusGUI(Session s) {
+		setTitle("Student Status");
 		Session currSession = s;
 		Student student = new Student(s.getUsername());
 		student.completeFromDB();

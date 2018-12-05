@@ -31,7 +31,9 @@ public class AdminGUI extends JFrame {
 	Session currSession;
 	private JPanel contentPane;
 	private JButton btnUsers;
-
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	/**
 	 * Create the frame.
@@ -66,6 +68,7 @@ public class AdminGUI extends JFrame {
 	}
 	
 	public AdminGUI(Session s) {
+		setTitle("Admin");
 		currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 533, 272);

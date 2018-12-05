@@ -10,6 +10,9 @@ import university.Module;
 import university.Grade;
 import database.SqlDriver;
 
+/**
+*Student class gives definitions of every needed element
+*/
 public class Student extends User {
 	
 	private String title;
@@ -54,6 +57,7 @@ public class Student extends User {
 			
 			PreparedStatement pst1;
 			ResultSet rs;
+			//check different situations
 			if(username==null && registrationNum == -1){
 				System.out.print("no registrationNumber is given.");
 				return;
@@ -90,6 +94,7 @@ public class Student extends User {
 			e.printStackTrace();
 		}
 	}
+	//return all data of student
 	public String getTitle() {return this.title;}
 	public int getRegistrationID() {return this.registrationNum;}
 	public String getForename() {return this.forename;}
@@ -109,7 +114,7 @@ public class Student extends User {
 	
 	public String getCurrentLevel() {
 		SqlDriver sqldriver = new SqlDriver();
-		
+		//get study level from database
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 			PreparedStatement pst1 = con.prepareStatement("SELECT level FROM StudentStudyPeriod " + 
 												 "WHERE registrationNum = ? AND label = (SELECT MAX(label) " +
@@ -138,7 +143,7 @@ public class Student extends User {
 	public String getCurrentPeriodOfStudy()
 	{
 		SqlDriver sqldriver = new SqlDriver();
-		
+		//get period of study from database
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 		PreparedStatement pst1 = con.prepareStatement("SELECT * FROM PeriodOfStudy WHERE label = "+
 														 "( SELECT MAX(label) " +
@@ -170,7 +175,7 @@ public class Student extends User {
 	
 	public int getRegisteredCredits( String periodLabel) {
 		SqlDriver sqldriver = new SqlDriver();
-		
+		//get registered credits from database
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
 		            " WHERE ModuleRegistration.registrationNum = ? ;");
@@ -183,7 +188,7 @@ public class Student extends User {
 			{
 				credSum += (int)rs.getInt(3);
 			}
-			
+		//end
 		con.close();	
 		return credSum;
 		} catch (Exception e) {

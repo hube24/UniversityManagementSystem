@@ -1,5 +1,7 @@
 package gui;
-
+/*
+This file aims to edit the initial Grade and Resit Grade of Students
+*/
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -53,6 +55,7 @@ public class AddGradeGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AddGradeGUI(Session s, String code, Student stud) {
+		setTitle("Edit Grade Page");
 		Session currSession = s;
 		student = stud;
 		student.completeFromDB();
@@ -60,6 +63,7 @@ public class AddGradeGUI extends JFrame {
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		List<String> gradeList = dbSelector.getStudentGradesList(student, code);
 		
+		//Update the first and second grade from database
 		first = "";
 		seccond = "";
 		
@@ -68,6 +72,7 @@ public class AddGradeGUI extends JFrame {
 			 seccond = gradeList.get(1);			 
 		}
 		
+		//arrange positions of elements
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -89,6 +94,7 @@ public class AddGradeGUI extends JFrame {
 		txtFirstgrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtFirstgrade.setColumns(10);
 		
+		//Set editable of firstGrade and secondGrade if either of them is edited
 		txtSeccondgrade = new JTextField();
 		txtSeccondgrade.setText(seccond);
 		txtSeccondgrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -98,6 +104,8 @@ public class AddGradeGUI extends JFrame {
 		}else {
 			txtSeccondgrade.setEditable(false);
 		}
+		
+		//create a Cancel Button
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -105,6 +113,7 @@ public class AddGradeGUI extends JFrame {
 			}
 		});
 		
+		//create a Submit Button and update the grades to the database
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -122,6 +131,7 @@ public class AddGradeGUI extends JFrame {
 			}
 		});
 		
+		//arrange the positions of elements
 		JSeparator separator = new JSeparator();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -173,6 +183,8 @@ public class AddGradeGUI extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	//return to the CheckGrades page
 	protected void openCheckGrades(Session s, int r) {		
 		CheckGradesGUI frame = new CheckGradesGUI(s,r);
 		frame.setVisible(true);				

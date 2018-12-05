@@ -52,6 +52,7 @@ public class UsersGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UsersGUI(Session s) {
+		setTitle("User Page");
 		Session currSession =s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 818, 559);
@@ -62,6 +63,7 @@ public class UsersGUI extends JFrame {
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		
+		//create Add User Button and arrange its properties
 		JButton btnAddUser = new JButton("Add User");
 		btnAddUser.setBounds(605, 422, 168, 54);
 		btnAddUser.addActionListener(new ActionListener() {
@@ -72,6 +74,7 @@ public class UsersGUI extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(btnAddUser);
 		
+		//create Back Button and arrange its properties
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -95,26 +98,34 @@ public class UsersGUI extends JFrame {
 			new String[] {
 				"Username", "Level of access"
 			}
-		) {
+		) {	//disable the editablility of the contents in the table
 			Class[] columnTypes = new Class[] {
 				String.class, String.class
 			};
+			boolean[] columnEditables = new boolean[] {
+					false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		//Create Delete User Button
 		JButton btnDeleteUser = new JButton("Delete User");
 		btnDeleteUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				//check whether the User has been successfully deleted
 				if(i>=0) {			
 
 					boolean isNotStudent = dbSelector.deleteUser(table.getValueAt(i, 0).toString());
 					if(isNotStudent) {
 						model.removeRow(i);
-						JOptionPane.showMessageDialog(null, "User has been successfuly deleted.");
+						JOptionPane.showMessageDialog(null, "User has been successfully deleted.");
 					}else {
 						JOptionPane.showMessageDialog(null, "Unable to delete user. First ask registar to delete this student.");
 					}
@@ -138,12 +149,14 @@ public class UsersGUI extends JFrame {
 		
 	}
 	
+	//return AddUserGUI page
 	protected void openAddUser(Session s) {		
 		AddUserGUI frame = new AddUserGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
+	//return AdminGUI page
 	protected void openAdmin(Session s) {
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);

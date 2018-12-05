@@ -50,7 +50,7 @@ public class AddStudentGUI extends JFrame {
 		});
 	}
 
-	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -60,6 +60,7 @@ public class AddStudentGUI extends JFrame {
 	 * @param currSession 
 	 */
 	public AddStudentGUI(Session currSession, RegistrarGUI f) {
+		setTitle("AddStudent");
 		parentFrame = f;
 		Registrar registrar = new Registrar();
 		
@@ -123,12 +124,14 @@ public class AddStudentGUI extends JFrame {
 		comboBox_2.setBounds(267, 221, 153, 20);
 		contentPane.add(comboBox_2);
 		
+		//get userslist from the database
 		List <String[]> usersList = dbSelector.getUserWithAccessList("student");
 
 		for( String[] row : usersList ){
 			comboBox_2.addItem(row[0]);
 		}
 		
+		//arrange the labels' names and positions
 		JLabel lblNewLabel = new JLabel("Personal tutor:");
 		lblNewLabel.setBounds(38, 176, 91, 14);
 		contentPane.add(lblNewLabel);
@@ -169,7 +172,7 @@ public class AddStudentGUI extends JFrame {
 			comboBox_3.addItem(row[0] + "  " + row[1]  + " to " + row[2]);
 		}
 				
-		
+		//create a Submit Button and set requirements
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -209,12 +212,15 @@ public class AddStudentGUI extends JFrame {
 		btnSubmit.setBounds(283, 315, 99, 23);
 		contentPane.add(btnSubmit);
 		
+		//create a Cancel Button and close the window afterwards
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		//arrange the positions
 		btnCancel.setBounds(65, 315, 89, 23);
 		contentPane.add(btnCancel);
 		

@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -62,12 +64,16 @@ public class LoginScreen extends JFrame {
 			}
 		});
 	}
-
+	
+	//create an infoBox which provides infoMessage and titleBar
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Create the frame.
 	 */
 	public LoginScreen() {
-		
+		setTitle("Login Window");
 		UserAuthorization usrLogin = new UserAuthorization();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +109,7 @@ public class LoginScreen extends JFrame {
 		lblAlert.setVisible(false);
 		contentPane.add(lblAlert);
 		
+		//create a Login Button
 		Button button = new Button("Login");
 		
 		button.addActionListener(new ActionListener() {
@@ -111,7 +118,7 @@ public class LoginScreen extends JFrame {
 				String username = textField.getText();
 				String password = String.valueOf(passwordField.getPassword());
 				
-				
+				//check whethere the username and password are correct or not
 				if(!username.isEmpty() && !password.isEmpty())
 				{
 				 String access = usrLogin.getAuthorization(username, password);
@@ -159,6 +166,7 @@ public class LoginScreen extends JFrame {
 
 		});
 		
+		//arrange button, textField and labels' positions and properties
 		button.setFont(new Font("Dialog", Font.PLAIN, 14));
 		button.setBackground(SystemColor.activeCaption);
 		button.setBounds(307, 194, 172, 31);
@@ -184,14 +192,15 @@ public class LoginScreen extends JFrame {
 		
 	}
 
-	
+	//return the StudentGUI page
 	protected void openStudentScreen( Session s ) {
 		// TODO Auto-generated method stub
 		StudentGUI frame = new StudentGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}
-
+	
+	//return the AdminGUI page
 	protected void openAdminScreen(  Session s ) {
 		// TODO Auto-generated method stub
 		AdminGUI frame = new AdminGUI(s);
@@ -199,13 +208,15 @@ public class LoginScreen extends JFrame {
 		dispose();
 	}
 	
+	//return the TeacherGUI page
 	protected void openTeacherScreen(Session s) {
 		// TODO Auto-generated method stub
 		TeacherGUI frame = new TeacherGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}
-
+	
+	//return the RegistrarGUI page
 	protected void openRegistrarScreen(Session s) {
 		// TODO Auto-generated method stub
 		RegistrarGUI frame = new RegistrarGUI(s);
@@ -213,3 +224,4 @@ public class LoginScreen extends JFrame {
 		dispose();
 	}
 }
+

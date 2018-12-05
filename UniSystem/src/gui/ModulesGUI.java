@@ -29,6 +29,12 @@ public class ModulesGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	
+	//create an infoBox which provides infoMessage and titleBar
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
+
 
 	/**
 	 * Launch the application.
@@ -50,6 +56,7 @@ public class ModulesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ModulesGUI(Session s) {
+		setTitle("Module Page");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 848, 564);
@@ -64,6 +71,7 @@ public class ModulesGUI extends JFrame {
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		
+		//create a Table with strings defined
 		table = new JTable();
 		table.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		table.setModel(new DefaultTableModel(
@@ -72,7 +80,7 @@ public class ModulesGUI extends JFrame {
 			new String[] {
 				"Code", "Name", "Credits"
 			}
-		) {
+		) {	//disable the editability of contents in the table
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, String.class
 				};
@@ -85,6 +93,7 @@ public class ModulesGUI extends JFrame {
 		});
 		scrollPane.setViewportView(table);
 		
+		//create a Back Button and arrange its properties
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,6 +103,7 @@ public class ModulesGUI extends JFrame {
 		btnBack.setBounds(40, 430, 181, 49);
 		contentPane.add(btnBack);
 		
+		//create a Add Module Button and arrange its properties
 		JButton btnAddModule = new JButton("Add Module");
 		btnAddModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,16 +115,18 @@ public class ModulesGUI extends JFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
+		//create a Delete Module Button
 		JButton btnDeleteModule = new JButton("Delete Module");
 		btnDeleteModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				//identify whether the module has been successfully deleted or not
 				if(i>=0) {			
 
 					boolean isEmpty = dbSelector.deleteModule(table.getValueAt(i, 0).toString());
 					if(isEmpty) {
 						model.removeRow(i);
-						JOptionPane.showMessageDialog(null, "Module has been successfuly deleted.");
+						JOptionPane.showMessageDialog(null, "Module has been successfully deleted.");
 					}else {
 						JOptionPane.showMessageDialog(null, "Unable to delete module. First remove all students from it.");
 					}
@@ -133,12 +145,14 @@ public class ModulesGUI extends JFrame {
 		}			
 	}
 	
+	//return the AddModuleGUI page
 	protected void openAddModule(Session s) {		
 		AddModuleGUI frame = new AddModuleGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
+	//return the AdminGUI page
 	protected void openAdmin(Session s) {
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);

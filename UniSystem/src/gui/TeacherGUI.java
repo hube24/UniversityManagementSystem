@@ -40,7 +40,7 @@ public class TeacherGUI extends JFrame {
 	private int registrationNum;
 	private JPanel contentPane;
 	private JTable table;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,11 +57,15 @@ public class TeacherGUI extends JFrame {
 			}
 		});
 	}
-
+	//create an infoBox which provides infoMessage and titleBar
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Create the frame.
 	 */
 	public TeacherGUI(Session s) {
+		setTitle("Teacher Page");
 		currSession = s;		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 545);
@@ -70,15 +74,18 @@ public class TeacherGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//create a welcome label and modify its properties
 		JLabel lblWelcomeTeacher = new JLabel("Welcome, Teacher");
 		lblWelcomeTeacher.setBounds(10, 10, 171, 56);
 		lblWelcomeTeacher.setFont(new Font("Tahoma", Font.PLAIN, 18)); 
 		contentPane.add(lblWelcomeTeacher);
 		
+		//create a Log out Button and arrange its properties
 		Button button = new Button("Log out");
 		button.setBounds(628, 10, 78, 20);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//display a confirmation windows and warning
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION){
@@ -98,6 +105,7 @@ public class TeacherGUI extends JFrame {
 		});
 		contentPane.add(button);
 		
+		//get RegistrationNumber
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 48, 525, 2);
 		contentPane.add(separator);
@@ -124,6 +132,7 @@ public class TeacherGUI extends JFrame {
 		scrollPane.setBounds(10, 77, 696, 365);
 		contentPane.add(scrollPane);
 		
+		//create a JTable with Strings defined
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
@@ -140,6 +149,7 @@ public class TeacherGUI extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		//assign values to columns and disable the resizability of the table
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(112);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -151,7 +161,7 @@ public class TeacherGUI extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		buttonColumn.setMnemonic(KeyEvent.VK_D);		
 		
-		
+		//get StudentsList
 		List <String[]> studentssList = dbSelector.GetStudentsList();
 		for( String[] row : studentssList) {			
 			Integer regNum = Integer.valueOf(row[0]);
@@ -165,6 +175,7 @@ public class TeacherGUI extends JFrame {
 		}
 	}
 	
+	//return the CheckGradeGUi page
 	protected void openCheckGrades(Session s, int r) {		
 		CheckGradesGUI frame = new CheckGradesGUI(s,r);
 		frame.setVisible(true);		

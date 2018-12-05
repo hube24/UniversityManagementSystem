@@ -14,7 +14,7 @@ import database.SqlDriver;
 
 
 public class Registrar extends User {
-
+//set the e-mail domain
 String universityDomain = "@hogwart.ac.uk";	
 
 public static void infoBox(String infoMessage, String titleBar) {
@@ -24,7 +24,7 @@ public static void infoBox(String infoMessage, String titleBar) {
 SqlDriver sqldriver = new SqlDriver();
 
 	public boolean addStudent( Student student, String periodOfStudy)
-	{
+	{	//get student's data
 		String username = student.getUsername();
 		String title = student.getTitle();
 		String forname = student.getForename();
@@ -120,7 +120,7 @@ SqlDriver sqldriver = new SqlDriver();
 			return true;
 			
 		} catch (Exception exc) {
-			
+			//warning message
 			infoBox("Student could not be added.", "Warning");
 			exc.printStackTrace();
 			return false;
@@ -128,7 +128,9 @@ SqlDriver sqldriver = new SqlDriver();
 
 	}
 	
-	
+	/**
+	* A class designed to get Core modules from database
+	*/
 	Module[] getCoreModules(Degree degree, String level)
 	{
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
@@ -173,13 +175,15 @@ SqlDriver sqldriver = new SqlDriver();
 			con.close();
 			return true;
 		} catch (Exception exc) {
-			
+			//warning message
 			infoBox("Module could not be registered.", "Warning");
 			exc.printStackTrace();
 			return false;
 		}
 	}
-	
+	/**
+	*A class designed to add and drop optional modules
+	*/
 	public boolean addDropOptionalModules(List<Module> addModules, List<Module> dropModules, Student student)
 	{
 			try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
@@ -221,7 +225,7 @@ SqlDriver sqldriver = new SqlDriver();
 				con.close();
 				return true;
 			} catch (Exception exc) {
-				
+				//warning message
 				infoBox("Optional modules could not been modified", "Warning");
 				exc.printStackTrace();
 				return false;
@@ -229,10 +233,12 @@ SqlDriver sqldriver = new SqlDriver();
 
 	}
 	
+	//registration check
 	public boolean checkRegistration() {
 		return false;
 	}
-
+	
+	//Credits check
 	public boolean checkCredits() {
 		return false;
 	}

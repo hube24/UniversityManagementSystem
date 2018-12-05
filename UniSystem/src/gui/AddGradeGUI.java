@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AddGradeGUI extends JFrame {
-	
+	Student student;
 	private String first;
 	private String seccond;
 	private JPanel contentPane;
@@ -54,7 +54,7 @@ public class AddGradeGUI extends JFrame {
 	 */
 	public AddGradeGUI(Session s, String code, Student stud) {
 		Session currSession = s;
-		Student student = stud;
+		student = stud;
 		student.completeFromDB();
 		Teacher teacher = new Teacher();
 		DatabaseSelector dbSelector = new DatabaseSelector();
@@ -99,6 +99,11 @@ public class AddGradeGUI extends JFrame {
 			txtSeccondgrade.setEditable(false);
 		}
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openCheckGrades(currSession, student.getRegistrationID());
+			}
+		});
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
@@ -113,6 +118,7 @@ public class AddGradeGUI extends JFrame {
 				}else {
 					teacher.addGrade(Integer.parseInt(seccondGrade), student.getRegistrationID(), code, "seccond" );
 				}
+				openCheckGrades(currSession, student.getRegistrationID());
 			}
 		});
 		
@@ -166,5 +172,11 @@ public class AddGradeGUI extends JFrame {
 					.addGap(24))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	protected void openCheckGrades(Session s, int r) {		
+		CheckGradesGUI frame = new CheckGradesGUI(s,r);
+		frame.setVisible(true);				
+		dispose();	
+		
 	}
 }

@@ -155,6 +155,29 @@ public class CheckGradesGUI extends JFrame {
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(91);
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(91);
 		scrollPane_1.setViewportView(table_1);
+		
+		DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
+		
+		List <String[]> finalList = dbSelector.getRegisteredModules(student);
+		System.out.println(finalList);
+		for( String[] row : finalList) {
+			if(row[6]==null) {
+				model1.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
+			}else if(Integer.valueOf(row[6])>=40){			
+				model1.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
+			}else {
+				model1.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
+			}
+		}
+			
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openTeacher(currSession);
+			}
+		});
+		btnNewButton.setBounds(503, 415, 159, 41);
+		contentPane.add(btnNewButton);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -176,6 +199,13 @@ public class CheckGradesGUI extends JFrame {
 	public void openAddGrade(Session s, String code, Student student) {
 		AddGradeGUI frame = new AddGradeGUI(s,code, student);
 		frame.setVisible(true);		
-		codeOfModule = code;		
+		codeOfModule = code;	
+		dispose();
+	}
+	
+	public void openTeacher(Session s) {
+		TeacherGUI frame =  new TeacherGUI(s);
+		frame.setVisible(true);
+		dispose();
 	}
 }

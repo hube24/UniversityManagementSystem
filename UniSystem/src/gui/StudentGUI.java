@@ -62,26 +62,32 @@ public class StudentGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//create a Registration Number Label and arrange its properties
 		JLabel lblReg = new JLabel("Registration Number:");
 		lblReg.setBounds(30, 84, 184, 21);
 		lblReg.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
+		//create an E-mail Label and arrange its properties
 		JLabel lblEm = new JLabel("Email:");
 		lblEm.setBounds(30, 111, 52, 21);
 		lblEm.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
+		//create a Degree Label and arrange its properties
 		JLabel lblDeg = new JLabel("Degree:");
 		lblDeg.setBounds(30, 165, 67, 21);
 		lblDeg.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
+		//create a Current Level Label and arrange its properties
 		JLabel lblLvl = new JLabel("Current Level:");
 		lblLvl.setBounds(30, 192, 120, 21);
 		lblLvl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
+		//create a Personal Tutor and arrange its properties
 		JLabel lblPerT = new JLabel("Personal Tutor:");
 		lblPerT.setBounds(30, 219, 131, 21);
 		lblPerT.setFont(new Font("Tahoma", Font.BOLD, 17));
 		
+		//create a Department Label and arrange its properties
 		JLabel lblDep = new JLabel("Department:");
 		lblDep.setBounds(30, 138, 108, 21);
 		lblDep.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -118,7 +124,7 @@ public class StudentGUI extends JFrame {
 			
 		contentPane.setLayout(null);
 		
-				
+		//add differnent panes		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(30, 64, 484, 9);
 		separator.setForeground(Color.DARK_GRAY);
@@ -137,7 +143,7 @@ public class StudentGUI extends JFrame {
 		contentPane.add(lblDegree);
 		contentPane.add(lblSurnameForename);
 		
-		
+		//assign different values to contents
 		lblSurnameForename.setText(student.getTitle() + " " + student.getForename() + " " + student.getSurname());
 		lblRegistrationNumber.setText(Integer.toString(student.getRegistrationID()));
 		lblDepartment.setText(student.getDegree().getLeadDepartment().getCode() + " " + student.getDegree().getLeadDepartment().getName());
@@ -146,6 +152,7 @@ public class StudentGUI extends JFrame {
 		lblPersonalTutor.setText(student.getPersonalTutor());
 		lblEmail.setText(student.getEmail());
 		
+		//create a Show Status Button and arrange its properties
 		JButton btnStatus = new JButton("Show Status");
 		btnStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -155,9 +162,11 @@ public class StudentGUI extends JFrame {
 		btnStatus.setBounds(187, 440, 168, 48);
 		contentPane.add(btnStatus);
 		
+		//create a Log Out Button
 		Button button = new Button("Log out");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Log out confirmation and warning
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION){
@@ -179,6 +188,7 @@ public class StudentGUI extends JFrame {
 		contentPane.add(button);
 	}
 	
+	//return the StudentStatusGUI page
 	protected void openStudentStatus( Session s ) {
 		// TODO Auto-generated method stub
 		StudentStatusGUI frame = new StudentStatusGUI(s);

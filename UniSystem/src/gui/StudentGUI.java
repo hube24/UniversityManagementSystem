@@ -44,11 +44,14 @@ public class StudentGUI extends JFrame {
 			}
 		});
 	}
-
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Create the frame.
 	 */
 	public StudentGUI(Session s) {
+		setTitle("Student Page");
 		Session currSession = s;
 		Student student = new Student(s.getUsername());
 		student.completeFromDB();

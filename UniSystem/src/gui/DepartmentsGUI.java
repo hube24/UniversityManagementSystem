@@ -163,16 +163,7 @@ public class DepartmentsGUI extends JFrame {
 		List <String[]> departmentsList = dbSelector.GetDepartmentList();
 		for( String[] row : departmentsList) {
 			model.addRow(new String[] {row[0], row[1], "See Degrees"});
-		}
-		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-	        public void valueChanged(ListSelectionEvent e) {
-	        	
-	        	index = table.getValueAt(table.getSelectedRow(), 0).toString();	        	
-	        	openDepartmentDegree(currSession, index);
-	        }			
-	    });
-		
+		}	
 	}
 	
 	protected void openAddDepartment(Session s) {		

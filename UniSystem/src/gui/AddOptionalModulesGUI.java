@@ -104,6 +104,7 @@ public class AddOptionalModulesGUI extends JFrame {
 	 * @param modelRow 
 	 */
 	public AddOptionalModulesGUI(Session s, Student student, RegistrarGUI pf, int r ) {
+		setTitle("AddOptionalModules");
 		parentFrame = pf;
 		modelRow = r;
 		Session currSession = s;

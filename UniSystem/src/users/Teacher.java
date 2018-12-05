@@ -292,7 +292,7 @@ public class Teacher extends User {
 	}
 
 	// return if student is able to progress, count final grade for period of study
-	boolean ableToProgress(Student student)
+	public boolean ableToProgress(Student student)
 	{
 		// 1 - check all modules
 		// 2 - count number of obtained credits

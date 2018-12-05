@@ -130,7 +130,7 @@ public class TeacherGUI extends JFrame {
 			new Object[][] {				
 			},
 			new String[] {
-				"Registration Number", "Degree", "Name", "Level", "Check Student's Grades"
+				"Registration Number", "Degree", "Name", "Level", "Check Student's Grades" 
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {

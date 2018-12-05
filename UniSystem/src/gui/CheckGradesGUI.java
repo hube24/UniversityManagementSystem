@@ -158,18 +158,28 @@ public class CheckGradesGUI extends JFrame {
 		
 		DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
 		
-		List <String[]> finalList = dbSelector.getRegisteredModules(student);
-		System.out.println(finalList);
-		for( String[] row : finalList) {
-			if(row[6]==null) {
-				model1.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
-			}else if(Integer.valueOf(row[6])>=40){			
-				model1.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
-			}else {
-				model1.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
-			}
+		//I don't know how to pass period of study to this table.
+		
+		
+		List <String[]> finalList = dbSelector.getPreviousModules(student);	
+		//I don't know how to connect both loops.
+		/*for( String[] row : finalList) {			
+				model1.addRow(new String[] {row[0], null, null, null}); 
+			}*/
+		
+		String currPeriod = student.getCurrentPeriodOfStudy();
+		if(currPeriod!="A") { 					
+			char p = currPeriod.charAt(0);
+			p--;
+			currPeriod = String.valueOf(p);
 		}
-			
+		System.out.println(currPeriod);
+		List <String[]> previousModules = dbSelector.getPreviousGrades(student, currPeriod);
+		System.out.println("Jestem"+previousModules);
+		for( String[] row : previousModules) {			
+			model1.addRow(new String[] {row[0], row[3], currPeriod, row[2]}); 
+		}
+		
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,8 +188,14 @@ public class CheckGradesGUI extends JFrame {
 		});
 		btnNewButton.setBounds(503, 415, 159, 41);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblOverallGrade = new JLabel("Overall Grade:");
+		lblOverallGrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblOverallGrade.setBounds(10, 418, 221, 28);
+		contentPane.add(lblOverallGrade);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
+	//	System.out.println(teacher.ableToProgress(student));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
@@ -193,7 +209,8 @@ public class CheckGradesGUI extends JFrame {
 				model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
 			}
 			 
-		}		
+		}	
+		
 	}
 	
 	public void openAddGrade(Session s, String code, Student student) {

@@ -36,7 +36,7 @@ public class DatabaseSelector extends SqlDriver{
 			    }
 			    table.add( row );
 			}
-			con.close(); 
+			con.close();  
 			return table; 
 
 		} catch (Exception exc) {
@@ -290,7 +290,57 @@ public class DatabaseSelector extends SqlDriver{
 		}
 		return null;
 	}
-	
+	public List<String[]> getPreviousGrades(Student student, String label){
+		
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE label = ? AND registrationNum = ?");
+			pst1.setString(1, label); 
+			pst1.setInt(2, student.getRegistrationID());
+			
+			ResultSet rs = pst1.executeQuery();
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+		 	while( rs.next()) {
+		 	    String[] row = new String[nCol];
+		 	    for( int iCol = 1; iCol <= nCol; iCol++ ){
+		 	            Object obj = rs.getObject( iCol );
+		 	            row[iCol-1] = (obj == null) ? null:obj.toString();
+		 	    }
+		 	    table.add( row );
+		 	}
+		 	con.close(); 
+		 	return table; 
+		 
+		 } catch (Exception exc) {
+				exc.printStackTrace();
+			}
+		 return null;
+		
+	}
+	public List<String[]> getPreviousModules(Student student){
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
+														  " WHERE ModuleRegistration.registrationNum = ?");
+			pst1.setInt(1, student.getRegistrationID());
+			ResultSet rs = pst1.executeQuery();
+			int nCol = rs.getMetaData().getColumnCount();
+			List<String[]> table = new ArrayList<>();
+ 			while( rs.next()) {
+ 			    String[] row = new String[nCol];
+ 			    for( int iCol = 1; iCol <= nCol; iCol++ ){
+ 			            Object obj = rs.getObject( iCol );
+ 			            row[iCol-1] = (obj == null) ? null:obj.toString();
+ 			    }
+ 			    table.add( row );
+ 			}
+ 			con.close(); 
+ 			return table; 
+ 
+ 		} catch (Exception exc) {
+ 			exc.printStackTrace();
+ 		}
+ 		return null;
+ 	}
 	public List<String> getStudentGradesList(Student student, String code) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 			//get all rows in table 

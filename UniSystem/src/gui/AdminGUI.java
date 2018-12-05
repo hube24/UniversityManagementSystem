@@ -31,6 +31,7 @@ public class AdminGUI extends JFrame {
 	Session currSession;
 	private JPanel contentPane;
 	private JButton btnUsers;
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -67,6 +68,7 @@ public class AdminGUI extends JFrame {
 		
 	}
 	
+	//arrange the names and positions of the elements
 	public AdminGUI(Session s) {
 		setTitle("Admin");
 		currSession = s;
@@ -76,6 +78,7 @@ public class AdminGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//create a Users Button and arrange its position
 		btnUsers = new JButton("Users");
 		btnUsers.setBorder(null);
 		btnUsers.setBorderPainted(false);
@@ -88,6 +91,7 @@ public class AdminGUI extends JFrame {
 			}
 		});
 		
+		//create a Degrees Button and arrange its position
 		JButton btnDegree = new JButton("Degrees");
 		btnDegree.setBorder(null);
 		btnDegree.setBorderPainted(false);
@@ -100,6 +104,7 @@ public class AdminGUI extends JFrame {
 			}
 		});
 		
+		//create a Departments Button and arrange its position
 		JButton btnDepartment = new JButton("Departments");
 		btnDepartment.setBorder(null);
 		btnDepartment.setBorderPainted(false);
@@ -112,6 +117,7 @@ public class AdminGUI extends JFrame {
 			}
 		});
 		
+		//create a Modules Button and arrange its position
 		JButton btnNewModlue = new JButton("Modules");
 		btnNewModlue.setBorder(null);
 		btnNewModlue.setBorderPainted(false);
@@ -134,6 +140,7 @@ public class AdminGUI extends JFrame {
 		panel.setBounds(0, 0, 148, 262);
 		contentPane.add(panel);
 		
+		//create a welcome text
 		JLabel lblWelcomeAdministrator = new JLabel("Welcome Administrator");
 		lblWelcomeAdministrator.setFont(new Font("Nirmala UI", Font.PLAIN, 18));
 		lblWelcomeAdministrator.setBounds(175, 62, 188, 31);
@@ -143,6 +150,7 @@ public class AdminGUI extends JFrame {
 		separator.setBounds(158, 91, 336, 2);
 		contentPane.add(separator);
 		
+		//create a Logout Button and a warning window
 		Button button = new Button("Logout");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,26 +171,31 @@ public class AdminGUI extends JFrame {
 				}
 			}
 		});
+		//set the properties of the button
 		button.setFont(new Font("Nirmala UI", Font.PLAIN, 10));
 		button.setBackground(UIManager.getColor("scrollbar"));
 		button.setBounds(421, 10, 86, 21);
 		contentPane.add(button);
 	}
+	//define the page which returns to the UsersGUI page
 	protected void openUser(Session s) {		
 		UsersGUI frame = new UsersGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
+	//define the page which returns to the DepartmentsGUI page
 	protected void openDepartments(Session s) {		
 		DepartmentsGUI frame = new DepartmentsGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
+	//define the page which returns to the DegreesGUI page
 	protected void openDegrees(Session s) {		
 		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
+	//define the page which returns to the ModulesGUI page
 	protected void openModules(Session s) {		
 		ModulesGUI frame = new ModulesGUI(s);
 		frame.setVisible(true);

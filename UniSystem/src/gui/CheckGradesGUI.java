@@ -76,7 +76,7 @@ public class CheckGradesGUI extends JFrame {
 		student = new Student(regNum);
 		student.completeFromDB();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 506);
+		setBounds(100, 100, 896, 506);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -90,7 +90,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblRegistrationNumber);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 105, 814, 275);
+		scrollPane.setBounds(10, 105, 860, 275);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -112,6 +112,7 @@ public class CheckGradesGUI extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(107);
 		table.getColumnModel().getColumn(1).setPreferredWidth(109);
 		table.getColumnModel().getColumn(2).setPreferredWidth(96);
+		table.getColumnModel().getColumn(6).setPreferredWidth(127);
 		table.setRowHeight(35);
 		
 		Action open = new AbstractAction()
@@ -142,8 +143,14 @@ public class CheckGradesGUI extends JFrame {
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
 		for( String[] row : moduleList) {
-			model.addRow(new String[] {row[0], row[1], null, row[5], row[6], null});
-			
+			if(row[6]==null) {
+				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],row[5], "Add/Update Grade"}); 
+			}else if(Integer.valueOf(row[6])>=40){			
+				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],"40", "Add/Update Grade"}); 
+			}else {
+				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],"Failed", "Add/Update Grade"}); 
+			}
+			 
 		}
 		
 	}

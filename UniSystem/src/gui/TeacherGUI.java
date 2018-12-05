@@ -72,7 +72,7 @@ public class TeacherGUI extends JFrame {
 		
 		JLabel lblWelcomeTeacher = new JLabel("Welcome, Teacher");
 		lblWelcomeTeacher.setBounds(10, 10, 171, 56);
-		lblWelcomeTeacher.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblWelcomeTeacher.setFont(new Font("Tahoma", Font.PLAIN, 18)); 
 		contentPane.add(lblWelcomeTeacher);
 		
 		Button button = new Button("Log out");

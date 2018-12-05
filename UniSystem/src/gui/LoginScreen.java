@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -62,12 +64,14 @@ public class LoginScreen extends JFrame {
 			}
 		});
 	}
-
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Create the frame.
 	 */
 	public LoginScreen() {
-		
+		setTitle("Login Window");
 		UserAuthorization usrLogin = new UserAuthorization();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -213,3 +217,4 @@ public class LoginScreen extends JFrame {
 		dispose();
 	}
 }
+

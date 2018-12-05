@@ -53,6 +53,7 @@ public class AddGradeGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AddGradeGUI(Session s, String code, Student stud) {
+		setTitle("Edit Grade Page");
 		Session currSession = s;
 		student = stud;
 		student.completeFromDB();

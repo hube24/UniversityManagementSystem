@@ -13,7 +13,7 @@ import users.Student;
 
 public class DatabaseSelector extends SqlDriver{
 
-	public DatabaseSelector() {
+	public DatabaseSelector() { 
 		// TODO Auto-generated constructor stub
 	}	
 	
@@ -164,7 +164,6 @@ public class DatabaseSelector extends SqlDriver{
 	{
 		return GetTableList("SELECT * FROM Module");
 	}
-	
 	public List<String[]> getUserWithAccessList(String acs)
 	{
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
@@ -278,6 +277,34 @@ public class DatabaseSelector extends SqlDriver{
 			}
 			con.close(); 
 			return table; 
+
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<String> getStudentGradesList(Student student, String code) {
+		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
+			//get all rows in table 
+			PreparedStatement pst1 = con.prepareStatement(" SELECT ModuleRegistration.firstGrade, ModuleRegistration.secondGrade FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
+		            " WHERE ModuleRegistration.registrationNum = ? AND ModuleRegistration.codeOfModule = ?");
+			pst1.setInt(1, student.getRegistrationID());
+			pst1.setString(2, code);
+			ResultSet rs = pst1.executeQuery();			
+			List<String> list = new  ArrayList<>();
+			 String first =  null;
+			 String seccond = null;
+			if(rs.next()) {
+				
+				 first =  rs.getString(1);
+				 seccond = rs.getString(2);
+				 list.add(first);
+				 list.add(seccond); 
+				 }
+
+			con.close(); 
+			return list;
 
 		} catch (Exception exc) {
 			exc.printStackTrace();

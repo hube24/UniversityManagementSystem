@@ -39,7 +39,7 @@ public class Teacher extends User {
 		return forename;
 	}
 	
-	boolean addGrade(int grade, int regNum, String moduleCode, String fstsnd )
+	public boolean addGrade(int grade, int regNum, String moduleCode, String fstsnd )
 	{
 		SqlDriver sqldriver = new SqlDriver();
 		

@@ -39,7 +39,7 @@ public class StudentGUI extends JFrame {
 					StudentGUI frame = new StudentGUI(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					e.printStackTrace(); 
 				}
 			}
 		});

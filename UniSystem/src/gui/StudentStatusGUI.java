@@ -64,7 +64,7 @@ public class StudentStatusGUI extends JFrame {
 			new Object[][] {			
 			},
 			new String[] {
-				"Unit", "Credits", "Title", "1st Sitting", "2nd Sitting"
+				"Unit", "Credits", "Title", "1st Sitting", "2nd Sitting" 
 			}
 		));
 		scrollPane.setViewportView(table);

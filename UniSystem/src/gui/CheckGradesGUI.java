@@ -37,11 +37,13 @@ import javax.swing.JScrollPane;
 
 public class CheckGradesGUI extends JFrame {
 	
+	private String codeOfModule;
 	private Student student;
 	private JPanel contentPane;
 	private static Student st;
 	private static String periodOfStudy;
 	private JTable table;
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -72,11 +74,14 @@ public class CheckGradesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public CheckGradesGUI(Session s, int regNum) {
+		
 		Session currSession = s;
 		student = new Student(regNum);
 		student.completeFromDB();
+		Teacher teacher = new Teacher();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 896, 506);
+		setBounds(100, 100, 1218, 506);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -90,7 +95,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblRegistrationNumber);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 105, 860, 275);
+		scrollPane.setBounds(10, 105, 794, 275);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -99,11 +104,11 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Code of the Module", "Name of the Module", "Period of Study", "Initial Grade", "Resit Grade", "Final Grade", "Add/Update Grade"
+				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade", "Final Grade", "Add/Update Grade"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, true
+				false, false, false, false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -111,8 +116,7 @@ public class CheckGradesGUI extends JFrame {
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(107);
 		table.getColumnModel().getColumn(1).setPreferredWidth(109);
-		table.getColumnModel().getColumn(2).setPreferredWidth(96);
-		table.getColumnModel().getColumn(6).setPreferredWidth(127);
+		table.getColumnModel().getColumn(5).setPreferredWidth(127);
 		table.setRowHeight(35);
 		
 		Action open = new AbstractAction()
@@ -123,35 +127,55 @@ public class CheckGradesGUI extends JFrame {
 				
 		        JTable table = (JTable)e.getSource();
 		        int modelRow = Integer.valueOf( e.getActionCommand() );
-		        String code = (String)table.getModel().getValueAt(modelRow, 0);        		        
+		        String code = (String)table.getModel().getValueAt(modelRow, 0); 
+		        openAddGrade(currSession, code, student);
 		    }
 		};
 		
-		ButtonColumn buttonColumn = new ButtonColumn(table, open, 6);
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 5);
 		
 		JLabel lblDegree = new JLabel("");
 		lblDegree.setText(student.getDegree().getCode() + " - " + student.getDegree().getName());
 		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDegree.setBounds(10, 40, 307, 35);
 		contentPane.add(lblDegree);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(836, 105, 356, 275);
+		contentPane.add(scrollPane_1);
+		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Code of Module", "Level", "Period of study", "Final Grade"
+			}
+		));
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(91);
+		table_1.getColumnModel().getColumn(2).setPreferredWidth(91);
+		scrollPane_1.setViewportView(table_1);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		
-		
 		
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
 		for( String[] row : moduleList) {
 			if(row[6]==null) {
-				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],row[5], "Add/Update Grade"}); 
+				model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
 			}else if(Integer.valueOf(row[6])>=40){			
-				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],"40", "Add/Update Grade"}); 
+				model.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
 			}else {
-				model.addRow(new String[] {row[0], row[1], null, row[5], row[6],"Failed", "Add/Update Grade"}); 
+				model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
 			}
 			 
-		}
-		
+		}		
+	}
+	
+	public void openAddGrade(Session s, String code, Student student) {
+		AddGradeGUI frame = new AddGradeGUI(s,code, student);
+		frame.setVisible(true);		
+		codeOfModule = code;		
 	}
 }

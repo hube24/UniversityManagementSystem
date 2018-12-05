@@ -34,7 +34,7 @@ public class Student extends User {
 	
 	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
 		username = u;
- 		registrationNum = r;
+ 		registrationNum = r; 
 		title = t;
 		surname = s;
 		forename = f;

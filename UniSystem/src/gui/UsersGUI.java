@@ -52,6 +52,7 @@ public class UsersGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public UsersGUI(Session s) {
+		setTitle("User Page");
 		Session currSession =s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 818, 559);

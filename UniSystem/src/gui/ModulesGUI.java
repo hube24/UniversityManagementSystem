@@ -91,6 +91,7 @@ public class ModulesGUI extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		table.setRowHeight(35);
 		scrollPane.setViewportView(table);
 		
 		//create a Back Button and arrange its properties

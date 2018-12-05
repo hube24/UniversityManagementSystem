@@ -112,6 +112,7 @@ public class UsersGUI extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		table.setRowHeight(35);
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		//Create Delete User Button

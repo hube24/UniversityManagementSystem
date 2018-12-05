@@ -142,33 +142,93 @@ public class Teacher extends User {
 		return String.valueOf(p);
 	}
 	
-	/*
-	boolean setGraduationGrade(Student student)
+	void graduate(Student student)
 	{
 
 		SqlDriver sqldriver = new SqlDriver();
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
 			
+			//count avarage grade lvl 1 dont count
+			int gradeLvl2 = -1;
+			int gradeLvl3 = -1;
+			int gradeLvl4 = -1;
 			
-			String setGraduationGrade = "UPDATE Student SET graduationGrade = ? WHERE registrationNum = ?";
-			PreparedStatement pst3 = con.prepareStatement(setGraduationGrade);
+			String getPeriodsGrades = "SELECT finalGrade, level FROM StudentStudyPeriod WHERE registrationNum = ?";
+			PreparedStatement pst1 = con.prepareStatement(getPeriodsGrades);
+			ResultSet rs = pst1.executeQuery();
+			while(rs.next())
+			{
+				int grade = rs.getInt(1);
+				String lvl = rs.getString(2);
+				
+				if(lvl=="2")gradeLvl2 = grade;
+				if(lvl=="3")gradeLvl3 = grade;
+				if(lvl=="4")gradeLvl4 = grade;
+			}
+		
+			//avarage mean
+			int avup = 0;
+			int avdown = 0;
 			
+			if(gradeLvl2!=(-1)) { avup += (gradeLvl2*1); avdown+=1; }
+			if(gradeLvl3!=(-1)) { avup += (gradeLvl3*2); avdown+=2; }
+			if(gradeLvl4!=(-1)) { avup += (gradeLvl4*2); avdown+=3; }
+			
+			double finalGrade = avup/avdown;
+			
+			//set graduation grade 
+
 			String degreeName[] = student.getDegree().getName().split(" ",2);
 			String degreeType = degreeName[0]; //MEng, MSc, BSc, BEng etc.
 			String graduationGrade = graduationGradeState(finalGrade, degreeType);
 			
-			pst3.setString(1,finalGrade);
-			pst3.setString(2, currPeriod);
-			pst3.setInt(3, student.getRegistrationID());
+			String setGraduationGrade = "UPDATE Student SET graduationGrade = ? WHERE registrationNum = ?";
+			PreparedStatement pst2 = con.prepareStatement(setGraduationGrade);
+			
+			pst2.setString(1,graduationGrade);
+			pst2.setInt(2, student.getRegistrationID());
+			
+			con.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	*/
+	
+	private String graduationGradeState(double finalGrade, String degreeType) {
+		
+		if(degreeType == "MSc") {
+			if(finalGrade < 39.5) return "fail";
+			if(finalGrade >= 39.5 && finalGrade < 44.5) return "fail";
+			if(finalGrade >= 44.5 && finalGrade < 49.5) return "fail";
+			if(finalGrade >= 49.5 && finalGrade < 59.5) return "pass";
+			if(finalGrade >= 59.5 && finalGrade < 69.5) return "merit";
+			if(finalGrade >= 69.5) return "distinction";
+		}
+		
+		if(degreeType == "BSc" || degreeType == "BEng") {
+			if(finalGrade < 39.5) return "fail";
+			if(finalGrade >= 39.5 && finalGrade < 44.5) return "pass (non-honours)";
+			if(finalGrade >= 44.5 && finalGrade < 49.5) return "third class";
+			if(finalGrade >= 49.5 && finalGrade < 59.5) return "lower second";
+			if(finalGrade >= 59.5 && finalGrade < 69.5) return "upper second";
+			if(finalGrade >= 69.5) return "first class";
+		}
+		
+		if(degreeType == "MComp" || degreeType == "MEng") {
+			if(finalGrade < 39.5) return "fail";
+			if(finalGrade >= 39.5 && finalGrade < 44.5) return "fail";
+			if(finalGrade >= 44.5 && finalGrade < 49.5) return "fail";
+			if(finalGrade >= 49.5 && finalGrade < 59.5) return "lower second";
+			if(finalGrade >= 59.5 && finalGrade < 69.5) return "upper second";
+			if(finalGrade >= 69.5) return "first class";
+		}
+		return null;
+	}
+
 	void progressToNextLevel(Student student, int finalGrade)
 	{
-		
+		System.out.println("progressing to next level");
 		String nextLevel = nextLevel(student);
 		String currPeriod = student.getCurrentPeriodOfStudy();
 		String nextPeriod = nextPeriod(currPeriod);
@@ -194,9 +254,21 @@ public class Teacher extends User {
 				
 				//TODO
 				//register core modules for the next level
+				Registrar registrar = new Registrar();
+				
+				Module[] coreModules = registrar.getCoreModules(student.getDegree(),nextLevel);
+				
+				for(Module m : coreModules)
+				{
+					if(!registrar.moduleRegister(m, student))
+					{
+						infoBox("Couldn't register student to core modules.", "Warning");
+					}
+				}
+			
 			}else {
 				//TODO
-				//set graduation grade 
+				graduate(student); 
 			}
 			con.close();
 			
@@ -280,7 +352,7 @@ public class Teacher extends User {
 	private void failToProgress(Student student) {
 		SqlDriver sqldriver = new SqlDriver();
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			String setPeriodFinalGrade = "UPDATE Student SET graduationGrade = 'failed' WHERE registrationNum = ?";
+			String setPeriodFinalGrade = "UPDATE Student SET graduationGrade = 'failed to progress' WHERE registrationNum = ?";
 			PreparedStatement pst1 = con.prepareStatement(setPeriodFinalGrade);
 			pst1.setInt(1, student.getRegistrationID());
 			con.close();
@@ -323,12 +395,12 @@ public class Teacher extends User {
 			int credits = Integer.valueOf(row[2]);
 			int registrationNum = Integer.valueOf(row[3]);
 			
-			/*
-			if(row[5]==null && row[6] == null) {
+			
+			if(row[5]==null) {
 				infoBox("Module "+ codeOfModule + " is not marked yet, please set grades for this module.","Warning");
 				return false;
 			}
-			*/
+			
 			
 			int firstGrade =0;
 			int secondGrade =0;

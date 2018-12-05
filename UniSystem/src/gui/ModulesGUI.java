@@ -29,6 +29,10 @@ public class ModulesGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
+
 
 	/**
 	 * Launch the application.
@@ -50,6 +54,7 @@ public class ModulesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ModulesGUI(Session s) {
+		setTitle("Module Page");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 848, 564);

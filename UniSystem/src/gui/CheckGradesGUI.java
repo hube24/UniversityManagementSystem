@@ -13,6 +13,7 @@ import users.Student;
 import users.Teacher;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -45,6 +46,11 @@ public class CheckGradesGUI extends JFrame {
 	private JTable table;
 	private JTable table_1;
 
+	
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,7 +87,7 @@ public class CheckGradesGUI extends JFrame {
 		Teacher teacher = new Teacher();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1218, 506);
+		setBounds(100, 100, 1218, 560);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -186,13 +192,20 @@ public class CheckGradesGUI extends JFrame {
 				openTeacher(currSession);
 			}
 		});
-		btnNewButton.setBounds(503, 415, 159, 41);
+		btnNewButton.setBounds(843, 415, 159, 41);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblOverallGrade = new JLabel("Overall Grade:");
-		lblOverallGrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblOverallGrade.setBounds(10, 418, 221, 28);
-		contentPane.add(lblOverallGrade);
+		JButton btnNewButton_1 = new JButton("Progress student ");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Teacher teacher = new Teacher();
+				if(teacher.ableToProgress(student)) {
+					infoBox("Student progressed sucessfully","Done.");
+				}
+			}
+		});
+		btnNewButton_1.setBounds(386, 415, 125, 41);
+		contentPane.add(btnNewButton_1);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 	//	System.out.println(teacher.ableToProgress(student));

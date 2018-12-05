@@ -232,38 +232,7 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 
-	/*
-	public double getDegreeAvarage(Student student) {
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
-			//get all rows in table 
-			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM StudentStudyPeriod WHERE registrationNum = ?");
-			pst1.setInt(1, student.getRegistrationID());
-			ResultSet rs = pst1.executeQuery();
-			
-			int nCol = rs.getMetaData().getColumnCount();
-			
-			//weighted avarage 
-			double avup = 0;
-			double avdown = 0;
-			
-			int 
-			
-			while( rs.next()) {
-				String level = (String)rs.getString(4);
-				
-				int grade = (int)rs.getInt(3);
-				
-				if(level = )
-			}
-			con.close(); 
-			return (double)avup/avdown;
-
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-		return null;
-	}
-	*/
+	
 	// get RegisteredModules list
 	public List<String[]> getRegisteredModules(Student student) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {

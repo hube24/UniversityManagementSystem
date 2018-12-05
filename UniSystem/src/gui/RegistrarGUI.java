@@ -286,7 +286,7 @@ public class RegistrarGUI extends JFrame {
 		contentPane.add(button);
 
 	}
-	//update data to the database
+	//update data in table
 	public void updateTableRecord(int registrationID, int sumOfCredits, int row) {
 		// TODO Auto-generated method stub
 		table.getModel().setValueAt(sumOfCredits, row, 5);
@@ -304,8 +304,7 @@ public class RegistrarGUI extends JFrame {
 		
 		//identify whether the periodOfStudy is empty or not
 		if(!periodOfStudy.isEmpty()){
-		 String periodLabel = periodOfStudy.substring(0,1);
-		 sumCredits = student.getRegisteredCredits(periodLabel);
+		 sumCredits = student.getRegisteredCredits();
 		}
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -358,7 +357,7 @@ class Progress extends SwingWorker<Void, Void>
 					//sum the credits if the periodOfStudy is not empty
 					if(!periodOfStudy.isEmpty()){
 					 String periodLabel = periodOfStudy.substring(0,1);
-					 sumCredits = student.getRegisteredCredits(periodLabel);
+					 sumCredits = student.getRegisteredCredits();
 					}
 					
 					

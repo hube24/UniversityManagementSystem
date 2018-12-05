@@ -111,7 +111,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		Session currSession = s;
 		
 		String level = student.getCurrentLevel();
-	    int rightCredits = (level != "4")?120:180;
+	    int rightCredits = (!level.equals("4"))?120:180;
 	    
 		//arrange the positions of elements
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -341,9 +341,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		btnNewButton_1.setBounds(123, 449, 124, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-				RegistrarGUI newFrame = new RegistrarGUI(null);
-				newFrame.setVisible(true);
+				dispose();
 			}
 			});
 		contentPane.add(btnNewButton_1);

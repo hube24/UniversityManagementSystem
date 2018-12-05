@@ -173,20 +173,24 @@ public class Student extends User {
 		}
 	}
 	
-	public int getRegisteredCredits( String periodLabel) {
+	public int getRegisteredCredits() {
 		SqlDriver sqldriver = new SqlDriver();
 		//get registered credits from database
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
-		            " WHERE ModuleRegistration.registrationNum = ? ;");
+			PreparedStatement pst1 = con.prepareStatement("SELECT Module.credits " + 
+					"FROM Module " + 
+					"INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule " + 
+					"INNER JOIN ModuleDegree ON ModuleRegistration.codeOfModule = ModuleDegree.codeOfModule " + 
+					"WHERE ModuleRegistration.registrationNum = ? AND ModuleDegree.level = ?;");
 			pst1.setInt(1, this.registrationNum);
+			pst1.setString(2, this.getCurrentLevel() );
 			ResultSet rs = pst1.executeQuery();	
 			
 			int credSum = 0;
 			
 			while(rs.next())
 			{
-				credSum += (int)rs.getInt(3);
+				credSum += (int)rs.getInt(1);
 			}
 		//end
 		con.close();	

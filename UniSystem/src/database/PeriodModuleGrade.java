@@ -22,20 +22,24 @@ public class PeriodModuleGrade {
 	private int finalCredit;
 	private Connection conn;
 	
+	//create a PeriodModuleGrade
 	public PeriodModuleGrade (String moduleID,int registerNumber,String studyLevel) {
 		PeriodGrade(moduleID,registerNumber,studyLevel);
 	}
 	
+	//create a PeriodModuleGrade with extra resit,repeat, final grade and final credit
 	public PeriodModuleGrade(String moduleID, int registerNumber, String studyLevel, float initialGrade,
 			float resitGrade, float repeatGrade, float finalGrade, int finalCredit) {
 		create(moduleID,registerNumber,studyLevel,initialGrade,
 				resitGrade,repeatGrade,finalGrade,finalCredit);
 	}
 	
+	//assign type to variables
 	public PeriodModuleGrade(String moduleID, int registerNumber, String studyLevel,float initGrade, float resitGrade, float repeatGrade) {
 		create1( moduleID,  registerNumber,  studyLevel,initGrade, resitGrade, repeatGrade);
 	}
 	
+	//get the grades
 	private boolean create1 (String moduleID, int registerNumber, String studyLevel,float initGrade, float resitGrade, float repeatGrade) {
 		this.initialGrade = initGrade;
 		this.resitGrade = resitGrade;
@@ -43,7 +47,7 @@ public class PeriodModuleGrade {
 		SqlDriver sqldriver = new SqlDriver();
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())){
 		PreparedStatement stmt = null;
-		
+			//read in the data
 			stmt = conn.prepareStatement("UPDATE moduleGrade SET initailGrade = '"+initGrade+"' ,"
 					+ "resitGrade = '"+resitGrade+"' , repeatGrade = '"+repeatGrade+"'"
 					+ "WHERE module = '"+moduleID+"' AND registerNumber = '"+registerNumber+"'"
@@ -57,6 +61,7 @@ public class PeriodModuleGrade {
 		return true;
 	}
 	
+	//get grades and credit
 	private boolean create(String moduleID, int registerNumber, String studyLevel, float initialGrade,
 			float resitGrade, float repeatGrade, float finalGrade, int finalCredit) {
 		this.moduleID = moduleID;
@@ -70,11 +75,13 @@ public class PeriodModuleGrade {
 		SqlDriver sqldriver = new SqlDriver();
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())){
 		PreparedStatement stmt = null;
+			//update the data
 			stmt = conn.prepareStatement("INSERT INTO moduleGrade (module, registerNumber, studyLevel, initailGrade, resitGrade,"
 					+ "repeatGrade, finalGrade, finalCredit)"
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			
+			//set types to different variables
 			stmt.setString(1, moduleID);
 			stmt.setInt(2, registerNumber);
 			stmt.setString(3, studyLevel);
@@ -93,6 +100,7 @@ public class PeriodModuleGrade {
 		return true;
 	}
 	
+	//create periodGrade to get data
 	private boolean PeriodGrade(String moduleID,int registerNumber,String studyLevel) {
 		PreparedStatement stmt = null;
 		SqlDriver sqldriver = new SqlDriver();
@@ -117,7 +125,8 @@ public class PeriodModuleGrade {
 		}
 		return true;
 	}
-		
+	
+	//return data
 	public String getModuleID() {return this.moduleID;}
 	public int getRegisterNumber() {return this.registerNumber;}
 	public String getStudyLevel() {return this.studyLevel;}

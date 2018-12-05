@@ -60,6 +60,7 @@ public class AddStudentGUI extends JFrame {
 	 * @param currSession 
 	 */
 	public AddStudentGUI(Session currSession, RegistrarGUI f) {
+		setTitle("AddStudent");
 		parentFrame = f;
 		Registrar registrar = new Registrar();
 		

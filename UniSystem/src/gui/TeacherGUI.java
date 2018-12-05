@@ -40,7 +40,7 @@ public class TeacherGUI extends JFrame {
 	private int registrationNum;
 	private JPanel contentPane;
 	private JTable table;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,11 +57,14 @@ public class TeacherGUI extends JFrame {
 			}
 		});
 	}
-
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	/**
 	 * Create the frame.
 	 */
 	public TeacherGUI(Session s) {
+		setTitle("Teacher Page");
 		currSession = s;		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 545);

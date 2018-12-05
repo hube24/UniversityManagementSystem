@@ -6,7 +6,7 @@ import encryption.BCrypt;
 
 
 
-
+//Create a USER AUTHORIZATION class to check authorization
 public class UserAuthorization extends SqlDriver {
 
 	public String getAuthorization(String username, String password)
@@ -17,7 +17,8 @@ public class UserAuthorization extends SqlDriver {
 			PreparedStatement pst = con.prepareStatement(query);
 			pst.setString(1,username);
 			ResultSet rs = pst.executeQuery();
-
+			
+			//check whether the password is matched or not
 			if(rs.next())
 			{
 				String passwordHash = rs.getString("password");

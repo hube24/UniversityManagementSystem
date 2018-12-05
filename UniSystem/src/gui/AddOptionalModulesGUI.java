@@ -190,6 +190,12 @@ public class AddOptionalModulesGUI extends JFrame {
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+					false, false, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 		});
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(267);
 		
@@ -328,6 +334,13 @@ public class AddOptionalModulesGUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("Cancel");
 		btnNewButton_1.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
 		btnNewButton_1.setBounds(123, 449, 124, 23);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				RegistrarGUI newFrame = new RegistrarGUI(null);
+				newFrame.setVisible(true);
+			}
+			});
 		contentPane.add(btnNewButton_1);
 		
 		JSeparator separator_1 = new JSeparator();

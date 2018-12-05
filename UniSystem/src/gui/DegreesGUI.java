@@ -37,6 +37,9 @@ public class DegreesGUI extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private String index;
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	static int MY_MAXIMUM;
 	/**
 	 * Launch the application.
@@ -67,6 +70,7 @@ public class DegreesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DegreesGUI(Session s) {
+		setTitle("AddDegree");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 877, 612);

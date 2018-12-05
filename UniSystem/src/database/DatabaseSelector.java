@@ -243,6 +243,7 @@ public class DatabaseSelector extends SqlDriver{
 			
 			while( rs.next()) {
 				String level = (String)rs.getString(4);
+				
 				int grade = (int)rs.getInt(3);
 				
 				if(level = )
@@ -260,9 +261,15 @@ public class DatabaseSelector extends SqlDriver{
 	public List<String[]> getRegisteredModules(Student student) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 			//get all rows in table 
-			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM Module INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule" + 
-		            " WHERE ModuleRegistration.registrationNum = ?");
+			String level = student.getCurrentLevel();
+			PreparedStatement pst1 = con.prepareStatement("SELECT * " + 
+														"FROM Module " + 
+														"INNER JOIN ModuleRegistration ON Module.codeOfModule = ModuleRegistration.codeOfModule " + 
+														"INNER JOIN ModuleDegree ON ModuleRegistration.codeOfModule = ModuleDegree.codeOfModule " + 
+														"WHERE ModuleRegistration.registrationNum = ? AND ModuleDegree.level = ?;");
+												
 			pst1.setInt(1, student.getRegistrationID());
+			pst1.setString(2, level);
 			ResultSet rs = pst1.executeQuery();
 			
 			int nCol = rs.getMetaData().getColumnCount();
@@ -340,7 +347,7 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 	
-	public List<String[]> GetStudentsList() {
+	public List<String[]> GetStudentsList(){
 		return GetTableList("SELECT * FROM Student");
 	}
 

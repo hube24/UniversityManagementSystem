@@ -78,7 +78,17 @@ public class ModuleDegreeGUI extends JFrame {
 			new String[] {
 				"Code of Module", "Name", "Credits", "Code of Degree", "Level", "Core Module"
 			}
-		));
+			) {
+			Class[] columnTypes = new Class[] {
+					String.class, String.class, Object.class
+				};
+			boolean[] columnEditables = new boolean[] {
+				false, false, false,false,false,false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		table.setRowHeight(35);
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();

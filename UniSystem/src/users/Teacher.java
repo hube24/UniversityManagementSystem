@@ -23,12 +23,12 @@ public class Teacher extends User {
 		surname = s;
 		forename = f;*/
 	}
-	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-
+	//get various elements
 	public String getTitle() {
 		return title;
 	}
@@ -111,7 +111,7 @@ public class Teacher extends User {
 		return "";
 	}
 	
-	
+	//returns different progression depending on levels
 	String nextLevel(Student student)
 	{
 		String level = student.getCurrentLevel();
@@ -338,6 +338,7 @@ public class Teacher extends User {
 			
 			Module module = new Module(codeOfModule,name,credits);
 			
+			//returns creditsSum, average grade, mean grade if passed, conceded pass or fail
 			if(moduleGradeState(grade, level)=="P") 
 			{
 				modulesPassed++;

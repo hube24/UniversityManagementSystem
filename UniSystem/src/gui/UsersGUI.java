@@ -99,6 +99,12 @@ public class UsersGUI extends JFrame {
 			Class[] columnTypes = new Class[] {
 				String.class, String.class
 			};
+			boolean[] columnEditables = new boolean[] {
+					false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}

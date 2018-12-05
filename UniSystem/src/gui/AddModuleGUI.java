@@ -62,6 +62,7 @@ public class AddModuleGUI extends JFrame {
 		});
 	}
 	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -117,7 +118,7 @@ public class AddModuleGUI extends JFrame {
 		
 		
 		
-		
+		// set the lable name and position
 		JLabel lblNumberOfCredits = new JLabel("Number of credits");
 		lblNumberOfCredits.setBounds(24, 141, 156, 14);
 		contentPane.add(lblNumberOfCredits);
@@ -133,7 +134,7 @@ public class AddModuleGUI extends JFrame {
 		
 	
 		
-		
+		//set the core talbe of the AddModule Table
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -141,7 +142,8 @@ public class AddModuleGUI extends JFrame {
 			new String[] {
 				"Add Module to:", "Degree", "Level", "Is Obligatory", "Term"
 			}
-		) {
+		) {	
+			//disable the editablility of the contents
 			Class[] columnTypes = new Class[] {
 				Boolean.class, String.class, Object.class, Boolean.class, Object.class
 			};
@@ -155,6 +157,8 @@ public class AddModuleGUI extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		
+		//arrange the width of columns of the table
 		table.getColumnModel().getColumn(1).setPreferredWidth(135);
 		table.getColumnModel().getColumn(2).setPreferredWidth(62);
 		table.getColumnModel().getColumn(3).setPreferredWidth(76);
@@ -183,6 +187,7 @@ public class AddModuleGUI extends JFrame {
 		lblDegrees.setBounds(24, 192, 132, 14);
 		contentPane.add(lblDegrees);
 		
+		//create a submit Button
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -192,6 +197,7 @@ public class AddModuleGUI extends JFrame {
 				String serialNum = textField_1.getText();
 				int numberOfCredits = (int)spinner.getValue();
 				
+				//check if the entered text meets the name and serialNum requirements
 				if(name.replace(" ", "").equals("") || serialNum.replace(" ", "").equals("") )
 				{
 					infoBox("Please fill all the fields.","Warning");
@@ -242,6 +248,7 @@ public class AddModuleGUI extends JFrame {
 		btnCancel.setBounds(77, 376, 89, 23);
 		contentPane.add(btnCancel);
 	}
+	//return to the ModuleGUI page
 	protected void openModules(Session s) {		
 		ModulesGUI frame = new ModulesGUI(s);
 		frame.setVisible(true);

@@ -58,6 +58,7 @@ public class AddDegreeGUI extends JFrame {
 		});
 	}
 	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -126,12 +127,15 @@ public class AddDegreeGUI extends JFrame {
 		comboBox_1.setBounds(158, 201, 34, 20);
 		contentPane.add(comboBox_1);
 		
+		//create a cancel button to get back to former page
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openDegrees(currSession);
 			}
 		});
+		
+		//design the positions of the elements
 		btnCancel.setBounds(62, 386, 89, 23);
 		contentPane.add(btnCancel);
 		
@@ -187,6 +191,7 @@ public class AddDegreeGUI extends JFrame {
 		lblDeparments.setBounds(31, 242, 106, 14);
 		contentPane.add(lblDeparments);
 		
+		//Creating a submit button
 		JButton btnNewButton = new JButton("Submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -204,10 +209,12 @@ public class AddDegreeGUI extends JFrame {
 				if(!name.toLowerCase().endsWith("with a year in industry") && rdbtnWithAYear.isSelected())
 						name += " with a Year in Industry";
 				
+				//create a variable representing degrees
 				String code = leadDepartmentCode + underPost;
 				
 				int numOfLevels = Integer.valueOf((String)comboBox_1.getSelectedItem());
 				
+				//check if the Degree already exist or not
 				List<String> checkedDepartments = new ArrayList();
 				boolean leadChecked = false;
 				for(JCheckBox dpt : departmentsCheckBoxes)
@@ -240,12 +247,10 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(btnNewButton);
 		
 	}
+	//return to the Degree page
 	protected void openDegrees(Session s) {		
 		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
-	
-	
-
 }

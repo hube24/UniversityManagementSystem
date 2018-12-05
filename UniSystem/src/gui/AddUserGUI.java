@@ -47,11 +47,12 @@ public class AddUserGUI extends JFrame {
 		});
 	}
 
-	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	//verify whether the  password is a valid  one or not
 	public boolean isValidPassword(String password)
 	{
 		if(password.length() < 8) return false;
@@ -127,6 +128,7 @@ public class AddUserGUI extends JFrame {
 				username = username.replace(" ", "");
 				access = access.toLowerCase();
 				
+				//set the requirements that need to complete the table
 				if(username.isEmpty() || password.isEmpty() || password2.isEmpty() || access.isEmpty())
 				{
 					infoBox("Please, fill all the fields. ", "Warning");
@@ -157,6 +159,7 @@ public class AddUserGUI extends JFrame {
 		submit.setBounds(242, 183, 89, 23);
 		contentPane.add(submit);
 		
+		//create a Cancel Button
 		JButton Cancel = new JButton("Cancel");
 		Cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -166,6 +169,8 @@ public class AddUserGUI extends JFrame {
 		Cancel.setBounds(66, 183, 89, 23);
 		contentPane.add(Cancel);
 	}
+	
+	//return to the UserGUI page
 	protected void openUser(Session s) {		
 		UsersGUI frame = new UsersGUI(s);
 		frame.setVisible(true);

@@ -27,7 +27,7 @@ public class Administrator {
 	}
 
 	public boolean addDepartment(String code, String name) {
-
+		//check whether the length is legal
 		if (code.length() != 3) {
 
 			infoBox("Department code must be 3 letters long.", "Warning");
@@ -58,7 +58,7 @@ public class Administrator {
 			pst2.executeUpdate();
 			con.close();
 			return true;
-
+			
 		} catch (Exception exc) {
 			infoBox("The Department could not be added.", "Warning");
 			exc.printStackTrace();
@@ -98,7 +98,7 @@ public class Administrator {
 			pst2.executeUpdate();
 			con.close();
 			return true;
-
+		//Warning Message
 		} catch (Exception exc) {
 			infoBox("User could not be added.", "Warning");
 			exc.printStackTrace();
@@ -202,7 +202,7 @@ public class Administrator {
 
 			con.close();
 			return true;
-			
+		// Warning message
 		} catch (Exception exc) {
 			infoBox("Module could not be added.", "Warning");
 			exc.printStackTrace();

@@ -91,7 +91,7 @@ public class DepartmentsGUI extends JFrame {
 			new String[] {
 				"Code", "Name", "See Degrees of this Department."
 			}
-		) {
+		) {	//disable the editability of the elements in the table
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, Object.class
 				};
@@ -120,6 +120,7 @@ public class DepartmentsGUI extends JFrame {
 		ButtonColumn buttonColumn = new ButtonColumn(table, open, 2);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
+		//create a Back Button and arrange its position
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,6 +130,7 @@ public class DepartmentsGUI extends JFrame {
 		btnBack.setBounds(39, 392, 169, 46);
 		contentPane.add(btnBack);
 		
+		//Create an Add Department Button and arrange its position
 		JButton btnAddDepartment = new JButton("Add Department");
 		btnAddDepartment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -140,10 +142,12 @@ public class DepartmentsGUI extends JFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
+		//create a Delete Department Button
 		JButton btnDeleteDepartment = new JButton("Delete Department");
 		btnDeleteDepartment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				//identify whether the department is successfully deleted or not
 				if(i>=0) {			
 
 					boolean isEmpty = dbSelector.deleteDepartment(table.getValueAt(i, 0).toString());
@@ -170,12 +174,14 @@ public class DepartmentsGUI extends JFrame {
 		}	
 	}
 	
+	//return the AddDepartmentGUI page
 	protected void openAddDepartment(Session s) {		
 		AddDepartmentGUI frame = new AddDepartmentGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
+	//return the DepartmentDegreeGUI page
 	protected void openDepartmentDegree(Session s, String i) {		
 		DepartmentDegreeGUI frame = new DepartmentDegreeGUI(s, i);
 		frame.setVisible(true);
@@ -183,6 +189,7 @@ public class DepartmentsGUI extends JFrame {
 		dispose();			
 	}
 	
+	//return the AdminGUI page
 	protected void openAdmin(Session s) {
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);

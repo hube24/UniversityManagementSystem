@@ -70,6 +70,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
+	//determine whether the data is in the database or not
 	public boolean notInDatabase(String query, String id) {
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
 			PreparedStatement pst1 = con.prepareStatement(query);
@@ -89,7 +90,7 @@ public class DatabaseSelector extends SqlDriver{
 		return false;		
 	}
 	
-	
+	//determine whether the User is in the database or not
 	public boolean deleteUser(String username) {
 		if(notInDatabase("SELECT * FROM Student WHERE username = ?", username)) {
 			delete("DELETE FROM Users WHERE username = ?", username);
@@ -99,6 +100,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}	
 	
+	//determine whether the Department is in the database or not
 	public boolean deleteDepartment(String code) {
 		if(notInDatabase("SELECT * FROM DepartmentDegree WHERE codeOfDepartment = ?", code)) {
 			delete("DELETE FROM Department WHERE codeOfDepartment = ?", code);
@@ -108,6 +110,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
+	//determine whether the Degree is in the database or not
 	public boolean deleteDegree(String code) {
 		if(notInDatabase("SELECT * FROM ModuleDegree WHERE codeOfDegree = ?", code)) {
 			delete("DELETE FROM DepartmentDegree WHERE codeOfDegree = ?", code);
@@ -118,6 +121,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
+	//determine whether the Module is in the database or not
 	public boolean deleteModule(String code) {
 		if(notInDatabase("SELECT * FROM ModuleRegistration WHERE codeOfModule = ?", code)) {
 			delete("DELETE FROM ModuleDegree WHERE codeOfModule = ?", code);
@@ -128,25 +132,28 @@ public class DatabaseSelector extends SqlDriver{
 		}
 	}
 	
+	//deleteStudent depending registrationNum
 	public void deleteStudent(int regNum) {
 			delete("DELETE FROM ModuleRegistration WHERE registrationNum = ?", regNum);
 			delete("DELETE FROM StudentStudyPeriod WHERE registrationNum = ?", regNum);
 			delete("DELETE FROM Student WHERE registrationNum = ?", regNum);	
 	}
 	
+	//generate the degrees from departments
 	public List<String[]> getDegreesFromDepartment(String code){
 		
 		return GetTableList("SELECT * FROM Degree INNER JOIN DepartmentDegree ON Degree.codeOfDegree = DepartmentDegree.codeOfDegree "
 				+ "WHERE DepartmentDegree.codeOfDepartment = '"+ code + "';");
 				
 	}
+	//generate the modules from degrees
 	public List<String[]> getModulesFromDegrees(String code){
 		
 		return GetTableList("SELECT * FROM Module INNER JOIN ModuleDegree ON Module.codeOfModule = ModuleDegree.codeOfModule "
 				+ "WHERE ModuleDegree.codeOfDegree = '"+ code + "';");
 				
 	}
-
+	//get various lists
 	public List<String[]> GetDepartmentList()
 	{ 
 		return GetTableList("SELECT * FROM Department");
@@ -191,7 +198,7 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 
-
+	//get periods of study lists
 	public List<String[]> GetPeriodsOfStudyList() {
 		return GetTableList("SELECT * FROM PeriodOfStudy");
 	}
@@ -225,39 +232,8 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 
-	/*
-	public double getDegreeAvarage(Student student) {
-		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
-			//get all rows in table 
-			PreparedStatement pst1 = con.prepareStatement(" SELECT * FROM StudentStudyPeriod WHERE registrationNum = ?");
-			pst1.setInt(1, student.getRegistrationID());
-			ResultSet rs = pst1.executeQuery();
-			
-			int nCol = rs.getMetaData().getColumnCount();
-			
-			//weighted avarage 
-			double avup = 0;
-			double avdown = 0;
-			
-			int 
-			
-			while( rs.next()) {
-				String level = (String)rs.getString(4);
-				
-				int grade = (int)rs.getInt(3);
-				
-				if(level = )
-			}
-			con.close(); 
-			return (double)avup/avdown;
-
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-		return null;
-	}
-	*/
 	
+	// get RegisteredModules list
 	public List<String[]> getRegisteredModules(Student student) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 			//get all rows in table 
@@ -290,6 +266,7 @@ public class DatabaseSelector extends SqlDriver{
 		}
 		return null;
 	}
+	//get previous Grades
 	public List<String[]> getPreviousGrades(Student student, String label){
 		
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
@@ -341,6 +318,7 @@ public class DatabaseSelector extends SqlDriver{
  		}
  		return null;
  	}
+	//getStudentGrades list
 	public List<String> getStudentGradesList(Student student, String code) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 			//get all rows in table 
@@ -369,6 +347,7 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 	
+	//get Core Modules List
 	public List<String[]> getCoreModulesList(Degree degree, String level) {
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
 			//get all rows in table 
@@ -397,10 +376,12 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 	
+	//get Students List
 	public List<String[]> GetStudentsList(){
 		return GetTableList("SELECT * FROM Student");
 	}
-
+	
+	//get count numbers
 	public int getCount(String query)
 	{
 		try (Connection con = DriverManager.getConnection(DB,DBuser, DBpassword)) {
@@ -421,7 +402,7 @@ public class DatabaseSelector extends SqlDriver{
 		return 0;
 	}
 
-	
+	//get Count from student
 	public int getStudentCount(){
 		return getCount("SELECT COUNT(*) FROM Student");
 	}

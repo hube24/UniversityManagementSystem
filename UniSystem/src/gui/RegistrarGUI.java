@@ -83,6 +83,7 @@ public class RegistrarGUI extends JFrame {
 		loadStudentTask.execute();
 	}
 	
+	//Nimbus decoration tool
 	public static void run(){
 		
 	try {
@@ -128,7 +129,7 @@ public class RegistrarGUI extends JFrame {
 		
 		
 		
-		
+		//create lables
 		JLabel lblLoadingListOf = new JLabel("Loading list of students...");
 		lblLoadingListOf.setFont(new Font("Nirmala UI", Font.PLAIN, 18));
 		lblLoadingListOf.setBounds(98, 29, 279, 28);
@@ -152,6 +153,7 @@ public class RegistrarGUI extends JFrame {
 		scrollPane.setBounds(27, 69, 933, 254);
 		contentPane.add(scrollPane);
 		
+		//create a Table
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -159,7 +161,7 @@ public class RegistrarGUI extends JFrame {
 			new String[] {
 				"Registration num.", "Degree", "Name", "Level","Period of Study", "Registered credits ", "Add/Drop Modules"
 			}
-		) {
+		) {	//disable the editabilities of contents in the table
 			Class[] columnTypes = new Class[] {
 				Integer.class, String.class, String.class, String.class, String.class, Integer.class, Object.class
 			};
@@ -167,6 +169,7 @@ public class RegistrarGUI extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
+		//get columns and set their widths
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(140);
@@ -179,6 +182,7 @@ public class RegistrarGUI extends JFrame {
 		table.setRowHeight(35);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		//create a label and arrange its properties
 		JLabel creditsNum = new JLabel();
 		creditsNum.setText("0");
 		table.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
@@ -209,6 +213,7 @@ public class RegistrarGUI extends JFrame {
 		ButtonColumn buttonColumn = new ButtonColumn(table, open, 6);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
+		//get SumCredits achieved by students
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		MY_MAXIMUM = dbSelector.getStudentCount();
 		progressBar = new JProgressBar();
@@ -217,6 +222,7 @@ public class RegistrarGUI extends JFrame {
 		progressBar.setMaximum(MY_MAXIMUM);
 		panel.add(progressBar);
 		
+		//create Add Student Button and set its properties
 		JButton btnNewButton = new JButton("Add Student");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -229,11 +235,14 @@ public class RegistrarGUI extends JFrame {
 		btnNewButton.setBounds(27, 361, 139, 30);
 		contentPane.add(btnNewButton);
 		
+		//creat Remove Student Button and set its properties
 		JButton btnRemoveStudent = new JButton("Remove Student");
 		btnRemoveStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//remove confirmation and warning
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog (null, "Removing this student will cause deleting all registrations and grades related to this student, are you sure to continue?  ","Warning",dialogButton);
+				//identify whether student has been successfully deleted or not
 				if(dialogResult == JOptionPane.YES_OPTION){
 					
 					int i = table.getSelectedRow();
@@ -242,7 +251,7 @@ public class RegistrarGUI extends JFrame {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					model.removeRow(i);
 					
-					JOptionPane.showMessageDialog(null, "Student has been successfuly deleted.");
+					JOptionPane.showMessageDialog(null, "Student has been successfully deleted.");
 				}
 			}
 		});
@@ -250,9 +259,11 @@ public class RegistrarGUI extends JFrame {
 		btnRemoveStudent.setBounds(185, 361, 139, 30);
 		contentPane.add(btnRemoveStudent);
 		
+		//create a Log out Button
 		Button button = new Button("Log out");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//logout confirmation and warning
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to logout? ","Warning",dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION){
@@ -263,23 +274,25 @@ public class RegistrarGUI extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+					//return LoginScreen page
 					LoginScreen frame = new LoginScreen();
 					frame.setVisible(true);
 					dispose();
 				}
 			}
 		});
+		//set Log out Button properties
 		button.setBounds(866, 10, 94, 23);
 		contentPane.add(button);
 
 	}
-
+	//update data in table
 	public void updateTableRecord(int registrationID, int sumOfCredits, int row) {
 		// TODO Auto-generated method stub
 		table.getModel().setValueAt(sumOfCredits, row, 5);
 	}
 	
+	//get info of students and put into the table
 	public void addTableRecord(Student student) {
 		Integer regNum = student.getRegistrationID();
 		String degree = student.getDegree().getName();
@@ -289,9 +302,9 @@ public class RegistrarGUI extends JFrame {
 		
 		int sumCredits = 0;
 		
+		//identify whether the periodOfStudy is empty or not
 		if(!periodOfStudy.isEmpty()){
-		 String periodLabel = periodOfStudy.substring(0,1);
-		 sumCredits = student.getRegisteredCredits(periodLabel);
+		 sumCredits = student.getRegisteredCredits();
 		}
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -327,6 +340,7 @@ class Progress extends SwingWorker<Void, Void>
 				DatabaseSelector dbSelector = new DatabaseSelector();
 				int count = 0;
 				
+				//get students list
 				List <String[]> studentssList = dbSelector.GetStudentsList();
 				for( String[] row : studentssList) {			
 					Integer regNum = Integer.valueOf(row[0]);
@@ -335,20 +349,22 @@ class Progress extends SwingWorker<Void, Void>
 					Student student = new Student(regNum);
 					String level = student.getCurrentLevel();
 					
-					
+					//get CurrentperiodOfStudy
 					String periodOfStudy = student.getCurrentPeriodOfStudy();
 					
 					int sumCredits = 0;
 					
+					//sum the credits if the periodOfStudy is not empty
 					if(!periodOfStudy.isEmpty()){
 					 String periodLabel = periodOfStudy.substring(0,1);
-					 sumCredits = student.getRegisteredCredits(periodLabel);
+					 sumCredits = student.getRegisteredCredits();
 					}
 					
 					
 					model.addRow(new Object[] {regNum, degree, name, level, periodOfStudy, sumCredits, "Add/Drop Modules"});
 					count+=1;
 					progressBar.setValue(count);
+					//display the page depending on the requirements
 					if(progressBar.getValue()>= MY_MAXIMUM)
 					{
 						panel.setVisible(false);

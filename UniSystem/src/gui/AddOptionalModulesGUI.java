@@ -78,11 +78,12 @@ public class AddOptionalModulesGUI extends JFrame {
 	int sumOfCredits = 0;	
     int rightCredits = 120;
 
-	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	//caculate the sum credits gained by student
 	void updateCreditCount(JLabel label, int add)
 	{
 		sumOfCredits += add;
@@ -90,7 +91,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		label.setText( String.valueOf((sumOfCredits)) );
 	}
 	
-	
+	//check whethere the module is core or not
 	boolean moduleIsCore(String code, List<String[]> corelist)
 	{
 		for(String[] row : corelist)
@@ -109,16 +110,10 @@ public class AddOptionalModulesGUI extends JFrame {
 		modelRow = r;
 		Session currSession = s;
 		
-		//String level = student.getCurrentLevel();
-		
 		String level = student.getCurrentLevel();
-	    int rightCredits = (level != "4")?120:180;
+	    int rightCredits = (!level.equals("4"))?120:180;
 	    
-		
-
-		
-		
-		
+		//arrange the positions of elements
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 831, 523);
 		contentPane = new JPanel();
@@ -148,7 +143,7 @@ public class AddOptionalModulesGUI extends JFrame {
 			new String[] {
 				"Module", "Credits", "Select"
 			}
-		) {
+		) {	//disable the editablility of the contents in the talbe
 			Class[] columnTypes = new Class[] {
 				Object.class, Integer.class, Boolean.class
 			};
@@ -164,6 +159,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(207);
 		
+		//get available module lists 
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		List <String[]> moduleList = dbSelector.getOptionalModules(student.getDegree(), level);
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -177,6 +173,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		scrollPane_1.setBounds(443, 117, 349, 245);
 		contentPane.add(scrollPane_1);
 		
+		//create another table
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -184,7 +181,7 @@ public class AddOptionalModulesGUI extends JFrame {
 			new String[] {
 				"Module", "credits", "Select"
 			}
-		) {
+		) {	//disable the editablility of the contents in the table
 			Class[] columnTypes = new Class[] {
 				Object.class, Integer.class, Boolean.class
 			};
@@ -200,7 +197,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		});
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(267);
 		
-
+		//get modules registered by students
 		List <String[]> registeredModuleList = dbSelector.getRegisteredModules(student);
 		DefaultTableModel model2 = (DefaultTableModel) table_1.getModel();
 		for( String[] row : registeredModuleList ){
@@ -212,6 +209,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		
 		scrollPane_1.setViewportView(table_1);
 		
+		//create an Add modules Button
 		JButton btnAddModules = new JButton("Add modules ->");
 		btnAddModules.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
 		btnAddModules.addActionListener(new ActionListener() {
@@ -240,6 +238,8 @@ public class AddOptionalModulesGUI extends JFrame {
 				
 			}
 		});
+		
+		//arrange button's position
 		btnAddModules.setBounds(340, 373, 146, 34);
 		contentPane.add(btnAddModules);
 		
@@ -277,6 +277,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		btnNewButton.setBounds(340, 72, 146, 34);
 		contentPane.add(btnNewButton);
 		
+		//create a Submit Button and set requirements
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -290,6 +291,7 @@ public class AddOptionalModulesGUI extends JFrame {
 					return;
 				}
 				
+				//setup the lists of dropModules and addModules
 				List<Module> dropModules = new ArrayList();
 				List<Module> addModules = new ArrayList();
 				
@@ -322,24 +324,24 @@ public class AddOptionalModulesGUI extends JFrame {
 		btnSubmit.setBounds(565, 449, 124, 23);
 		contentPane.add(btnSubmit);
 		
+		//create a Sum label and arrange its position
 		JLabel lblSumOfCredits = new JLabel("Sum of credits: ");
 		lblSumOfCredits.setFont(new Font("Nirmala UI", Font.BOLD, 12));
 		lblSumOfCredits.setBounds(634, 394, 130, 14);
 		contentPane.add(lblSumOfCredits);		
 
-		
+		//arrange the positions of the elements
 		JSeparator separator = new JSeparator();
 		separator.setBounds(36, 418, 759, 2);
 		contentPane.add(separator);
 		
+		//create a Cancel Button
 		JButton btnNewButton_1 = new JButton("Cancel");
 		btnNewButton_1.setFont(new Font("Nirmala UI", Font.PLAIN, 11));
 		btnNewButton_1.setBounds(123, 449, 124, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-				RegistrarGUI newFrame = new RegistrarGUI(null);
-				newFrame.setVisible(true);
+				dispose();
 			}
 			});
 		contentPane.add(btnNewButton_1);

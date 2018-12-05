@@ -37,6 +37,7 @@ public class DegreesGUI extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private String index;
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -90,6 +91,7 @@ public class DegreesGUI extends JFrame {
 		btnBack.setBounds(40, 472, 195, 61);
 		contentPane.add(btnBack);
 		
+		//create an Add Degree Button and arrange its position
 		JButton btnAddDegree = new JButton("Add Degree");
 		btnAddDegree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,10 +150,12 @@ public class DegreesGUI extends JFrame {
 		
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
+		//create a Delete Degree Button
 		JButton btnDeleteDegree = new JButton("Delete Degree");
 		btnDeleteDegree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i = table.getSelectedRow();
+				//set the requirements that delete the degree
 				if(i>=0) {			
 
 					boolean isEmpty = dbSelector.deleteDegree(table.getValueAt(i, 0).toString());
@@ -177,18 +181,21 @@ public class DegreesGUI extends JFrame {
 		}
 
 	}
+	//return the AddDegreeGUI page
 	protected void openAddDegree(Session s) {		
 		AddDegreeGUI frame = new AddDegreeGUI(s);
 		frame.setVisible(true);
 		dispose();		
 	}
 	
+	//return the AdminGUI page
 	protected void openAdmin(Session s) {
 		AdminGUI frame = new AdminGUI(s);
 		frame.setVisible(true);
 		dispose();
 	}
 	
+	//return the ModuleDegreeGUI page
 	protected void openModuleDegree(Session s, String i) {		
 		ModuleDegreeGUI frame = new ModuleDegreeGUI(s, i);
 		frame.setVisible(true);

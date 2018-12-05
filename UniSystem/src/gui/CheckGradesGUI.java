@@ -74,7 +74,7 @@ public class CheckGradesGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public CheckGradesGUI(Session s, int regNum) {
-		
+		setTitle("Check Grade Page");
 		Session currSession = s;
 		student = new Student(regNum);
 		student.completeFromDB();

@@ -42,7 +42,8 @@ public class AddDepartmentGUI extends JFrame {
 			}
 		});
 	}
-
+	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -83,12 +84,14 @@ public class AddDepartmentGUI extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
+		//create the Submit Button
 		Button submit_button = new Button("Submit");
 		submit_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				Administrator admin = new Administrator();
 				
+				//check if the Department exist or not
 				String code = textField.getText();
 				String name = textField_1.getText();
 				code = code.replace(" ", "");
@@ -105,6 +108,7 @@ public class AddDepartmentGUI extends JFrame {
 		submit_button.setBounds(237, 119, 96, 22);
 		contentPane.add(submit_button);
 		
+		//create the Cancel Button
 		Button cancel_button = new Button("Cancel");
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -114,6 +118,7 @@ public class AddDepartmentGUI extends JFrame {
 		cancel_button.setBounds(71, 119, 90, 22);
 		contentPane.add(cancel_button);
 	}
+	//back to the former DepartmentsGUI page
 	protected void openDepartments(Session s) {		
 		DepartmentsGUI frame = new DepartmentsGUI(s);
 		frame.setVisible(true);

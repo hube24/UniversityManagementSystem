@@ -195,4 +195,4 @@ public class DegreesGUI extends JFrame {
 		index = i;
 		dispose();		
 	}
-}
+} 

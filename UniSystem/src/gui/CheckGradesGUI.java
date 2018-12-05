@@ -89,6 +89,7 @@ public class CheckGradesGUI extends JFrame {
 		
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		
+		//get RegistrationID from the database
 		JLabel lblRegistrationNumber = new JLabel("Registration Number: "+ student.getRegistrationID());
 		lblRegistrationNumber.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblRegistrationNumber.setBounds(10, 11, 410, 41);
@@ -98,6 +99,7 @@ public class CheckGradesGUI extends JFrame {
 		scrollPane.setBounds(10, 105, 794, 275);
 		contentPane.add(scrollPane);
 		
+		//create a table with strings defined
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
@@ -106,7 +108,7 @@ public class CheckGradesGUI extends JFrame {
 			new String[] {
 				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade", "Final Grade", "Add/Update Grade"
 			}
-		) {
+		) {	//disable the editability of the contents in the table
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, true
 			};
@@ -114,6 +116,8 @@ public class CheckGradesGUI extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		
+		//get data in the columns and set width
 		table.getColumnModel().getColumn(0).setPreferredWidth(107);
 		table.getColumnModel().getColumn(1).setPreferredWidth(109);
 		table.getColumnModel().getColumn(5).setPreferredWidth(127);
@@ -144,6 +148,7 @@ public class CheckGradesGUI extends JFrame {
 		scrollPane_1.setBounds(836, 105, 356, 275);
 		contentPane.add(scrollPane_1);
 		
+		//create a table with strings defined
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -167,6 +172,7 @@ public class CheckGradesGUI extends JFrame {
 				model1.addRow(new String[] {row[0], null, null, null}); 
 			}*/
 		
+		//get currentPeriodOfStudy data
 		String currPeriod = student.getCurrentPeriodOfStudy();
 		if(currPeriod!="A") { 					
 			char p = currPeriod.charAt(0);
@@ -180,6 +186,7 @@ public class CheckGradesGUI extends JFrame {
 			model1.addRow(new String[] {row[0], row[3], currPeriod, row[2]}); 
 		}
 		
+		//create a Back Button and arrange its position
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -189,6 +196,7 @@ public class CheckGradesGUI extends JFrame {
 		btnNewButton.setBounds(503, 415, 159, 41);
 		contentPane.add(btnNewButton);
 		
+		//create an Overall Grade label and arrange its position
 		JLabel lblOverallGrade = new JLabel("Overall Grade:");
 		lblOverallGrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblOverallGrade.setBounds(10, 418, 221, 28);
@@ -198,6 +206,7 @@ public class CheckGradesGUI extends JFrame {
 	//	System.out.println(teacher.ableToProgress(student));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		
+		//set requirements that needed to update the Grade
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
 		for( String[] row : moduleList) {
@@ -213,6 +222,7 @@ public class CheckGradesGUI extends JFrame {
 		
 	}
 	
+	//return to the Add GradeGUI page
 	public void openAddGrade(Session s, String code, Student student) {
 		AddGradeGUI frame = new AddGradeGUI(s,code, student);
 		frame.setVisible(true);		
@@ -220,6 +230,7 @@ public class CheckGradesGUI extends JFrame {
 		dispose();
 	}
 	
+	//return to the TeacherGUI page
 	public void openTeacher(Session s) {
 		TeacherGUI frame =  new TeacherGUI(s);
 		frame.setVisible(true);

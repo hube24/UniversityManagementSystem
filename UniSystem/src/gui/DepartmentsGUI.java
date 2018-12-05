@@ -33,6 +33,9 @@ public class DepartmentsGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}
 	public String index;
 	/**
 	 * Launch the application.
@@ -63,6 +66,7 @@ public class DepartmentsGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DepartmentsGUI(Session s) {
+		setTitle("Department Page");
 		Session currSession = s;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 864, 545);

@@ -28,6 +28,8 @@ public class ModuleDegreeGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	
+	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -75,6 +77,7 @@ public class ModuleDegreeGUI extends JFrame {
 		scrollPane.setBounds(12, 13, 785, 364);
 		contentPane.add(scrollPane);
 		
+		//create a table with strings defined
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -83,6 +86,7 @@ public class ModuleDegreeGUI extends JFrame {
 				"Code of Module", "Name", "Credits", "Code of Degree", "Level", "Core Module"
 			}
 			) {
+			//disable the editability of the contents in the table
 			Class[] columnTypes = new Class[] {
 					String.class, String.class, Object.class
 				};
@@ -93,21 +97,24 @@ public class ModuleDegreeGUI extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		//arrange the properties of the table
 		table.setRowHeight(35);
 		DatabaseSelector dbSelector = new DatabaseSelector();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		scrollPane.setViewportView(table);
 		
+		//create a Delete Module Button
 		JButton btnDeleteModule = new JButton("Delete Module");
 		btnDeleteModule.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int i = table.getSelectedRow();
+				//identify whether the module has been successfully deleted or not
 				if(i>=0) {			
 
 					boolean isEmpty = dbSelector.deleteModule(table.getValueAt(i, 0).toString());
 					if(isEmpty) {
 						model.removeRow(i);
-						JOptionPane.showMessageDialog(null, "Module has been successfuly deleted.");
+						JOptionPane.showMessageDialog(null, "Module has been successfully deleted.");
 					}else {
 						JOptionPane.showMessageDialog(null, "Unable to delete module. First remove all students from it.");
 					}
@@ -116,9 +123,12 @@ public class ModuleDegreeGUI extends JFrame {
 				}
 			}
 		});
+		//arrange the position of the button
 		btnDeleteModule.setBounds(557, 400, 155, 40);
 		contentPane.add(btnDeleteModule);
 		
+		
+		//create a Cancel Button and arrange its properties
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,11 +138,14 @@ public class ModuleDegreeGUI extends JFrame {
 		btnCancel.setBounds(84, 400, 155, 40);
 		contentPane.add(btnCancel);
 		
+		//get Modules lists
 		List <String[]> modulesList = dbSelector.getModulesFromDegrees(index);
 		for( String[] row : modulesList) {
 			model.addRow(new String[] {row[0], row[1], row[2], row[4], row[5], row[6]});
 		}
 	}
+	
+	//return the DegreesGUI page
 	protected void openDegrees(Session s) {
 		DegreesGUI frame = new DegreesGUI(s);
 		frame.setVisible(true);

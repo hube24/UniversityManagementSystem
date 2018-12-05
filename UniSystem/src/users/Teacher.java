@@ -17,10 +17,10 @@ public class Teacher extends User {
 	String surname;
 	String forename;
 	
-	public Teacher (String t, String s, String f, String e) {
-		title = t;
+	public Teacher () {
+		/*title = t;
 		surname = s;
-		forename = f;
+		forename = f;*/
 	}
 	
 	public static void infoBox(String infoMessage, String titleBar) {

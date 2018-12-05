@@ -400,7 +400,7 @@ public class CheckStudentDetail extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				CheckStudentStatus newFrame = new CheckStudentStatus();
+				CheckGradesGUI newFrame = new CheckGradesGUI();
 				newFrame.setVisible(true);
 			}
 		});

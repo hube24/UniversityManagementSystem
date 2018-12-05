@@ -9,30 +9,43 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import database.GradeTable;
+import database.DatabaseSelector;
 import database.Session;
+import users.Student;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 
 public class TeacherGUI extends JFrame {
-
+	
+	Session currSession;
+	private int registrationNum;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTable table;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		GradeTable gradeTable = new GradeTable();
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -49,44 +62,21 @@ public class TeacherGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TeacherGUI(Session s) {
-		Session currSession = s;		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		currSession = s;		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 732, 545);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblWelcomeTeacher = new JLabel("Welcome, Teacher");
-		lblWelcomeTeacher.setFont(new Font("Yu Gothic", Font.BOLD, 18));
-		lblWelcomeTeacher.setBounds(134, 38, 171, 56);
+		lblWelcomeTeacher.setBounds(10, 10, 171, 56);
+		lblWelcomeTeacher.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		contentPane.add(lblWelcomeTeacher);
 		
-		JLabel lblEnterStudentidFor = new JLabel("Enter StudentID below for his/her info");
-		lblEnterStudentidFor.setBounds(115, 105, 227, 20);
-		contentPane.add(lblEnterStudentidFor);
-		
-		textField = new JTextField();
-		textField.setBounds(134, 136, 158, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnContinue = new JButton("Continue");
-		btnContinue.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnContinue.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				setVisible(false);
-				CheckStudent newFrame = new CheckStudent();
-				newFrame.setVisible(true);
-			}
-		});
-		btnContinue.setBounds(164, 197, 89, 23);
-		contentPane.add(btnContinue);
-		
 		Button button = new Button("Log out");
+		button.setBounds(628, 10, 78, 20);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -106,8 +96,80 @@ public class TeacherGUI extends JFrame {
 				}
 			}
 		});
-		button.setBounds(346, 10, 78, 20);
 		contentPane.add(button);
-	}
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 48, 525, 2);
+		contentPane.add(separator);
+		
+		Action open = new AbstractAction()
+		{
+			@Override
+		    public void actionPerformed(ActionEvent e)
+		    {
+		        JTable table = (JTable)e.getSource();
+		        int modelRow = Integer.valueOf( e.getActionCommand() );
+		        int regNum = (int)table.getModel().getValueAt(modelRow, 0);
+		        
+		        System.out.println(regNum);		        
+   
+		        openCheckGrades(currSession, regNum);
+		    }
 
+		};		 
+		DatabaseSelector dbSelector = new DatabaseSelector();
+		
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 77, 696, 365);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {				
+			},
+			new String[] {
+				"Registration Number", "Degree", "Name", "Level", "Check Student's Grades"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(112);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.setRowHeight(35);
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 4);
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		buttonColumn.setMnemonic(KeyEvent.VK_D);		
+		
+		
+		List <String[]> studentssList = dbSelector.GetStudentsList();
+		for( String[] row : studentssList) {			
+			Integer regNum = Integer.valueOf(row[0]);
+			String degree = row[1];
+			String name = row[3] + " " + row[4] + " " + row[5];			
+			Student student = new Student(regNum);
+			String level = student.getCurrentLevel();
+							
+			model.addRow(new Object[] {regNum, degree, name, level, "Grades"});
+			
+		}
+	}
+	
+	protected void openCheckGrades(Session s, int r) {		
+		CheckGradesGUI frame = new CheckGradesGUI(s,r);
+		frame.setVisible(true);		
+		registrationNum = r;
+		dispose();	
+		
+	}
 }

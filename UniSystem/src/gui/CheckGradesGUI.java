@@ -88,7 +88,7 @@ public class CheckGradesGUI extends JFrame {
 		gradesFilled = true;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1218, 512);
+		setBounds(100, 100, 1307, 512);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -102,7 +102,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblRegistrationNumber);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 105, 794, 275);
+		scrollPane.setBounds(10, 105, 864, 275);
 		contentPane.add(scrollPane);
 		
 		//create a table with strings defined
@@ -112,21 +112,20 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade","Result", "Final Grade", "Add/Update Grade"
+				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade", "Result", "Final Grade", "Add/Update Grade"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false,false, false, false, true
+				false, false, false, false, false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		
-		//get data in the columns and set width
 		table.getColumnModel().getColumn(0).setPreferredWidth(107);
 		table.getColumnModel().getColumn(1).setPreferredWidth(109);
-		table.getColumnModel().getColumn(5).setPreferredWidth(127);
+		table.getColumnModel().getColumn(5).setPreferredWidth(73);
+		table.getColumnModel().getColumn(6).setPreferredWidth(108);
 		table.setRowHeight(35);
 		
 		Action open = new AbstractAction()
@@ -151,7 +150,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblDegree);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(830, 105, 351, 275);
+		scrollPane_1.setBounds(909, 105, 372, 275);
 		contentPane.add(scrollPane_1);
 		
 		//create a table with strings defined
@@ -191,7 +190,7 @@ public class CheckGradesGUI extends JFrame {
 				openTeacher(currSession);
 			}
 		});
-		btnNewButton.setBounds(929, 415, 159, 41);
+		btnNewButton.setBounds(1021, 415, 159, 41);
 		contentPane.add(btnNewButton);
 		
 		//create an Overall Grade label and arrange its position
@@ -218,7 +217,7 @@ public class CheckGradesGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(297, 415, 159, 41);
+		btnNewButton_1.setBounds(341, 415, 159, 41);
 		contentPane.add(btnNewButton_1);
 
 		JLabel lblCurrentModules = new JLabel("Current modules:");
@@ -226,7 +225,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblCurrentModules);
 		
 		JLabel lblPreviousPeriodsOf = new JLabel("Previous Periods of Study");
-		lblPreviousPeriodsOf.setBounds(939, 86, 194, 14);
+		lblPreviousPeriodsOf.setBounds(998, 86, 194, 14);
 		contentPane.add(lblPreviousPeriodsOf);
 		
 		JSeparator separator = new JSeparator();

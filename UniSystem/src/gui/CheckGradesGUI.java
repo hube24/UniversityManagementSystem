@@ -47,6 +47,7 @@ public class CheckGradesGUI extends JFrame {
 	private JTable table;
 	private JTable table_1;
 	private boolean gradesFilled;
+	private String graduate;
 	/**
 	 * Launch the application.
 	 */
@@ -86,6 +87,7 @@ public class CheckGradesGUI extends JFrame {
 		student.completeFromDB();
 		Teacher teacher = new Teacher();
 		gradesFilled = true;
+		graduate = student.getGraduationGrade();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1307, 512);
@@ -200,6 +202,11 @@ public class CheckGradesGUI extends JFrame {
 				Teacher teacher = new Teacher();
 				String level = student.getCurrentLevel();
 				
+				if(graduate!=null) {
+					infoBox("Student already finished his/her degree","Warning");
+					return;
+				}
+				
 				if(level.equals("P")) {
 					if(teacher.ableToProgress(student)) {
 						infoBox("Student progressed sucessfully","Done.");
@@ -249,9 +256,12 @@ public class CheckGradesGUI extends JFrame {
 		levelLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		levelLabel.setBounds(444, 27, 138, 14);
 		contentPane.add(levelLabel);
+		
 
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
+		if(graduate!=null)levelLabel.setText("Student finished degree with result: " + graduate); 
+			else
 		levelLabel.setText(student.getCurrentLevel());
 		
 	//	System.out.println(teacher.ableToProgress(student));

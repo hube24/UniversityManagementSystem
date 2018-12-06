@@ -110,11 +110,11 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade", "Final Grade", "Add/Update Grade"
+				"Code of the Module", "Name of the Module", "Initial Grade", "Resit Grade","Result", "Final Grade", "Add/Update Grade"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, true
+				false, false, false,false, false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -140,7 +140,7 @@ public class CheckGradesGUI extends JFrame {
 		    }
 		};
 		
-		ButtonColumn buttonColumn = new ButtonColumn(table, open, 5);
+		ButtonColumn buttonColumn = new ButtonColumn(table, open, 6);
 		
 		JLabel lblDegree = new JLabel("");
 		lblDegree.setText(student.getDegree().getCode() + " - " + student.getDegree().getName());
@@ -149,7 +149,7 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(lblDegree);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(836, 105, 356, 275);
+		scrollPane_1.setBounds(830, 105, 351, 275);
 		contentPane.add(scrollPane_1);
 		
 		//create a table with strings defined
@@ -158,37 +158,28 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Code of Module", "Level", "Period of study", "Final Grade"
+				"Level", "Period of Study", "Final Result", "Grade"
 			}
 		));
-		table_1.getColumnModel().getColumn(0).setPreferredWidth(91);
-		table_1.getColumnModel().getColumn(2).setPreferredWidth(91);
+		table_1.getColumnModel().getColumn(1).setPreferredWidth(91);
+		table_1.getColumnModel().getColumn(3).setPreferredWidth(91);
 		scrollPane_1.setViewportView(table_1);
 		
-		DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
-		
-		//I don't know how to pass period of study to this table.
-		
-		
-		List <String[]> finalList = dbSelector.getPreviousModules(student);	
-		//I don't know how to connect both loops.
-		/*for( String[] row : finalList) {			
-				model1.addRow(new String[] {row[0], null, null, null}); 
-			}*/
+		DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();	
 		
 		//get currentPeriodOfStudy data
 		String currPeriod = student.getCurrentPeriodOfStudy();
-		if(currPeriod!="A") { 					
-			char p = currPeriod.charAt(0);
-			p--;
-			currPeriod = String.valueOf(p);
-		}
+		
 		System.out.println(currPeriod);
-		List <String[]> previousModules = dbSelector.getPreviousGrades(student, currPeriod);
-		System.out.println("Jestem"+previousModules);
-		for( String[] row : previousModules) {			
-			model1.addRow(new String[] {row[0], row[3], currPeriod, row[2]}); 
-		}
+		
+		List <String[]> previousModules = dbSelector.getPreviousGrades(student);
+		for( String[] row : previousModules) {
+			if(row[2]!=null) {
+				model1.addRow(new String[] { row[3], row[1], row[2],getGrade(student, Integer.valueOf(row[2]))});
+			}else {
+				model1.addRow(new String[] { row[3], row[1], row[2],"fail"});
+			}			
+		}		
 		
 		//create a Back Button and arrange its position
 		JButton btnNewButton = new JButton("Back");
@@ -197,7 +188,7 @@ public class CheckGradesGUI extends JFrame {
 				openTeacher(currSession);
 			}
 		});
-		btnNewButton.setBounds(843, 415, 159, 41);
+		btnNewButton.setBounds(929, 415, 159, 41);
 		contentPane.add(btnNewButton);
 		
 		//create an Overall Grade label and arrange its position
@@ -210,8 +201,13 @@ public class CheckGradesGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(386, 415, 159, 41);
+		btnNewButton_1.setBounds(297, 415, 159, 41);
 		contentPane.add(btnNewButton_1);
+		
+		JLabel lblNewLabel = new JLabel("Grades From Previous Periods");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setBounds(829, 65, 271, 37);
+		contentPane.add(lblNewLabel);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 	//	System.out.println(teacher.ableToProgress(student));
@@ -220,30 +216,19 @@ public class CheckGradesGUI extends JFrame {
 		//set requirements that needed to update the Grade
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
-		if(student.getDegree().getNumberOfLevels()<4) {
-			for( String[] row : moduleList) {
-				if(row[6]==null) {
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
-				}else if(Integer.valueOf(row[6])>=40){			
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
-				}else {
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
-				}
-				 
-			}	
-		}else {
-			for( String[] row : moduleList) {
-				if(row[6]==null) {
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
-				}else if(Integer.valueOf(row[6])>=50){			
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],"50", "Add/Update Grade"});  
-				}else {
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
-				}
-				 
-			}
-		}
 		
+			for( String[] row : moduleList) {
+				if(row[6]==null && row[5]==null) {
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5],row[5], "Add/Update Grade"}); 
+				}if(row[6]==null && row[5]!=null){			
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], getGrade(student, Integer.valueOf(row[5])), "Add/Update Grade"});  
+				}if(row[6]!=null && student.getDegree().getNumberOfLevels()==3){
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"40",getGrade(student, Integer.valueOf(40)), "Add/Update Grade"}); 
+				}if(row[6]!=null && student.getDegree().getNumberOfLevels()!=3){
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"50",getGrade(student, Integer.valueOf(50)), "Add/Update Grade"}); 
+				}
+				 
+			}			
 	}
 	
 	//return to the Add GradeGUI page
@@ -258,5 +243,42 @@ public class CheckGradesGUI extends JFrame {
 		TeacherGUI frame =  new TeacherGUI(s);
 		frame.setVisible(true);
 		dispose();
+	}
+	public String getGrade(Student s, int i) {
+		if(student.getDegree().getNumberOfLevels()==3) {
+			if(i<39.5) {
+				return "fail";
+			}else if(i<=44.4){
+				return "pass (no-honours)";
+			}else if (i<=49.4) {
+				return "third class";
+			}else if(i<=59.4){
+				return "lower second";
+			}else if(i<=69.4){
+				return "upper second";
+			}else {
+				return "first class";
+			}
+		}else if (student.getDegree().getNumberOfLevels()==4) {
+			if (i<=49.4) {
+				return "fail";
+			}else if(i<=59.4){
+				return "lower second";
+			}else if(i<=69.4){
+				return "upper second";
+			}else {
+				return "first class";
+			}
+		}else {
+			if (i<=49.4) {
+				return "fail";
+			}else if(i<=59.4){
+				return "pass";
+			}else if(i<=69.4){
+				return "merit";
+			}else {
+				return "distinction";
+			}
+		}
 	}
 }

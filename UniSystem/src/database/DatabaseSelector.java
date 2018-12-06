@@ -267,11 +267,11 @@ public class DatabaseSelector extends SqlDriver{
 		return null;
 	}
 	//get previous Grades
-	public List<String[]> getPreviousGrades(Student student, String label){
+	public List<String[]> getPreviousGrades(Student student){
 		
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE label = ? AND registrationNum = ?");
-			pst1.setString(1, label); 
+			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE NOT label = ? AND registrationNum = ?;");
+			pst1.setString(1, student.getCurrentPeriodOfStudy()); 
 			pst1.setInt(2, student.getRegistrationID());
 			
 			ResultSet rs = pst1.executeQuery();

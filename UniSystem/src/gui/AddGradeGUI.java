@@ -17,6 +17,8 @@ import users.Teacher;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.util.List;
 
@@ -99,11 +101,6 @@ public class AddGradeGUI extends JFrame {
 		txtSeccondgrade.setText(seccond);
 		txtSeccondgrade.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtSeccondgrade.setColumns(10);
-		if(first != null) {
-			txtFirstgrade.setEditable(false);			
-		}else {
-			txtSeccondgrade.setEditable(false);
-		}
 		
 		//create a Cancel Button
 		JButton btnCancel = new JButton("Cancel");
@@ -117,48 +114,67 @@ public class AddGradeGUI extends JFrame {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String firstGrade = txtFirstgrade.getText();
-				String seccondGrade = txtSeccondgrade.getText();
-				System.out.println("11111---"+firstGrade+"---");				
-				System.out.println(firstGrade.equals(""));
+				String firstGrade = txtFirstgrade.getText();				
+				try  
+				  {  
+					teacher.addGrade(Integer.parseInt(firstGrade), student.getRegistrationID(), code, "first"); 
+				  }  
+				  catch(NumberFormatException nfe)  
+				  {  
+					  infoBox("That is not a number", "Warning");
+				  } 				
+				openCheckGrades(currSession, student.getRegistrationID());		   
 				
-				if(txtFirstgrade.isEditable()) {
-					teacher.addGrade(Integer.parseInt(firstGrade), student.getRegistrationID(), code, "first");
-				}else {
-					teacher.addGrade(Integer.parseInt(seccondGrade), student.getRegistrationID(), code, "seccond" );
-				}
-				openCheckGrades(currSession, student.getRegistrationID());
 			}
 		});
 		
 		//arrange the positions of elements
 		JSeparator separator = new JSeparator();
+		
+		JButton btnNewButton = new JButton("Submit");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String seccondGrade = txtSeccondgrade.getText();
+				try  
+				  {  
+					teacher.addGrade(Integer.parseInt(seccondGrade), student.getRegistrationID(), code, ""); 
+				  }  
+				  catch(NumberFormatException nfe)  
+				  {  
+					  infoBox("That is not a number", "Warning");
+				  } 				
+				openCheckGrades(currSession, student.getRegistrationID());	
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(separator))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(49)
-							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-							.addGap(156)
-							.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblModule)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblFirstGrade)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(txtFirstgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblResitGrade)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(txtSeccondgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(58, Short.MAX_VALUE))
+									.addComponent(txtSeccondgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(btnNewButton, 0, 0, Short.MAX_VALUE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblFirstGrade)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(txtFirstgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED, 1, Short.MAX_VALUE)))
+					.addContainerGap(56, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -170,15 +186,15 @@ public class AddGradeGUI extends JFrame {
 					.addGap(22)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFirstGrade)
-						.addComponent(txtFirstgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtFirstgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblResitGrade)
-						.addComponent(txtSeccondgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtSeccondgrade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+					.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 					.addGap(24))
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -191,4 +207,7 @@ public class AddGradeGUI extends JFrame {
 		dispose();	
 		
 	}
+	public static void infoBox(String infoMessage, String titleBar) {
+		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+	}	
 }

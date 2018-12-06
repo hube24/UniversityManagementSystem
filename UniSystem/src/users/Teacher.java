@@ -29,26 +29,10 @@ public class Teacher extends User {
 	
 	
 	public Teacher () {
-		/*title = t;
-		surname = s;
-		forename = f;*/
 	}
 	//create an infoBox which provides infoMessage and titleBar
 	public static void infoBox(String infoMessage, String titleBar) {
 		JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	//get various elements
-	public String getTitle() {
-		return title;
-	}
-	
-	public String getSurname() {
-		return surname;
-	}
-	
-	public String getForename() {
-		return forename;
 	}
 	
 	public boolean addGrade(int grade, int regNum, String moduleCode, String fstsnd )

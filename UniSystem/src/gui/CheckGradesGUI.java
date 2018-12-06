@@ -210,7 +210,7 @@ public class CheckGradesGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(386, 415, 125, 41);
+		btnNewButton_1.setBounds(386, 415, 159, 41);
 		contentPane.add(btnNewButton_1);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
@@ -220,16 +220,29 @@ public class CheckGradesGUI extends JFrame {
 		//set requirements that needed to update the Grade
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
-		for( String[] row : moduleList) {
-			if(row[6]==null) {
-				model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
-			}else if(Integer.valueOf(row[6])>=40){			
-				model.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
-			}else {
-				model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
+		if(student.getDegree().getNumberOfLevels()<4) {
+			for( String[] row : moduleList) {
+				if(row[6]==null) {
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
+				}else if(Integer.valueOf(row[6])>=40){			
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"40", "Add/Update Grade"});  
+				}else {
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
+				}
+				 
+			}	
+		}else {
+			for( String[] row : moduleList) {
+				if(row[6]==null) {
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
+				}else if(Integer.valueOf(row[6])>=50){			
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"50", "Add/Update Grade"});  
+				}else {
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],"Failed", "Add/Update Grade"}); 
+				}
+				 
 			}
-			 
-		}	
+		}
 		
 	}
 	

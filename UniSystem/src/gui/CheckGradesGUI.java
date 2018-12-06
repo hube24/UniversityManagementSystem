@@ -88,7 +88,7 @@ public class CheckGradesGUI extends JFrame {
 		gradesFilled = true;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1218, 560);
+		setBounds(100, 100, 1218, 512);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -160,7 +160,7 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Code of Module", "Level", "Period of study", "Final Grade"
+				 "Level", "Period of study", "Final Grade"
 			}
 		));
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(91);
@@ -187,9 +187,9 @@ public class CheckGradesGUI extends JFrame {
 		}
 		System.out.println(currPeriod);
 		List <String[]> previousModules = dbSelector.getPreviousGrades(student, currPeriod);
-		System.out.println("Jestem"+previousModules);
+		
 		for( String[] row : previousModules) {			
-			model1.addRow(new String[] {row[0], row[3], currPeriod, row[2]}); 
+			model1.addRow(new String[] {row[3], row[1], row[2]}); 
 		}
 		
 		//create a Back Button and arrange its position
@@ -230,17 +230,29 @@ public class CheckGradesGUI extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblCurrentModules = new JLabel("Current modules:");
-		lblCurrentModules.setBounds(10, 86, 89, 14);
+		lblCurrentModules.setBounds(10, 86, 184, 14);
 		contentPane.add(lblCurrentModules);
 		
 		JLabel lblPreviousPeriodsOf = new JLabel("Previous Periods of Study");
-		lblPreviousPeriodsOf.setBounds(939, 86, 137, 14);
+		lblPreviousPeriodsOf.setBounds(939, 86, 194, 14);
 		contentPane.add(lblPreviousPeriodsOf);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 73, 1182, 2);
 		contentPane.add(separator);
+		
+		JLabel lblCurrentLevel = new JLabel("Current Level: ");
+		lblCurrentLevel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCurrentLevel.setBounds(304, 27, 138, 14);
+		contentPane.add(lblCurrentLevel);
+		
+		JLabel levelLabel = new JLabel("1");
+		levelLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		levelLabel.setBounds(444, 27, 138, 14);
+		contentPane.add(levelLabel);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
+		
+		levelLabel.setText(student.getCurrentLevel());
 		
 	//	System.out.println(teacher.ableToProgress(student));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();

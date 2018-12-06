@@ -77,7 +77,7 @@ public class AddStudentGUI extends JFrame {
 		contentPane.add(lblForname);
 		
 		textField = new JTextField();
-		textField.setBounds(166, 72, 254, 20);
+		textField.setBounds(166, 72, 254, 23);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -87,7 +87,7 @@ public class AddStudentGUI extends JFrame {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ms", "Mr"}));
-		comboBox.setBounds(166, 40, 71, 20);
+		comboBox.setBounds(166, 40, 71, 21);
 		contentPane.add(comboBox);
 		
 		JLabel lblSurname = new JLabel("Surname:");
@@ -95,7 +95,7 @@ public class AddStudentGUI extends JFrame {
 		contentPane.add(lblSurname);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(166, 100, 254, 20);
+		textField_1.setBounds(166, 100, 254, 25);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -137,7 +137,7 @@ public class AddStudentGUI extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(166, 173, 254, 20);
+		textField_2.setBounds(166, 173, 254, 23);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -187,7 +187,7 @@ public class AddStudentGUI extends JFrame {
 				
 				forname = forname.replace(" ", "");
 				surname = surname.replace(" ", "");
-				personalTutor = personalTutor.replace(" ", "");
+				//personalTutor = personalTutor.replace(" ", "");
 				
 				if(forname.equals("") || surname.equals("") || personalTutor.equals(""))
 				{
@@ -199,7 +199,7 @@ public class AddStudentGUI extends JFrame {
 				Degree degree = new Degree(degreeCode);
 				degree.completeFromDB();
 				
-				Student student = new Student(username, 0, title, surname, forname , "", degree, personalTutor, null );
+				Student student = new Student(username, 0, title, surname, forname , "", degree, personalTutor);
 				if(registrar.addStudent(student, initialPeriod))
 				{
 					parentFrame.addTableRecord(student);

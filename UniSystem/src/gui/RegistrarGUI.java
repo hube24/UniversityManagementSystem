@@ -391,7 +391,7 @@ class ColourTableCellRenderer extends DefaultTableCellRenderer {
 	    String lvl = (String)table.getModel().getValueAt(row, 3);
 	    
 	    //getting desired amount of credits for paritcular degree
-	    int rightCredits = (lvl != "4")?120:180;
+	    int rightCredits = (!lvl.equals("4"))?120:180;
 	    
 	    //changing colour of student
 	    if( (int)value != rightCredits  ) 

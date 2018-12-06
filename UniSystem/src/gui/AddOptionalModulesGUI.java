@@ -54,7 +54,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		        }
 		    }
 		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
+
 		}
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -62,7 +62,7 @@ public class AddOptionalModulesGUI extends JFrame {
 				try {
 					
 					
-					Student stu = new Student("",100008, "","","","",new Degree("", "COMU03", 3), "", null);
+					Student stu = new Student("",100008, "","","","",new Degree("", "COMU03", 3), "");
 					
 					
 					AddOptionalModulesGUI frame = new AddOptionalModulesGUI(null,stu, null,0);

@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 import university.Degree;
 import university.Module;
-import university.Grade;
 import database.SqlDriver;
 
 /**
@@ -22,7 +21,7 @@ public class Student extends User {
 	private String email;
 	private Degree degree;
 	private String tutor;
-	private Grade grade;
+	private String graduationGrade;
 	Statement pst1 = null;
 	
 	public Student(String u) {
@@ -35,7 +34,7 @@ public class Student extends User {
 		registrationNum = reg;
 	}
 	
-	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut, Grade g) {
+	public Student (String u, int r, String t, String s, String f, String e, Degree d, String tut) {
 		username = u;
  		registrationNum = r; 
 		title = t;
@@ -44,7 +43,6 @@ public class Student extends User {
 		email = e;
 		degree = d;
 		tutor = tut;
-		grade = g;
 	}
 	
 	//this function completes Student's info from database, by registration number.
@@ -101,7 +99,6 @@ public class Student extends User {
 	public String getSurname() {return this.surname;}
 	public String getEmail() {return this.email;}
 	public Degree getDegree() {return this.degree;}
-	public Grade getGrade() {return this.grade;}
 	public String getPersonalTutor() {return this.tutor;}
 	
 	public void setEmail(String email) {
@@ -113,6 +110,14 @@ public class Student extends User {
 	}
 	
 	public String getCurrentLevel() {
+		
+		if(graduationGrade!=null) {
+			return "-";
+		}else {
+			graduationGrade = this.getGraduationGrade();
+			if(graduationGrade!=null)return "-";
+		}
+		
 		SqlDriver sqldriver = new SqlDriver();
 		//get study level from database
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
@@ -181,6 +186,7 @@ public class Student extends User {
 			ResultSet rs = pst1.executeQuery();	
 			if(rs.next())
 			{
+				graduationGrade = (String)rs.getString(1);
 				return (String)rs.getString(1);
 			}
 			

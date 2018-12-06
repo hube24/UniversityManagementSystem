@@ -81,7 +81,7 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(lblDegreeName);
 		
 		textField = new JTextField();
-		textField.setBounds(158, 42, 180, 20);
+		textField.setBounds(158, 42, 180, 25);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -90,7 +90,7 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(lblLeadDepartment);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(157, 78, 181, 20);
+		comboBox.setBounds(157, 78, 181, 17);
 		contentPane.add(comboBox);
 		
 		JLabel lblEntry = new JLabel(" Entry: ");
@@ -123,8 +123,8 @@ public class AddDegreeGUI extends JFrame {
 		contentPane.add(lblNumberOfLevels);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "3", "4"}));
-		comboBox_1.setBounds(158, 201, 34, 20);
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "3", "4", "5"}));
+		comboBox_1.setBounds(158, 201, 46, 20);
 		contentPane.add(comboBox_1);
 		
 		//create a cancel button to get back to former page

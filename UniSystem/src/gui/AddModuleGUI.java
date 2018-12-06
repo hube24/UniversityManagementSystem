@@ -85,7 +85,7 @@ public class AddModuleGUI extends JFrame {
 		contentPane.add(lblName);
 		
 		textField = new JTextField();
-		textField.setBounds(190, 21, 187, 20);
+		textField.setBounds(190, 21, 187, 27);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -94,7 +94,7 @@ public class AddModuleGUI extends JFrame {
 		contentPane.add(lblCode);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(190, 99, 70, 20);
+		textField_1.setBounds(190, 99, 70, 25);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		

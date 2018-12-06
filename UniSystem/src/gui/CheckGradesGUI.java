@@ -118,7 +118,7 @@ public class CheckGradesGUI extends JFrame {
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, true
+				false, false, false, false, false, true
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -165,6 +165,7 @@ public class CheckGradesGUI extends JFrame {
 		));
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(91);
 		table_1.getColumnModel().getColumn(3).setPreferredWidth(91);
+		table_1.setRowHeight(30);
 		scrollPane_1.setViewportView(table_1);
 		
 		DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();	
@@ -209,6 +210,8 @@ public class CheckGradesGUI extends JFrame {
 				if(level.equals("P")) {
 					if(teacher.ableToProgress(student)) {
 						infoBox("Student progressed sucessfully","Done.");
+						reOpen(currSession,student);
+						return;
 					}
 				}
 				
@@ -229,6 +232,8 @@ public class CheckGradesGUI extends JFrame {
 				if(teacher.ableToProgress(student)) {
 					infoBox("Student progressed sucessfully","Done.");
 				}
+				
+				reOpen(currSession,student);
 			}
 		});
 		btnNewButton_1.setBounds(341, 415, 159, 41);
@@ -253,7 +258,7 @@ public class CheckGradesGUI extends JFrame {
 		
 		JLabel levelLabel = new JLabel("1");
 		levelLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		levelLabel.setBounds(444, 27, 138, 14);
+		levelLabel.setBounds(444, 21, 591, 28);
 		contentPane.add(levelLabel);
 		
 
@@ -272,7 +277,7 @@ public class CheckGradesGUI extends JFrame {
 		
 			for( String[] row : moduleList) {
 				if(row[6]==null && row[5]==null) {
-					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5],row[5], "Add/Update Grade"}); 
+					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
 				}if(row[6]==null && row[5]!=null){			
 					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"});  
 				}if(row[6]!=null && student.getDegree().getNumberOfLevels()==3){
@@ -282,6 +287,13 @@ public class CheckGradesGUI extends JFrame {
 				}
 				 
 			}			
+	}
+	
+	public void reOpen(Session s, Student stud)
+	{
+		CheckGradesGUI frame = new CheckGradesGUI(s,stud.getRegistrationID());
+		frame.setVisible(true);
+		dispose();
 	}
 	
 	//return to the Add GradeGUI page

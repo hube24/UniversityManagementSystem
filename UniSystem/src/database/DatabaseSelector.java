@@ -270,10 +270,15 @@ public class DatabaseSelector extends SqlDriver{
 	public List<String[]> getPreviousGrades(Student student){
 		
 		try (Connection con = DriverManager.getConnection(DB, DBuser, DBpassword)) {
-			PreparedStatement pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE NOT label = ? AND registrationNum = ?;");
-			pst1.setString(1, student.getCurrentPeriodOfStudy()); 
-			pst1.setInt(2, student.getRegistrationID());
-			
+			PreparedStatement pst1;
+			if(student.getGraduationGrade()!=null) {
+				pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE registrationNum = ?;");
+				pst1.setInt(1, student.getRegistrationID());
+			}else {
+				pst1 = con.prepareStatement("SELECT * FROM StudentStudyPeriod WHERE NOT label = ? AND registrationNum = ?;");
+				pst1.setString(1, student.getCurrentPeriodOfStudy()); 
+				pst1.setInt(2, student.getRegistrationID());
+			}
 			ResultSet rs = pst1.executeQuery();
 			int nCol = rs.getMetaData().getColumnCount();
 			List<String[]> table = new ArrayList<>();

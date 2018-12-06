@@ -39,7 +39,7 @@ SqlDriver sqldriver = new SqlDriver();
 		//obtain starting level for a particular degree
 		String beginningLvl = "1";
 		//if postgraduate entry, then starting level would be 4th level
-		if(degree.getCode().substring(4,5) == "P") beginningLvl = "4";
+		if(degree.getCode().charAt(3) == 'P') beginningLvl = "4";
 
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {

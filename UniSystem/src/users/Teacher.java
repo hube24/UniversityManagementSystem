@@ -143,13 +143,13 @@ public class Teacher extends User {
 		return String.valueOf(p);
 	}
 	
-	void graduate(Student student)
+	void graduate(Student student, boolean bachelor)
 	{
 
 		SqlDriver sqldriver = new SqlDriver();
 		
 		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
-			
+			System.out.println("graduate function");
 			//count avarage grade lvl 1 dont count
 			int gradeLvl2 = -1;
 			int gradeLvl3 = -1;
@@ -157,6 +157,7 @@ public class Teacher extends User {
 			
 			String getPeriodsGrades = "SELECT finalGrade, level FROM StudentStudyPeriod WHERE registrationNum = ?";
 			PreparedStatement pst1 = con.prepareStatement(getPeriodsGrades);
+			pst1.setInt(1, student.getRegistrationID());
 			ResultSet rs = pst1.executeQuery();
 			while(rs.next())
 			{
@@ -166,6 +167,7 @@ public class Teacher extends User {
 				if(lvl.equals("2"))gradeLvl2 = grade;
 				if(lvl.equals("3"))gradeLvl3 = grade;
 				if(lvl.equals("4"))gradeLvl4 = grade;
+				System.out.println("graduate from lvl " + lvl + " = " + grade);
 			}
 		
 			//avarage mean
@@ -174,9 +176,10 @@ public class Teacher extends User {
 			
 			if(gradeLvl2!=(-1)) { avup += (gradeLvl2*1); avdown+=1; }
 			if(gradeLvl3!=(-1)) { avup += (gradeLvl3*2); avdown+=2; }
-			if(gradeLvl4!=(-1)) { avup += (gradeLvl4*2); avdown+=3; }
+			if(gradeLvl4!=(-1) && !bachelor) { avup += (gradeLvl4*2); avdown+=2; }
 			
 			double finalGrade = avup/avdown;
+			System.out.println("graduation grade = " + finalGrade);
 			
 			//set graduation grade 
 
@@ -184,11 +187,21 @@ public class Teacher extends User {
 			String degreeType = degreeName[0]; //MEng, MSc, BSc, BEng etc.
 			String graduationGrade = graduationGradeState(finalGrade, degreeType);
 			
+			if(bachelor) {
+				if(degreeType.equals("MSc")) degreeType = "BSc";
+				if(degreeType.equals("MEng")) degreeType = "BEng";
+			}
+			
+			System.out.println("graduation grade type = " + graduationGrade);
+			
 			String setGraduationGrade = "UPDATE Student SET graduationGrade = ? WHERE registrationNum = ?";
 			PreparedStatement pst2 = con.prepareStatement(setGraduationGrade);
 			
-			pst2.setString(1,graduationGrade);
+			pst2.setString(1,degreeType + " " + graduationGrade);
 			pst2.setInt(2, student.getRegistrationID());
+			pst2.executeUpdate();
+			
+			System.out.println("Graduation grade set");
 			
 			con.close();
 		}catch (Exception e) {
@@ -276,7 +289,8 @@ public class Teacher extends User {
 			}else {
 				//TODO
 				System.out.println(" graduating student. ");
-				graduate(student); 
+				con.close();
+				graduate(student, false); 
 			}
 			con.close();
 			
@@ -295,6 +309,12 @@ public class Teacher extends User {
 		String currPeriod = student.getCurrentPeriodOfStudy();
 		String currLevel = student.getCurrentLevel();
 		SqlDriver sqldriver = new SqlDriver();
+		
+		
+		if(currLevel.equals("4") && student.getDegree().getNumberOfLevels()==4)
+		{
+			graduate(student, true);
+		}
 		
 		if(!currPeriod.equals("A")) {
 			
@@ -316,6 +336,10 @@ public class Teacher extends User {
 					{
 						//fail to death
 						failToProgress(student);
+						con.close();
+						return;
+					}else {
+						infoBox("Student failed level, and have to repeat failed modules in the next period of study.", "Sad.");
 					}
 				}
 				con.close();
@@ -354,7 +378,7 @@ public class Teacher extends User {
 			pst2.setString(3, currLevel);
 			pst2.executeUpdate();
 			System.out.println(" registered student to same level. ");
-
+			
 			con.close();
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -439,7 +463,7 @@ public class Teacher extends User {
 			int grade = Math.max(firstGrade, Math.min(pass, secondGrade));
 			
 			System.out.print("   module fstGrade = " + firstGrade + " second " + secondGrade);
-			
+			System.out.print( "  module final = " + grade);
 			Module module = new Module(codeOfModule,name,credits);
 			
 			//returns creditsSum, average grade, mean grade if passed, conceded pass or fail
@@ -474,10 +498,10 @@ public class Teacher extends User {
 		
 		int meanGrade = (int)(avup/avdown);
 		System.out.println(" mean grade : " + meanGrade);
-		
+		System.out.println("concede passes = " + concededPasses + " cred " + (creditsToObtain - creditsSum));
 		
 		if(level.equals("4")) {
-			if(creditsToObtain - creditsSum < 15 && modulesFailed==0 && concededPasses<=1 && meanGrade>=pass)
+			if(creditsToObtain - creditsSum <= 15 && modulesFailed==0 && concededPasses<=1 && meanGrade>=pass)
 			{
 				//passed
 				System.out.println(" level passed. ");
@@ -490,7 +514,7 @@ public class Teacher extends User {
 				return false;
 			}
 		}else {
-			if(creditsToObtain - creditsSum < 20 && modulesFailed==0  && concededPasses<=1 && meanGrade>=pass)
+			if(creditsToObtain - creditsSum <= 20 && modulesFailed==0  && concededPasses<=1 && meanGrade>=pass)
 			{
 				//passed
 				System.out.println(" level passed. ");

@@ -173,6 +173,25 @@ public class Student extends User {
 		}
 	}
 	
+	public String getGraduationGrade() {
+		SqlDriver sqldriver = new SqlDriver();
+		try (Connection con = DriverManager.getConnection(sqldriver.getDB(), sqldriver.getDBuser(), sqldriver.getDBpassword())) {
+			PreparedStatement pst1 = con.prepareStatement("SELECT graduationGrade FROM Student WHERE registrationNum = ?");
+			pst1.setInt(1, this.registrationNum);
+			ResultSet rs = pst1.executeQuery();	
+			if(rs.next())
+			{
+				return (String)rs.getString(1);
+			}
+			
+		con.close();
+		return "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
 	public int getRegisteredCredits() {
 		SqlDriver sqldriver = new SqlDriver();
 		//get registered credits from database

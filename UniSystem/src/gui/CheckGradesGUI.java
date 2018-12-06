@@ -158,7 +158,7 @@ public class CheckGradesGUI extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Level", "Period of Study", "Final Result", "Grade"
+				"Level", "Period of Study", "Final Grade", "Result"
 			}
 		));
 		table_1.getColumnModel().getColumn(1).setPreferredWidth(91);

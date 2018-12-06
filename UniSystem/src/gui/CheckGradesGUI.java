@@ -35,6 +35,7 @@ import database.DatabaseSelector;
 import database.Session;
 
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 public class CheckGradesGUI extends JFrame {
 	
@@ -45,7 +46,7 @@ public class CheckGradesGUI extends JFrame {
 	private static String periodOfStudy;
 	private JTable table;
 	private JTable table_1;
-
+	private boolean gradesFilled;
 	/**
 	 * Launch the application.
 	 */
@@ -84,9 +85,10 @@ public class CheckGradesGUI extends JFrame {
 		student = new Student(regNum);
 		student.completeFromDB();
 		Teacher teacher = new Teacher();
+		gradesFilled = true;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1218, 560);
+		setBounds(100, 100, 1218, 512);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -171,6 +173,7 @@ public class CheckGradesGUI extends JFrame {
 		String currPeriod = student.getCurrentPeriodOfStudy();
 		
 		System.out.println(currPeriod);
+
 		
 		List <String[]> previousModules = dbSelector.getPreviousGrades(student);
 		for( String[] row : previousModules) {
@@ -179,7 +182,7 @@ public class CheckGradesGUI extends JFrame {
 			}else {
 				model1.addRow(new String[] { row[3], row[1], row[2],"fail"});
 			}			
-		}		
+		}	
 		
 		//create a Back Button and arrange its position
 		JButton btnNewButton = new JButton("Back");
@@ -195,6 +198,20 @@ public class CheckGradesGUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("Progress student ");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String level = student.getCurrentLevel();
+				int registeredCredits = student.getRegisteredCredits();
+				int rightCredits = (level.equals("4"))?180:120;
+				if(registeredCredits != rightCredits) {
+					infoBox("Student is not registered for required number of modules, please contact a Registrar.","Warning.");
+					return;
+				}
+				
+				if(!gradesFilled) {
+					infoBox("Please set grade(s) for every module","Warning");
+					return;
+				}				
+				
 				Teacher teacher = new Teacher();
 				if(teacher.ableToProgress(student)) {
 					infoBox("Student progressed sucessfully","Done.");
@@ -203,12 +220,32 @@ public class CheckGradesGUI extends JFrame {
 		});
 		btnNewButton_1.setBounds(297, 415, 159, 41);
 		contentPane.add(btnNewButton_1);
+
+		JLabel lblCurrentModules = new JLabel("Current modules:");
+		lblCurrentModules.setBounds(10, 86, 184, 14);
+		contentPane.add(lblCurrentModules);
 		
-		JLabel lblNewLabel = new JLabel("Grades From Previous Periods");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(829, 65, 271, 37);
-		contentPane.add(lblNewLabel);
+		JLabel lblPreviousPeriodsOf = new JLabel("Previous Periods of Study");
+		lblPreviousPeriodsOf.setBounds(939, 86, 194, 14);
+		contentPane.add(lblPreviousPeriodsOf);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 73, 1182, 2);
+		contentPane.add(separator);
+		
+		JLabel lblCurrentLevel = new JLabel("Current Level: ");
+		lblCurrentLevel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCurrentLevel.setBounds(304, 27, 138, 14);
+		contentPane.add(lblCurrentLevel);
+		
+		JLabel levelLabel = new JLabel("1");
+		levelLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		levelLabel.setBounds(444, 27, 138, 14);
+		contentPane.add(levelLabel);
+
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
+		
+		levelLabel.setText(student.getCurrentLevel());
 		
 	//	System.out.println(teacher.ableToProgress(student));
 		DefaultTableModel model = (DefaultTableModel) table.getModel();

@@ -197,8 +197,16 @@ public class CheckGradesGUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("Progress student ");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Teacher teacher = new Teacher();
 				String level = student.getCurrentLevel();
+				
+				if(level.equals("P")) {
+					if(teacher.ableToProgress(student)) {
+						infoBox("Student progressed sucessfully","Done.");
+					}
+				}
+				
+				
 				int registeredCredits = student.getRegisteredCredits();
 				int rightCredits = (level.equals("4"))?180:120;
 				if(registeredCredits != rightCredits) {
@@ -211,7 +219,7 @@ public class CheckGradesGUI extends JFrame {
 					return;
 				}				
 				
-				Teacher teacher = new Teacher();
+				
 				if(teacher.ableToProgress(student)) {
 					infoBox("Student progressed sucessfully","Done.");
 				}

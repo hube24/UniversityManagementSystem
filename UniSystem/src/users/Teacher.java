@@ -20,10 +20,10 @@ public class Teacher extends User {
 	
 	public static void main(String[] args )
 	{
-		Student stud = new Student(100012);
+		Student stud = new Student(100009);
 		stud.completeFromDB();
 		
-		System.out.println(nextLevel(stud));
+		System.out.println(stud.getGraduationGrade());
 		
 	}
 	
@@ -109,7 +109,7 @@ public class Teacher extends User {
 	}
 	
 	//returns different progression depending on levels
-	static String nextLevel(Student student)
+	String nextLevel(Student student)
 	{
 		System.out.println("nextLevel function");
 		String level = student.getCurrentLevel();
@@ -366,7 +366,7 @@ public class Teacher extends User {
 			String setPeriodFinalGrade = "UPDATE Student SET graduationGrade = 'failed to progress' WHERE registrationNum = ?";
 			PreparedStatement pst1 = con.prepareStatement(setPeriodFinalGrade);
 			pst1.setInt(1, student.getRegistrationID());
-			
+			pst1.executeUpdate();
 			System.out.println(" student failed to progress. ");
 			
 			con.close();

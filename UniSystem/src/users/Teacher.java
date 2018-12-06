@@ -125,6 +125,7 @@ public class Teacher extends User {
 			
 			if(level.equals("1")) return "2";
 			if(level.equals("2")) return "3";
+			if(level.equals("P")) return "3";
 			if(level.equals("3") && numOfLevels == 4) return "4";
 			if(level.equals("3") && numOfLevels == 3) return "graduation";
 			if(level.equals("4")&& numOfLevels == 4) return "graduation";
@@ -230,6 +231,7 @@ public class Teacher extends User {
 	{
 		System.out.println("progressToNextLevel function");
 
+		String currLevel = student.getCurrentLevel();
 		String nextLevel = nextLevel(student);
 		String currPeriod = student.getCurrentPeriodOfStudy();
 		String nextPeriod = nextPeriod(currPeriod);
@@ -394,6 +396,13 @@ public class Teacher extends User {
 		int creditsSum = 0;
 		
 		System.out.println("student current level = " + level);
+		
+		if(level.equals("P")) {
+			
+			progressToNextLevel(student, 100);
+			return true;
+		}
+		
 		
 		int pass=0;		
 		if(level.equals("1") || level.equals("2") || level.equals("3")) pass = 40;

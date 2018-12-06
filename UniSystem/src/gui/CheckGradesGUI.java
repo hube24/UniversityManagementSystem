@@ -35,6 +35,7 @@ import database.DatabaseSelector;
 import database.Session;
 
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 public class CheckGradesGUI extends JFrame {
 	
@@ -45,7 +46,7 @@ public class CheckGradesGUI extends JFrame {
 	private static String periodOfStudy;
 	private JTable table;
 	private JTable table_1;
-
+	private boolean gradesFilled;
 	/**
 	 * Launch the application.
 	 */
@@ -84,6 +85,7 @@ public class CheckGradesGUI extends JFrame {
 		student = new Student(regNum);
 		student.completeFromDB();
 		Teacher teacher = new Teacher();
+		gradesFilled = true;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1218, 560);
@@ -204,6 +206,20 @@ public class CheckGradesGUI extends JFrame {
 		JButton btnNewButton_1 = new JButton("Progress student ");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String level = student.getCurrentLevel();
+				int registeredCredits = student.getRegisteredCredits();
+				int rightCredits = (level.equals("4"))?180:120;
+				if(registeredCredits != rightCredits) {
+					infoBox("Student is not registered for required number of modules, please contact a Registrar.","Warning.");
+					return;
+				}
+				
+				if(!gradesFilled) {
+					infoBox("Please set grade(s) for every module","Warning");
+					return;
+				}				
+				
 				Teacher teacher = new Teacher();
 				if(teacher.ableToProgress(student)) {
 					infoBox("Student progressed sucessfully","Done.");
@@ -212,6 +228,18 @@ public class CheckGradesGUI extends JFrame {
 		});
 		btnNewButton_1.setBounds(386, 415, 159, 41);
 		contentPane.add(btnNewButton_1);
+		
+		JLabel lblCurrentModules = new JLabel("Current modules:");
+		lblCurrentModules.setBounds(10, 86, 89, 14);
+		contentPane.add(lblCurrentModules);
+		
+		JLabel lblPreviousPeriodsOf = new JLabel("Previous Periods of Study");
+		lblPreviousPeriodsOf.setBounds(939, 86, 137, 14);
+		contentPane.add(lblPreviousPeriodsOf);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 73, 1182, 2);
+		contentPane.add(separator);
 		buttonColumn.setMnemonic(KeyEvent.VK_D);
 		
 	//	System.out.println(teacher.ableToProgress(student));
@@ -220,8 +248,9 @@ public class CheckGradesGUI extends JFrame {
 		//set requirements that needed to update the Grade
 		List <String[]> moduleList = dbSelector.getRegisteredModules(student);
 		System.out.println(moduleList);
-		if(student.getDegree().getNumberOfLevels()<4) {
+		if(!student.getCurrentLevel().equals("4")) {
 			for( String[] row : moduleList) {
+				if(row[5]==null && row[6]==null)gradesFilled = false;
 				if(row[6]==null) {
 					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
 				}else if(Integer.valueOf(row[6])>=40){			
@@ -233,6 +262,7 @@ public class CheckGradesGUI extends JFrame {
 			}	
 		}else {
 			for( String[] row : moduleList) {
+				if(row[5]==null && row[6]==null)gradesFilled = false;
 				if(row[6]==null) {
 					model.addRow(new String[] {row[0], row[1], row[5], row[6],row[5], "Add/Update Grade"}); 
 				}else if(Integer.valueOf(row[6])>=50){			

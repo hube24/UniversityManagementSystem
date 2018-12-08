@@ -111,7 +111,7 @@ public class AddOptionalModulesGUI extends JFrame {
 		Session currSession = s;
 		
 		String level = student.getCurrentLevel();
-	    int rightCredits = (!level.equals("4"))?120:180;
+	    rightCredits = (!level.equals("4"))?120:180;
 	    
 		//arrange the positions of elements
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -147,7 +149,7 @@ public class CheckGradesGUI extends JFrame {
 		JLabel lblDegree = new JLabel("");
 		lblDegree.setText(student.getDegree().getCode() + " - " + student.getDegree().getName());
 		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDegree.setBounds(10, 40, 307, 35);
+		lblDegree.setBounds(10, 40, 808, 35);
 		contentPane.add(lblDegree);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -291,6 +293,7 @@ public class CheckGradesGUI extends JFrame {
 	
 	public void reOpen(Session s, Student stud)
 	{
+		this.setState(Frame.ICONIFIED);
 		CheckGradesGUI frame = new CheckGradesGUI(s,stud.getRegistrationID());
 		frame.setVisible(true);
 		dispose();

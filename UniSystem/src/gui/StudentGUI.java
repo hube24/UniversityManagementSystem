@@ -57,7 +57,7 @@ public class StudentGUI extends JFrame {
 		student.completeFromDB();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 577, 548);
+		setBounds(100, 100, 687, 369);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -65,32 +65,32 @@ public class StudentGUI extends JFrame {
 		//create a Registration Number Label and arrange its properties
 		JLabel lblReg = new JLabel("Registration Number:");
 		lblReg.setBounds(30, 84, 184, 21);
-		lblReg.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblReg.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		//create an E-mail Label and arrange its properties
 		JLabel lblEm = new JLabel("Email:");
 		lblEm.setBounds(30, 111, 52, 21);
-		lblEm.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblEm.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		//create a Degree Label and arrange its properties
 		JLabel lblDeg = new JLabel("Degree:");
 		lblDeg.setBounds(30, 165, 67, 21);
-		lblDeg.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblDeg.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		//create a Current Level Label and arrange its properties
 		JLabel lblLvl = new JLabel("Current Level:");
 		lblLvl.setBounds(30, 192, 120, 21);
-		lblLvl.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblLvl.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		//create a Personal Tutor and arrange its properties
 		JLabel lblPerT = new JLabel("Personal Tutor:");
 		lblPerT.setBounds(30, 219, 131, 21);
-		lblPerT.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblPerT.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		//create a Department Label and arrange its properties
 		JLabel lblDep = new JLabel("Department:");
 		lblDep.setBounds(30, 138, 108, 21);
-		lblDep.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblDep.setFont(new Font("Calibri", Font.PLAIN, 17));
 		
 		// labels to set : 
 		
@@ -103,15 +103,15 @@ public class StudentGUI extends JFrame {
 		lblRegistrationNumber.setFont(new Font("Tahoma", Font.PLAIN, 17));
 				
 		JLabel lblEmail = new JLabel("email");
-		lblEmail.setBounds(240, 106, 274, 31);
+		lblEmail.setBounds(240, 106, 421, 31);
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 17));
 				
 		JLabel lblDepartment = new JLabel("department");
-		lblDepartment.setBounds(240, 133, 274, 31);
+		lblDepartment.setBounds(240, 133, 421, 31);
 		lblDepartment.setFont(new Font("Tahoma", Font.PLAIN, 17));
 				
 		JLabel lblDegree = new JLabel("degree");
-		lblDegree.setBounds(240, 160, 274, 31);
+		lblDegree.setBounds(240, 160, 421, 31);
 		lblDegree.setFont(new Font("Tahoma", Font.PLAIN, 17));
 				
 		JLabel lblCurrentLevel = new JLabel("level");
@@ -119,14 +119,14 @@ public class StudentGUI extends JFrame {
 		lblCurrentLevel.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			
 		JLabel lblPersonalTutor = new JLabel("tutor");
-		lblPersonalTutor.setBounds(240, 213, 274, 33);
+		lblPersonalTutor.setBounds(240, 213, 421, 33);
 		lblPersonalTutor.setFont(new Font("Tahoma", Font.PLAIN, 17));
 			
 		contentPane.setLayout(null);
 		
 		//add differnent panes		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(30, 64, 484, 9);
+		separator.setBounds(30, 71, 631, 2);
 		separator.setForeground(Color.DARK_GRAY);
 		contentPane.add(separator);
 		contentPane.add(lblReg);
@@ -159,7 +159,7 @@ public class StudentGUI extends JFrame {
 				openStudentStatus(currSession);
 			}
 		});
-		btnStatus.setBounds(187, 440, 168, 48);
+		btnStatus.setBounds(30, 276, 168, 31);
 		contentPane.add(btnStatus);
 		
 		//create a Log Out Button
@@ -184,7 +184,7 @@ public class StudentGUI extends JFrame {
 				}
 			}
 		});
-		button.setBounds(472, 10, 79, 22);
+		button.setBounds(582, 10, 79, 22);
 		contentPane.add(button);
 	}
 	

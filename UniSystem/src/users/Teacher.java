@@ -20,11 +20,13 @@ public class Teacher extends User {
 	
 	public static void main(String[] args )
 	{
-		Student stud = new Student(100009);
+		Student stud = new Student(100038);
 		stud.completeFromDB();
 		
-		System.out.println(stud.getGraduationGrade());
-		
+		if(stud.getDegree().getName().endsWith("with a Year in Industry"))
+		{
+			System.out.println("PPPPP");
+		}
 	}
 	
 	
@@ -118,7 +120,7 @@ public class Teacher extends User {
 		System.out.println("num of levels for this degree " + numOfLevels);
 		if(numOfLevels>1)
 		{
-			if(student.getDegree().getName().endsWith("with a Year of Industry")  && level.equals("2"))
+			if(student.getDegree().getName().endsWith("with a Year in Industry")  && level.equals("2"))
 			{
 				return "P";
 			}
@@ -313,7 +315,9 @@ public class Teacher extends User {
 		
 		if(currLevel.equals("4") && student.getDegree().getNumberOfLevels()==4)
 		{
+			infoBox("Student failed level 4 and has to graduate with bachelor degree.", "so close, sad");
 			graduate(student, true);
+			return;
 		}
 		
 		if(!currPeriod.equals("A")) {
@@ -488,6 +492,8 @@ public class Teacher extends User {
 			if(moduleGradeState(grade, level).equals("F")) 
 			{
 				modulesFailed++;
+				avup += credits*grade;
+				avdown += credits;
 				failedModules.add(module);
 				System.out.println(" - F");
 			}

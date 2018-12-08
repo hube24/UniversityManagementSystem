@@ -398,6 +398,10 @@ class ColourTableCellRenderer extends DefaultTableCellRenderer {
 	    	l.setBackground( Color.RED ); 
 	    else 
 	    	l.setBackground( Color.GREEN );
+	    
+	    if(lvl.equals("-")) {
+	    	l.setBackground( Color.BLUE );
+	    }
 	  //Return the JLabel which renders the cell.
 	  return l;
 

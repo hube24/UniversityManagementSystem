@@ -110,11 +110,11 @@ public class AddDegreeGUI extends JFrame {
 		uPButtonGroup.add(rdbtnPostgraduate);
 		uPButtonGroup.add(rdbtnUndergraduate);
 		
-		JLabel lblYearOfIndustry = new JLabel("Year of industry:");
+		JLabel lblYearOfIndustry = new JLabel("Year in industry:");
 		lblYearOfIndustry.setBounds(31, 166, 106, 14);
 		contentPane.add(lblYearOfIndustry);
 		
-		JRadioButton rdbtnWithAYear = new JRadioButton("with a Year of Industry");
+		JRadioButton rdbtnWithAYear = new JRadioButton("with a Year in Industry");
 		rdbtnWithAYear.setBounds(148, 162, 172, 23);
 		contentPane.add(rdbtnWithAYear);
 		
